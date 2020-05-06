@@ -4,14 +4,14 @@ public class Area {
 
     private String areaName;
     private Region region;
-    private Sector[] sectors;
-    private int numSectors;
+    private Location[] locations;
+    private int numLocations;
 
-    public Area(String areaName, Region region, int numSectors) {
+    public Area(String areaName, Region region, int numLocations) {
         this.areaName = areaName;
         this.region = region;
-        this.numSectors = 0;
-        sectors = new Sector[numSectors];
+        this.numLocations = 0;
+        locations = new Location[numLocations];
 
         this.region.addArea(this);
     }
@@ -19,9 +19,9 @@ public class Area {
     public String getAreaName() { return areaName; }
     public Region getRegion() { return region; }
 
-    public Sector[] getSectors() { return sectors; }
-    public void addSector(Sector sector) {
-        if (sector != null && numSectors < sectors.length)
-            sectors[numSectors++] = sector;
+    public Location[] getLocations() { return locations; }
+    public void addLocation(Location location) {
+        if (location != null && numLocations < locations.length)
+            locations[numLocations++] = location;
     }
 }

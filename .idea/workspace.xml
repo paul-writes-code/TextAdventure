@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ff142ec3-a976-4107-a277-720b9610cda4" name="Default Changelist" comment="" />
+    <list default="true" id="ff142ec3-a976-4107-a277-720b9610cda4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Character.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Enemy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Combat/Combat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Area.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Area.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Sector$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Sector$SectorNeighbour$MovementType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Sector$SectorNeighbour.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Sector.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/WorldMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/WorldMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Input.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Input.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Area.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Sector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/WorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/WorldMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Input.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Input.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,7 +37,13 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1apg2eF7Fb2OqtJxzM6z3MUKMmo" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -22,6 +51,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Game" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -73,53 +104,61 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587441099713" />
-    <state x="714" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1587449724260">
+    <state x="714" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1588096212946">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="714" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587449724260" />
+    <state x="714" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588096212946" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1587441472064">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1587441472064" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1587604140615">
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1588737556252">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587604140615" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1587604140615">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1588737556252" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1588800280048">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587604140615" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1587604140615">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588800280048" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1588800280048">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587604140615" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1587604140615">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588800280048" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1588800280048">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587604140615" />
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1587587958570">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588800280048" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1588800280048">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1587587958570" />
-    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1587587958570">
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588800280048" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1588796069197">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1587587958570" />
-    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1587587958570">
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588796069197" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1588796069196">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1587587958570" />
-    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1587587958570">
+    <state width="1877" height="348" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588796069196" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1588796069196">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1587587958570" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588796069196" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1588796069196">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588796069196" />
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1588737400536">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="656" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588737400536" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1587590728926">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587590728926" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1587585713363">
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1588097157970">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1587585713363" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588097157970" />
   </component>
 </project>
