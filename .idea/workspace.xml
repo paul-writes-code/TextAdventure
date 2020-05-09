@@ -3,12 +3,26 @@
   <component name="ChangeListManager">
     <list default="true" id="ff142ec3-a976-4107-a277-720b9610cda4" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/currentMap.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Character.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Combat/Combat.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Location$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Location$LocationNeighbour$MovementType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Location$LocationNeighbour.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Location.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Command$CommandType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Command.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Input$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World$1.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Character.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Enemy.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Combat/Combat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Location.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Command.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Area.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Area.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Sector$1.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Sector$SectorNeighbour$MovementType.class" beforeDir="false" />
@@ -20,7 +34,7 @@
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Area.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Sector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Location.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Sector.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/WorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/WorldMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Input.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Input.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" afterDir="false" />
