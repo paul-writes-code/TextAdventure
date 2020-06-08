@@ -73,8 +73,13 @@ public abstract class Character {
 
         return actualDamage;
     }
-    public void consumeHealthPotion() {
-        refresh();
+    public boolean consumeHealthPotion() {
+        boolean ret = inventory.consumeHealthPotion();
+
+        if (ret)
+            refresh();
+
+        return ret;
     }
     public void die() {
         target = null;

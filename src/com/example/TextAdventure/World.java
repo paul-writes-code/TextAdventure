@@ -77,9 +77,20 @@ public abstract class World {
         executeCommand(Input.forceCommand(Command.CommandType.HEAL));
 
         output("You can enter any command during combat; try drinking health potions or running away when necessary.");
+
+        output("");
+
+        output("You can enter 'loot " + playerLocation.getEnemies().get(0).getName() + "' to loot " + playerLocation.getEnemies().get(0).getName() +
+                ", or you can simply enter 'loot' while " + playerLocation.getEnemies().get(0).getName() + " is still your target.");
+        output("When an enemy is looted, it is removed from the game.");
+        executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerLocation.getEnemies().get(0).getName(), false));
+
+        executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
+
         output("This concludes the tutorial.\n");
 
         player.setTarget(null);
+        pause();
     }
 
     public static void movePlayer(String displayName) {
@@ -122,7 +133,7 @@ public abstract class World {
                 output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + "; " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health");
 
             for (Enemy enemy : lootList)
-                output("  " + Input.COMMAND_LOOT + ": " + enemy.getName());
+                output("  " + Input.COMMAND_LOOT + ": " + enemy.getName() + "; " + enemy.getInventory().toString());
     }
     public static void attackEnemy(String enemyName) {
         Character target;
@@ -154,8 +165,10 @@ public abstract class World {
         }
     }
     public static void consumeHealthPotion() {
-        player.consumeHealthPotion();
-        Output.output("You drink a health potion and now have " + player.getCurrentHealth() + "/" + player.getMaxHealth() + " health.");
+        if (player.consumeHealthPotion())
+            Output.output("You drink a health potion and now have " + player.getCurrentHealth() + "/" + player.getMaxHealth() + " health.");
+        else
+            Output.output("You do not have any health potions.");
     }
     public static void lootEnemy(String enemyName) {
         Character lootee;

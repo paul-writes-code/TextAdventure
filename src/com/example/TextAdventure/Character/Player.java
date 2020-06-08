@@ -10,6 +10,7 @@ public class Player extends Character {
 
     public Player(String name) {
         super(name, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE, PLAYER_BASE_DEFENCE, null);
+        getInventory().addHealthPotions(3);
     }
     public Player(String name, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory) {
         super(name, currentHealth, maxHealth, damage, defence, inventory);

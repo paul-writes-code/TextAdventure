@@ -82,9 +82,11 @@ public class Input {
             case LOOT:
                 commandString = COMMAND_LOOT;
                 actionString = "loot " + requiredCommandArgument;
+                break;
             case INVENTORY:
                 commandString = COMMAND_INVENTORY;
                 actionString = "view your inventory";
+                break;
             default:
                 return null;
         }
