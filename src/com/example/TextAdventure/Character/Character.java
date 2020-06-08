@@ -82,5 +82,5 @@ public abstract class Character {
     public void lootEnemy(Character enemy) { Combat.loot(this, enemy); }
     public abstract Inventory beLooted();
     public void emptyInventory() { initInventory(null); }
-    public void addInventory(Inventory inventory) { inventory.addInventory(inventory); }
+    public void addInventory(Inventory inventory) { this.inventory.addInventory(inventory); }
 }

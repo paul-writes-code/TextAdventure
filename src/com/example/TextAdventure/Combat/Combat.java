@@ -55,6 +55,6 @@ public class Combat {
         looter.addInventory(loot);
 
         if (loot != null)
-            Output.output("You receive " + loot.toString() + ".");
+            Output.output("You loot " + lootee.getName() + " and receive " + loot.toString() + ".");
     }
 }

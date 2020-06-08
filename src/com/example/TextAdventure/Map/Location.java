@@ -119,8 +119,10 @@ public class Location {
     }
     public void removeEnemy(String enemyName) {
         for (Enemy enemy : enemies)
-            if (enemy.getName().equals(enemyName))
+            if (enemy.getName().equals(enemyName)) {
                 enemies.remove(enemy);
+                return;
+            }
     }
 
     public void enter(LocationNeighbour.MovementType movementType) {

@@ -11,6 +11,7 @@ public class Input {
     public static final String COMMAND_EXAMINE = "examine"; // examine the current location
     public static final String COMMAND_ATTACK = "attack"; // attack a character
     public static final String COMMAND_HEAL = "heal"; // drink a health potion
+    public static final String COMMAND_LOOT = "loot"; // loot a character
 
     private static final Scanner scanner = new Scanner(System.in);
     private static Command lastCommand = null;
@@ -37,6 +38,9 @@ public class Input {
                 break;
             case COMMAND_HEAL:
                 lastCommand = new Command(CommandType.HEAL, "");
+                break;
+            case COMMAND_LOOT:
+                lastCommand = new Command(CommandType.LOOT, input.length > 1 ? input[1] : "");
                 break;
         }
 
@@ -71,6 +75,9 @@ public class Input {
                 commandString = COMMAND_HEAL;
                 actionString =  "drink a health potion";
                 break;
+            case LOOT:
+                commandString = COMMAND_LOOT;
+                actionString = "loot " + requiredCommandArgument;
             default:
                 return null;
         }

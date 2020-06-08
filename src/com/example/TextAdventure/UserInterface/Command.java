@@ -6,7 +6,8 @@ public class Command {
         GO,
         EXAMINE,
         ATTACK,
-        HEAL
+        HEAL,
+        LOOT
     }
 
     private CommandType commandType;

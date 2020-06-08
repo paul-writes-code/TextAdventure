@@ -7,6 +7,8 @@ import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
 import com.example.TextAdventure.UserInterface.Output;
 
+import java.util.ArrayList;
+
 import static com.example.TextAdventure.UserInterface.Output.output;
 import static com.example.TextAdventure.UserInterface.Output.pause;
 
@@ -95,6 +97,8 @@ public abstract class World {
     }
     public static void examineLocation(boolean entering) {
         String displayName = playerLocation.getLocationName() + " of " + playerLocation.getArea().getAreaName();
+        ArrayList<Enemy> attackList = new ArrayList<>();
+        ArrayList<Enemy> lootList = new ArrayList<>();
 
         if (entering)
             Output.output("Entering " + displayName + ".");
@@ -109,7 +113,16 @@ public abstract class World {
         // Display local enemies
         if (playerLocation.getEnemies() != null)
             for (Enemy enemy : playerLocation.getEnemies())
-                output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + ", " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health.");
+                if (enemy.getCurrentHealth() > 0)
+                    attackList.add(enemy);
+                else
+                    lootList.add(enemy);
+
+            for (Enemy enemy : attackList)
+                output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + "; " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health");
+
+            for (Enemy enemy : lootList)
+                output("  " + Input.COMMAND_LOOT + ": " + enemy.getName());
     }
     public static void attackEnemy(String enemyName) {
         Character target;
@@ -163,7 +176,7 @@ public abstract class World {
         }
 
         player.lootEnemy(lootee);
-        playerLocation.removeEnemy(enemyName);
+        playerLocation.removeEnemy(lootee.getName());
 
         if (player.getTarget() != null && player.getTarget().getName().equals(enemyName))
             player.setTarget(null);
@@ -184,6 +197,9 @@ public abstract class World {
                 break;
             case HEAL:
                 consumeHealthPotion();
+                break;
+            case LOOT:
+                lootEnemy(command.getArgument());
                 break;
             default:
                 return false;
