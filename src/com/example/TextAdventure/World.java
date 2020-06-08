@@ -31,7 +31,7 @@ public abstract class World {
         initGame();
 
         output("Welcome to " + worldName + ".");
-      //  beginTutorial();
+        beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
