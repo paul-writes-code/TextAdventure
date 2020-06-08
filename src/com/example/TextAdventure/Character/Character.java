@@ -79,6 +79,8 @@ public abstract class Character {
     public void die() {
         target = null;
     }
+    public void lootEnemy(Character enemy) { Combat.loot(this, enemy); }
     public abstract Inventory beLooted();
     public void emptyInventory() { initInventory(null); }
+    public void addInventory(Inventory inventory) { inventory.addInventory(inventory); }
 }

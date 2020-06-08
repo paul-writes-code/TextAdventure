@@ -1,6 +1,7 @@
 package com.example.TextAdventure.Combat;
 
 import com.example.TextAdventure.Character.Character;
+import com.example.TextAdventure.Item.Inventory;
 import com.example.TextAdventure.UserInterface.Output;
 
 public class Combat {
@@ -44,5 +45,16 @@ public class Combat {
         Output.output(attacker.getName() + " attacks " + opponent.getName() + " and deals " + damage + " damage; " + opponent.getName() + " has " + opponent.getCurrentHealth() + "/" + opponent.getMaxHealth() + " health.");
 
         return damage;
+    }
+
+    public static void loot(Character looter, Character lootee) {
+        if (looter == null || lootee == null)
+            return;
+
+        Inventory loot = lootee.beLooted();
+        looter.addInventory(loot);
+
+        if (loot != null)
+            Output.output("You receive " + loot.toString() + ".");
     }
 }

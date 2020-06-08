@@ -60,7 +60,7 @@ public abstract class World {
 
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
         executeCommand(Input.forceCommand(Command.CommandType.GO, WorldMap.TUTORIAL_LOCATION_2, true));
-        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies()[0].getName(),true));
+        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
 
         pause();
 
@@ -69,22 +69,25 @@ public abstract class World {
         output("You can change your target by attacking a different enemy.");
         output("Once your target has been set, you can attack it by just entering 'attack'.\n");
 
-        while (playerLocation.getEnemies()[0].isAlive())
-            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies()[0].getName(),false));
+        while (playerLocation.getEnemies().get(0).isAlive())
+            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
 
         executeCommand(Input.forceCommand(Command.CommandType.HEAL));
 
         output("You can enter any command during combat; try drinking health potions or running away when necessary.");
         output("This concludes the tutorial.\n");
+
+        player.setTarget(null);
     }
 
     public static void movePlayer(String displayName) {
-        Location.LocationNeighbour newSector = playerLocation.getNeighbour(displayName);
+        Location.LocationNeighbour newLocation = playerLocation.getNeighbour(displayName);
 
-        if (newSector != null) {
+        if (newLocation != null) {
             playerLocation.leave();
-            playerLocation = newSector.getLocation();
-            playerLocation.enter(newSector.getMovementType());
+            player.setTarget(null);
+            playerLocation = newLocation.getLocation();
+            playerLocation.enter(newLocation.getMovementType());
             return;
         }
 
@@ -140,6 +143,30 @@ public abstract class World {
     public static void consumeHealthPotion() {
         player.consumeHealthPotion();
         Output.output("You drink a health potion and now have " + player.getCurrentHealth() + "/" + player.getMaxHealth() + " health.");
+    }
+    public static void lootEnemy(String enemyName) {
+        Character lootee;
+
+        if (enemyName.equals(""))
+            lootee = player.getTarget();
+        else
+            lootee = playerLocation.getEnemy(enemyName);
+
+        if (lootee == null) {
+            output(enemyName.equals("") ? "You have no target." : "Unknown entity: " + enemyName + ".");
+            return;
+        }
+
+        if (lootee.isAlive()) {
+            output(lootee.getName() + " has not been defeated yet.");
+            return;
+        }
+
+        player.lootEnemy(lootee);
+        playerLocation.removeEnemy(enemyName);
+
+        if (player.getTarget() != null && player.getTarget().getName().equals(enemyName))
+            player.setTarget(null);
     }
 
     public static boolean executeCommand(Command command) {

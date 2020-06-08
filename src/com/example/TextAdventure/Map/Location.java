@@ -3,6 +3,8 @@ package com.example.TextAdventure.Map;
 import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.World;
 
+import java.util.ArrayList;
+
 public class Location {
 
     public static class LocationNeighbour {
@@ -34,7 +36,7 @@ public class Location {
     private Area area;
     private LocationNeighbour[] neighbours;
 
-    private Enemy[] enemies;
+    private ArrayList<Enemy> enemies;
 
     public Location(String locationName, Area area) {
         this.locationName = locationName;
@@ -46,7 +48,7 @@ public class Location {
 
     public String getLocationName() { return locationName; }
     public Area getArea() { return area; }
-    public Enemy[] getEnemies() { return enemies; }
+    public ArrayList<Enemy> getEnemies() { return enemies; }
     public Enemy getEnemy(String enemyName) {
         for (Enemy enemy : enemies)
             if (enemy.getName().equals(enemyName))
@@ -106,14 +108,19 @@ public class Location {
             this.neighbours[i] = new LocationNeighbour(neighbour, neighbourDisplayName, movementType);
         }
     }
-    public void setEnemies(Enemy[] enemies) {
-        if (enemies == null || enemies.length == 0)
+    public void addEnemy(Enemy enemy) {
+        if (enemy == null)
             return;
 
-        this.enemies = new Enemy[enemies.length];
+        if (enemies == null)
+            enemies = new ArrayList<>();
 
-        for (int i = 0; i < enemies.length; i++)
-            this.enemies[i] = enemies[i];
+        enemies.add(enemy);
+    }
+    public void removeEnemy(String enemyName) {
+        for (Enemy enemy : enemies)
+            if (enemy.getName().equals(enemyName))
+                enemies.remove(enemy);
     }
 
     public void enter(LocationNeighbour.MovementType movementType) {
@@ -137,7 +144,7 @@ public class Location {
         World.examineLocation(true);
     }
     public void leave() {
-        if (enemies == null || enemies.length == 0)
+        if (enemies == null || enemies.size() == 0)
             return;
 
         for (Enemy enemy : enemies)
@@ -147,7 +154,7 @@ public class Location {
 
     // This gets called every time a command has been input (every turn).
     public void attackCycle() {
-        if (enemies == null || enemies.length == 0)
+        if (enemies == null || enemies.size() == 0)
             return;
 
         for (Enemy enemy : enemies)
