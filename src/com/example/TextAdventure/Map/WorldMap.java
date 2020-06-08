@@ -170,13 +170,13 @@ public abstract class WorldMap {
         // Add Enemies
 
         // cave1:
-        cave1_1.setEnemies(new Enemy[] { new Enemy("goblin1", 5, 5, 1, 1),
-                new Enemy("goblin2", 5, 5, 1, 1),
-                new Enemy("goblin3", 5, 5, 1, 1)
+        cave1_1.setEnemies(new Enemy[] { new Enemy("goblin1", 5, 5, 1, 1, null),
+                new Enemy("goblin2", 5, 5, 1, 1, null),
+                new Enemy("goblin3", 5, 5, 1, 1, null)
         });
 
-        cave1_2.setEnemies(new Enemy[] { new Enemy("scorpion1", 12, 12, 6, 4),
-                new Enemy("scorpion2", 12, 12, 6, 4)
+        cave1_2.setEnemies(new Enemy[] { new Enemy("scorpion1", 12, 12, 6, 4, null),
+                new Enemy("scorpion2", 12, 12, 6, 4, null)
         });
 
         // Create Tutorial Map
@@ -190,7 +190,7 @@ public abstract class WorldMap {
         tutorialForest1.setNeighbours(new Location[] { tutorialForest2 });
         tutorialForest2.setNeighbours(new Location[] { tutorialForest1 });
 
-        tutorialForest2.setEnemies(new Enemy[] { new Enemy("bandit1", 8, 8, 2, 2) });
+        tutorialForest2.setEnemies(new Enemy[] { new Enemy("bandit1", 8, 8, 2, 2, null) });
 
         // Add Territories to World Map
         territories = new ArrayList<>();
