@@ -52,6 +52,7 @@ public abstract class Character {
     public Inventory getInventory() { return inventory; }
 
     public abstract boolean canBeAttacked();
+    public abstract boolean canBeLooted();
 
     public void refresh() { currentHealth = maxHealth; }
     public boolean isAlive() { return currentHealth > 0; }
@@ -78,4 +79,6 @@ public abstract class Character {
     public void die() {
         target = null;
     }
+    public abstract Inventory beLooted();
+    public void emptyInventory() { initInventory(null); }
 }

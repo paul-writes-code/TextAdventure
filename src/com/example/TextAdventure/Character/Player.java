@@ -16,4 +16,7 @@ public class Player extends Character {
     }
 
     public boolean canBeAttacked() { return isAlive(); }
+    public boolean canBeLooted() { return false; }
+
+    public Inventory beLooted() { return null; }
 }
