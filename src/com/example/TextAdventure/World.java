@@ -8,6 +8,7 @@ import com.example.TextAdventure.UserInterface.Input;
 import com.example.TextAdventure.UserInterface.Output;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
+import static com.example.TextAdventure.UserInterface.Output.pause;
 
 public abstract class World {
 
@@ -60,6 +61,8 @@ public abstract class World {
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
         executeCommand(Input.forceCommand(Command.CommandType.GO, WorldMap.TUTORIAL_LOCATION_2, true));
         executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies()[0].getName(),true));
+
+        pause();
 
         output("When you attack an enemy, it becomes aggressive and attacks you every turn until you defeat it or run away.");
         output("The enemy becomes your target, and you become the enemy's target.");
