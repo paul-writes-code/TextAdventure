@@ -7,7 +7,8 @@ public class Command {
         EXAMINE,
         ATTACK,
         HEAL,
-        LOOT
+        LOOT,
+        INVENTORY
     }
 
     private CommandType commandType;

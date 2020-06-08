@@ -2,6 +2,8 @@ package com.example.TextAdventure.Item;
 
 import java.util.ArrayList;
 
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class Inventory {
     private ItemManager itemManager;
     private int gold;
@@ -90,9 +92,22 @@ public class Inventory {
             ret += numHealthPotions + " Health Potions";
         }
 
-        if (itemManager != null && itemManager.getNumItems() > 0)
-            return ret + ", " + itemManager.toString();
+        if (itemManager != null && itemManager.getNumItems() > 0) {
+            if (!ret.equals(""))
+                ret += ", ";
+
+            return ret + itemManager.toString();
+        }
 
         return ret;
+    }
+
+    public void viewInventory() {
+        output("Your inventory contains: "); // + player.getInventory().toString());
+        output("\t" + gold + " Gold");
+        output("\t" + numHealthPotions + " Health Potions");
+
+        for (Item item : getItems())
+            output("\t" + item.toString());
     }
 }

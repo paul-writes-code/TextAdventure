@@ -12,6 +12,7 @@ public class Input {
     public static final String COMMAND_ATTACK = "attack"; // attack a character
     public static final String COMMAND_HEAL = "heal"; // drink a health potion
     public static final String COMMAND_LOOT = "loot"; // loot a character
+    public static final String COMMAND_INVENTORY = "inventory"; // display inventory
 
     private static final Scanner scanner = new Scanner(System.in);
     private static Command lastCommand = null;
@@ -41,6 +42,9 @@ public class Input {
                 break;
             case COMMAND_LOOT:
                 lastCommand = new Command(CommandType.LOOT, input.length > 1 ? input[1] : "");
+                break;
+            case COMMAND_INVENTORY:
+                lastCommand = new Command(CommandType.INVENTORY, "");
                 break;
         }
 
@@ -78,6 +82,9 @@ public class Input {
             case LOOT:
                 commandString = COMMAND_LOOT;
                 actionString = "loot " + requiredCommandArgument;
+            case INVENTORY:
+                commandString = COMMAND_INVENTORY;
+                actionString = "view your inventory";
             default:
                 return null;
         }

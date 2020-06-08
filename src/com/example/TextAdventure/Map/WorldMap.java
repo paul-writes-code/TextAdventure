@@ -197,7 +197,8 @@ public abstract class WorldMap {
 
         // Set Starting Locations
         startingLocationTutorial = tutorialForest1;
-        startingLocation = town1_townCentre;
+       // startingLocation = town1_townCentre;
+        startingLocation = cave1_1;
 
         initialized = true;
     }

@@ -31,7 +31,7 @@ public abstract class World {
         initGame();
 
         output("Welcome to " + worldName + ".");
-        beginTutorial();
+      //  beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
@@ -181,6 +181,9 @@ public abstract class World {
         if (player.getTarget() != null && player.getTarget().getName().equals(enemyName))
             player.setTarget(null);
     }
+    public static void viewInventory() {
+        player.getInventory().viewInventory();
+    }
 
     public static boolean executeCommand(Command command) {
         output("");
@@ -200,6 +203,9 @@ public abstract class World {
                 break;
             case LOOT:
                 lootEnemy(command.getArgument());
+                break;
+            case INVENTORY:
+                viewInventory();
                 break;
             default:
                 return false;
