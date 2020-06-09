@@ -109,11 +109,11 @@ public class Inventory {
     }
 
     public void viewInventory() {
-        output("Your inventory contains: "); // + player.getInventory().toString());
+        output("INVENTORY:");
         output("\t" + gold + " Gold");
         output("\t" + numHealthPotions + " Health Potions");
 
-        for (Item item : getItems())
-            output("\t" + item.toString());
+        for (int i = 1; i <= getItems().size(); i++)
+            output("\t" + i + ". " + getItems().get(i).toString());
     }
 }

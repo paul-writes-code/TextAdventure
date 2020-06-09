@@ -2,6 +2,9 @@ package com.example.TextAdventure;
 
 import com.example.TextAdventure.Character.*;
 import com.example.TextAdventure.Character.Character;
+import com.example.TextAdventure.Equipment.Equipment;
+import com.example.TextAdventure.Equipment.EquipmentSet;
+import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
@@ -196,6 +199,55 @@ public abstract class World {
     }
     public static void viewInventory() {
         player.getInventory().viewInventory();
+    }
+    public static void viewEquipment() {
+        player.getEquipmentSet().viewEquipmentSet();
+    }
+    public static void equipFromInventory(int index) {
+        if (index < 1 || index > player.getInventory().getItems().size()) {
+            output("That index does not exist.");
+            return;
+        }
+
+        if (!(player.getInventory().getItems().get(index - 1) instanceof Equipment)) {
+            output("You cannot equip that item.");
+            return;
+        }
+
+        Equipment toEquip = (Equipment)(player.getInventory().getItems().remove(index - 1));
+        player.equip(toEquip);
+        output("You equip " + toEquip.getItemName() + ".");
+    }
+    public static void unequipFromEquipmentSet(int index) {
+        if (index < 1 || index > EquipmentSet.NUM_SLOTS) {
+            output("That index does not exist.");
+            return;
+        }
+
+        String unequippedName = "";
+
+        switch (index) {
+            case 1:
+                if (player.getEquipmentSet().getArmour() != null)
+                    unequippedName = player.getEquipmentSet().getArmour().getItemName();
+
+                player.unequip(Equipment.EquipmentType.ARMOUR);
+            case 2:
+                if (player.getEquipmentSet().getSword() != null)
+                    unequippedName = player.getEquipmentSet().getSword().getItemName();
+
+                player.unequip(Equipment.EquipmentType.SWORD);
+            case 3:
+                if (player.getEquipmentSet().getShield() != null)
+                    unequippedName = player.getEquipmentSet().getShield().getItemName();
+
+                player.unequip(Equipment.EquipmentType.SHIELD);
+        }
+
+        if (!unequippedName.equals(""))
+            output("You unequip " + unequippedName + ".");
+        else
+            output("That slot is already empty.");
     }
 
     public static boolean executeCommand(Command command) {

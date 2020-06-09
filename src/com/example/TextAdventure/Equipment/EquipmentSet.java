@@ -2,7 +2,11 @@ package com.example.TextAdventure.Equipment;
 
 import com.example.TextAdventure.Equipment.Equipment.EquipmentType;
 
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class EquipmentSet {
+
+    public static final int NUM_SLOTS = 3;
 
     private int maxHealthBonus = 0;
     private int damageBonus = 0;
@@ -99,5 +103,12 @@ public class EquipmentSet {
             defenceBonus -= equipment.getDefenceBonus();
             equipment.unequip();
         }
+    }
+
+    public void viewEquipmentSet() {
+        output("EQUIPMENT:");
+        output("\t1. Armour: " + armour.getItemName());
+        output("\t2. Sword: " + sword.getItemName());
+        output("\t3. Shield: " + shield.getItemName());
     }
 }

@@ -97,11 +97,4 @@ public abstract class Character {
     public void unequip(Equipment.EquipmentType equipmentType) {
         inventory.addItem(equipmentSet.unequip(equipmentType));
     }
-    public boolean equipFromInventory(int invSlotIndex) {
-        if (invSlotIndex < 0 || invSlotIndex >= inventory.getItems().size() || !(inventory.getItems().get(invSlotIndex) instanceof Equipment))
-            return false;
-
-        equip((Equipment)(inventory.getItems().remove(invSlotIndex)));
-        return true;
-    }
 }
