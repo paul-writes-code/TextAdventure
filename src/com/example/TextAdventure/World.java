@@ -3,13 +3,12 @@ package com.example.TextAdventure;
 import com.example.TextAdventure.Character.*;
 import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Equipment.Equipment;
-import com.example.TextAdventure.Equipment.EquipmentSet;
+import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.UserInterface.Command;
+import com.example.TextAdventure.UserInterface.DisplayViews;
 import com.example.TextAdventure.UserInterface.Input;
 import com.example.TextAdventure.UserInterface.Output;
-
-import java.util.ArrayList;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
 import static com.example.TextAdventure.UserInterface.Output.pause;
@@ -33,7 +32,7 @@ public abstract class World {
         initGame();
 
         output("Welcome to " + worldName + ".");
-      //  beginTutorial();
+        beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
@@ -57,8 +56,8 @@ public abstract class World {
     private static void initPlayer() {
         player = new Player(playerName);
         playerLocation = startingLocationTutorial;
-        player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword", 100, 0, 2, 0));
-        player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield", 101, 3, 0, 6));
+     //   player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword", 100, 0, 2, 0));
+     //   player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield", 101, 3, 0, 6));
     }
 
     private static void beginTutorial() {
@@ -91,12 +90,20 @@ public abstract class World {
 
         executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
 
+        executeCommand(Input.forceCommand(Command.CommandType.EQUIP, "sword1", true));
+
+        executeCommand(Input.forceCommand(Command.CommandType.EQUIPMENT));
+        executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
+
+        executeCommand(Input.forceCommand(Command.CommandType.UNEQUIP, "sword1", true));
+
         output("This concludes the tutorial.\n");
 
         player.setTarget(null);
         pause();
     }
 
+    // Character Functions
     public static void movePlayer(String displayName) {
         Location.LocationNeighbour newLocation = playerLocation.getNeighbour(displayName);
 
@@ -109,35 +116,6 @@ public abstract class World {
         }
 
         output("Unknown location: " + displayName + ".");
-    }
-    public static void examineLocation(boolean entering) {
-        String displayName = playerLocation.getLocationName() + " of " + playerLocation.getArea().getAreaName();
-        ArrayList<Enemy> attackList = new ArrayList<>();
-        ArrayList<Enemy> lootList = new ArrayList<>();
-
-        if (entering)
-            Output.output("Entering " + displayName + ".");
-        else
-            Output.output("Your current location is " + displayName + ".");
-
-        // Display local map
-        if (playerLocation.getNeighbours() != null)
-            for (Location.LocationNeighbour neighbour : playerLocation.getNeighbours())
-                output("  " + Input.COMMAND_GO + ": " + neighbour.getDisplayName());
-
-        // Display local enemies
-        if (playerLocation.getEnemies() != null)
-            for (Enemy enemy : playerLocation.getEnemies())
-                if (enemy.getCurrentHealth() > 0)
-                    attackList.add(enemy);
-                else
-                    lootList.add(enemy);
-
-            for (Enemy enemy : attackList)
-                output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + "; " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health");
-
-            for (Enemy enemy : lootList)
-                output("  " + Input.COMMAND_LOOT + ": " + enemy.getName() + "; " + enemy.getInventory().toString());
     }
     public static void attackEnemy(String enemyName) {
         Character target;
@@ -166,11 +144,15 @@ public abstract class World {
 
         if (!player.getTarget().isAlive()) {
             Output.output(player.getName() + " has defeated " + player.getTarget().getName() + ".");
+
+            if (player.getTarget().getInventory().isEmpty())
+                playerLocation.removeEnemy(player.getTarget().getName());
         }
     }
     public static void consumeHealthPotion() {
         if (player.consumeHealthPotion())
-            Output.output("You drink a health potion and now have " + player.getCurrentHealth() + "/" + player.getMaxHealth() + " health.");
+            Output.output("You drink a health potion and now have " + player.getCurrentHealth() + "/" + player.getMaxHealth() + " health;" +
+                    " You have " + player.getInventory().getNumHealthPotions() + " health potions remaining.");
         else
             Output.output("You do not have any health potions.");
     }
@@ -198,74 +180,52 @@ public abstract class World {
         if (player.getTarget() != null && player.getTarget().getName().equals(enemyName))
             player.setTarget(null);
     }
-    public static void viewInventory() {
-        Common.viewInventory(player.getInventory());
-    }
-    public static void viewEquipment() {
-        Common.viewEquipmentSet(player.getEquipmentSet());
+
+    // View Functions
+    public static void viewLocation(boolean entering) {
+        DisplayViews.viewLocation(playerLocation, entering);
     }
     public static void viewCharacter() {
-        Common.viewCharacter(player);
+        DisplayViews.viewCharacter(player);
     }
-    public static void equipFromInventory(String inputIndex) {
-        if (!Common.tryParseInt(inputIndex)) {
-            output("Enter the index of the equipment in your inventory: 'equip 1'.");
-            return;
-        }
-
-        int index = Integer.parseInt(inputIndex);
-
-        if (index < 1 || index > player.getInventory().getItems().size()) {
-            output("That index does not exist.");
-            return;
-        }
-
-        if (!(player.getInventory().getItems().get(index - 1) instanceof Equipment)) {
-            output("You cannot equip that item.");
-            return;
-        }
-
-        Equipment toEquip = (Equipment)(player.getInventory().getItems().remove(index - 1));
-        player.equip(toEquip);
-        output("You equip " + toEquip.getItemName() + ".");
+    public static void viewInventory() {
+        DisplayViews.viewInventory(player.getInventory());
     }
-    public static void unequipFromEquipmentSet(String inputIndex) {
-        if (!Common.tryParseInt(inputIndex)) {
-            output("Enter the index of the equipment slot: 'unequip 1'.");
-            return;
+    public static void viewEquipment() {
+        DisplayViews.viewEquipmentSet(player.getEquipmentSet());
+    }
+
+    // Equipment Functions
+    public static void equipFromInventory(String itemName) {
+        for (Item item : player.getInventory().getItems())
+            if (item.getItemName().equals(itemName)) {
+                if (item instanceof Equipment) {
+                    player.equip((Equipment) item);
+                    output("You equip " + item.getItemName() + ".");
+                    player.getInventory().getItems().remove(item);
+                } else
+                    output("You cannot equip that item.");
+
+                return;
+            }
+
+        output("You do not have " + itemName + ".");
+    }
+    public static void unequipFromEquipmentSet(String itemName) {
+        if (player.getEquipmentSet().getArmour() != null && player.getEquipmentSet().getArmour().getItemName().equals(itemName)) {
+            player.unequip(Equipment.EquipmentType.ARMOUR);
+            output("You unequip "  + itemName + ".");
         }
-
-        int index = Integer.parseInt(inputIndex);
-
-        if (index < 1 || index > EquipmentSet.NUM_SLOTS) {
-            output("That index does not exist.");
-            return;
+        else if (player.getEquipmentSet().getSword() != null && player.getEquipmentSet().getSword().getItemName().equals(itemName)) {
+            player.unequip(Equipment.EquipmentType.SWORD);
+            output("You unequip " + itemName + ".");
         }
-
-        String unequippedName = "";
-
-        switch (index) {
-            case 1:
-                if (player.getEquipmentSet().getArmour() != null)
-                    unequippedName = player.getEquipmentSet().getArmour().getItemName();
-
-                player.unequip(Equipment.EquipmentType.ARMOUR);
-            case 2:
-                if (player.getEquipmentSet().getSword() != null)
-                    unequippedName = player.getEquipmentSet().getSword().getItemName();
-
-                player.unequip(Equipment.EquipmentType.SWORD);
-            case 3:
-                if (player.getEquipmentSet().getShield() != null)
-                    unequippedName = player.getEquipmentSet().getShield().getItemName();
-
-                player.unequip(Equipment.EquipmentType.SHIELD);
+        else if (player.getEquipmentSet().getShield() != null && player.getEquipmentSet().getShield().getItemName().equals(itemName)) {
+            player.unequip(Equipment.EquipmentType.SHIELD);
+            output("You unequip " + itemName + ".");
         }
-
-        if (!unequippedName.equals(""))
-            output("You unequip " + unequippedName + ".");
         else
-            output("That slot is already empty.");
+            output(itemName + " is not equipped.");
     }
 
     public static boolean executeCommand(Command command) {
@@ -276,7 +236,7 @@ public abstract class World {
                 movePlayer(command.getArgument());
                 break;
             case EXAMINE:
-                examineLocation(false);
+                viewLocation(false);
                 break;
             case ATTACK:
                 attackEnemy(command.getArgument());

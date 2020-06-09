@@ -143,7 +143,7 @@ public class Location {
                 break;
         }
 
-        World.examineLocation(true);
+        World.viewLocation(true);
     }
     public void leave() {
         if (enemies == null || enemies.size() == 0)

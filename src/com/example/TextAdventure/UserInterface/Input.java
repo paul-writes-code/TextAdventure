@@ -101,11 +101,11 @@ public class Input {
                 break;
             case EQUIP:
                 commandString = COMMAND_EQUIP;
-                actionString = "equip the equipment from that inventory slot";
+                actionString = "equip that item";
                 break;
             case UNEQUIP:
                 commandString = COMMAND_UNEQUIP;
-                actionString = "unequip the equipment from that equipment slot";
+                actionString = "unequip that item";
                 break;
             case INVENTORY:
                 commandString = COMMAND_INVENTORY;

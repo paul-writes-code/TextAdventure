@@ -1,6 +1,8 @@
 package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Equipment.Equipment;
+import com.example.TextAdventure.Item.Inventory;
 
 import java.util.ArrayList;
 
@@ -189,6 +191,7 @@ public abstract class WorldMap {
         tutorialForest2.setNeighbours(new Location[] { tutorialForest1 });
 
         tutorialForest2.addEnemy(new Enemy("bandit1", 8, 8, 2, 2, null));
+        tutorialForest2.getEnemies().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword1", 103, 0, 5, 2));
 
         // Add Territories to World Map
         territories = new ArrayList<>();
