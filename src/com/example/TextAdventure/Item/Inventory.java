@@ -16,6 +16,12 @@ public class Inventory {
     public Inventory(ArrayList<Item> items, int gold, int numHealthPotions) {
         initInventory(items, gold, numHealthPotions);
     }
+    public Inventory(Inventory inventory) {
+        if (inventory == null)
+            initInventory(null, 0, 0);
+        else
+            initInventory(inventory.itemManager.getItems(), inventory.gold, inventory.numHealthPotions);
+    }
     private void initInventory(ArrayList<Item> items, int gold, int numHealthPotions) {
         itemManager = new ItemManager(items);
         this.gold = gold;
