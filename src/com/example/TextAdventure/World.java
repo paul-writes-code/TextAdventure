@@ -4,7 +4,6 @@ import com.example.TextAdventure.Character.*;
 import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
-import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
@@ -34,7 +33,7 @@ public abstract class World {
         initGame();
 
         output("Welcome to " + worldName + ".");
-        beginTutorial();
+      //  beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
@@ -58,6 +57,8 @@ public abstract class World {
     private static void initPlayer() {
         player = new Player(playerName);
         playerLocation = startingLocationTutorial;
+        player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword", 100, 0, 2, 0));
+        player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield", 101, 3, 0, 6));
     }
 
     private static void beginTutorial() {
@@ -191,19 +192,29 @@ public abstract class World {
             return;
         }
 
-        player.lootEnemy(lootee);
+        player.lootCharacter(lootee);
         playerLocation.removeEnemy(lootee.getName());
 
         if (player.getTarget() != null && player.getTarget().getName().equals(enemyName))
             player.setTarget(null);
     }
     public static void viewInventory() {
-        player.getInventory().viewInventory();
+        Common.viewInventory(player.getInventory());
     }
     public static void viewEquipment() {
-        player.getEquipmentSet().viewEquipmentSet();
+        Common.viewEquipmentSet(player.getEquipmentSet());
     }
-    public static void equipFromInventory(int index) {
+    public static void viewCharacter() {
+        Common.viewCharacter(player);
+    }
+    public static void equipFromInventory(String inputIndex) {
+        if (!Common.tryParseInt(inputIndex)) {
+            output("Enter the index of the equipment in your inventory: 'equip 1'.");
+            return;
+        }
+
+        int index = Integer.parseInt(inputIndex);
+
         if (index < 1 || index > player.getInventory().getItems().size()) {
             output("That index does not exist.");
             return;
@@ -218,7 +229,14 @@ public abstract class World {
         player.equip(toEquip);
         output("You equip " + toEquip.getItemName() + ".");
     }
-    public static void unequipFromEquipmentSet(int index) {
+    public static void unequipFromEquipmentSet(String inputIndex) {
+        if (!Common.tryParseInt(inputIndex)) {
+            output("Enter the index of the equipment slot: 'unequip 1'.");
+            return;
+        }
+
+        int index = Integer.parseInt(inputIndex);
+
         if (index < 1 || index > EquipmentSet.NUM_SLOTS) {
             output("That index does not exist.");
             return;
@@ -269,8 +287,20 @@ public abstract class World {
             case LOOT:
                 lootEnemy(command.getArgument());
                 break;
+            case EQUIP:
+                equipFromInventory(command.getArgument());
+                break;
+            case UNEQUIP:
+                unequipFromEquipmentSet(command.getArgument());
+                break;
             case INVENTORY:
                 viewInventory();
+                break;
+            case EQUIPMENT:
+                viewEquipment();
+                break;
+            case CHARACTER:
+                viewCharacter();
                 break;
             default:
                 return false;

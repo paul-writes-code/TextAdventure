@@ -19,9 +19,5 @@ public class Enemy extends Character {
     public boolean canBeAttacked() { return isAlive(); }
     public boolean canBeLooted() { return !isAlive(); }
 
-    public Inventory beLooted() {
-        Inventory ret = getInventory();
-        emptyInventory();
-        return ret;
-    }
+    public Inventory beLooted() { return emptyInventory(); }
 }

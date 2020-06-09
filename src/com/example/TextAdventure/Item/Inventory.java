@@ -107,13 +107,4 @@ public class Inventory {
 
         return ret;
     }
-
-    public void viewInventory() {
-        output("INVENTORY:");
-        output("\t" + gold + " Gold");
-        output("\t" + numHealthPotions + " Health Potions");
-
-        for (int i = 1; i <= getItems().size(); i++)
-            output("\t" + i + ". " + getItems().get(i).toString());
-    }
 }

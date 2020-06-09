@@ -85,16 +85,26 @@ public abstract class Character {
     public void die() { clearTarget(); }
 
     // INVENTORY MANAGEMENT
-    public void lootEnemy(Character enemy) { Combat.loot(this, enemy); }
+    public void lootCharacter(Character lootee) { Combat.loot(this, lootee); }
     public abstract Inventory beLooted();
-    public void emptyInventory() { inventory = new Inventory(); }
+    public Inventory emptyInventory() {
+        Inventory ret = inventory;
+        inventory = new Inventory();
+        return ret;
+    }
     public void addInventory(Inventory inventory) { this.inventory.addInventory(inventory); }
 
     // EQUIPMENT MANAGEMENT
     public void equip(Equipment equipment) {
+        int oldMaxHealth = getMaxHealth();
         inventory.addItem(equipmentSet.equip(equipment));
+
+        currentHealth += getMaxHealth() - oldMaxHealth;
     }
     public void unequip(Equipment.EquipmentType equipmentType) {
+        int oldMaxHealth = getMaxHealth();
         inventory.addItem(equipmentSet.unequip(equipmentType));
+
+        currentHealth += getMaxHealth() - oldMaxHealth;
     }
 }

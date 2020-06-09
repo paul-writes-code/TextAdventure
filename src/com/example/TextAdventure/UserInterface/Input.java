@@ -12,7 +12,11 @@ public class Input {
     public static final String COMMAND_ATTACK = "attack"; // attack a character
     public static final String COMMAND_HEAL = "heal"; // drink a health potion
     public static final String COMMAND_LOOT = "loot"; // loot a character
+    public static final String COMMAND_EQUIP = "equip"; // equip an item from inventory
+    public static final String COMMAND_UNEQUIP = "unequip"; // unequip an item from equipment set
     public static final String COMMAND_INVENTORY = "inventory"; // display inventory
+    public static final String COMMAND_EQUIPMENT = "equipment"; // display equipment set
+    public static final String COMMAND_CHARACTER = "character"; // display character info
 
     private static final Scanner scanner = new Scanner(System.in);
     private static Command lastCommand = null;
@@ -43,8 +47,20 @@ public class Input {
             case COMMAND_LOOT:
                 lastCommand = new Command(CommandType.LOOT, input.length > 1 ? input[1] : "");
                 break;
+            case COMMAND_EQUIP:
+                lastCommand = new Command(CommandType.EQUIP, input[1]);
+                break;
+            case COMMAND_UNEQUIP:
+                lastCommand = new Command(CommandType.UNEQUIP, input[1]);
+                break;
             case COMMAND_INVENTORY:
                 lastCommand = new Command(CommandType.INVENTORY, "");
+                break;
+            case COMMAND_EQUIPMENT:
+                lastCommand = new Command(CommandType.EQUIPMENT, "");
+                break;
+            case COMMAND_CHARACTER:
+                lastCommand = new Command(CommandType.CHARACTER, "");
                 break;
         }
 
@@ -83,9 +99,25 @@ public class Input {
                 commandString = COMMAND_LOOT;
                 actionString = "loot " + requiredCommandArgument;
                 break;
+            case EQUIP:
+                commandString = COMMAND_EQUIP;
+                actionString = "equip the equipment from that inventory slot";
+                break;
+            case UNEQUIP:
+                commandString = COMMAND_UNEQUIP;
+                actionString = "unequip the equipment from that equipment slot";
+                break;
             case INVENTORY:
                 commandString = COMMAND_INVENTORY;
                 actionString = "view your inventory";
+                break;
+            case EQUIPMENT:
+                commandString = COMMAND_EQUIPMENT;
+                actionString = "view your equipment set";
+                break;
+            case CHARACTER:
+                commandString = COMMAND_CHARACTER;
+                actionString = "view your character details";
                 break;
             default:
                 return null;

@@ -104,11 +104,4 @@ public class EquipmentSet {
             equipment.unequip();
         }
     }
-
-    public void viewEquipmentSet() {
-        output("EQUIPMENT:");
-        output("\t1. Armour: " + armour.getItemName());
-        output("\t2. Sword: " + sword.getItemName());
-        output("\t3. Shield: " + shield.getItemName());
-    }
 }
