@@ -5,8 +5,8 @@ import com.example.TextAdventure.Item.Item;
 
 public class Enemy extends Character {
 
-    public Enemy(String name, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory) {
-        super(name, currentHealth, maxHealth, damage, defence, inventory, null);
+    public Enemy(String name, int experience, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory) {
+        super(name, experience, currentHealth, maxHealth, damage, defence, inventory, null);
         getInventory().addGold((int)(Math.random() * 6));
 
         // Randomly generate some test items

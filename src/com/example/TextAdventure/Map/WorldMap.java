@@ -172,12 +172,12 @@ public abstract class WorldMap {
         // Add Enemies
 
         // cave1:
-        cave1_1.addEnemy(new Enemy("goblin1", 5, 5, 1, 1, null));
-        cave1_1.addEnemy(new Enemy("goblin2", 5, 5, 1, 1, null));
-        cave1_1.addEnemy(new Enemy("goblin3", 5, 5, 1, 1, null));
+        cave1_1.addEnemy(new Enemy("goblin1", 25,5, 5, 1, 1, null));
+        cave1_1.addEnemy(new Enemy("goblin2", 25, 5, 5, 1, 1, null));
+        cave1_1.addEnemy(new Enemy("goblin3", 25, 5, 5, 1, 1, null));
 
-        cave1_2.addEnemy(new Enemy("scorpion1", 12, 12, 6, 4, null));
-        cave1_2.addEnemy(new Enemy("scorpion2", 12, 12, 6, 4, null));
+        cave1_2.addEnemy(new Enemy("scorpion1", 100, 12, 12, 6, 4, null));
+        cave1_2.addEnemy(new Enemy("scorpion2", 100, 12, 12, 6, 4, null));
 
         // Create Tutorial Map
         Territory tutorialTerritory = new Territory(TUTORIAL_TERRITORY, 1);
@@ -190,7 +190,7 @@ public abstract class WorldMap {
         tutorialForest1.setNeighbours(new Location[] { tutorialForest2 });
         tutorialForest2.setNeighbours(new Location[] { tutorialForest1 });
 
-        tutorialForest2.addEnemy(new Enemy("bandit1", 8, 8, 2, 2, null));
+        tutorialForest2.addEnemy(new Enemy("bandit1", 50, 8, 8, 2, 2, null));
         tutorialForest2.getEnemies().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword1", 103, 0, 5, 2));
 
         // Add Territories to World Map
