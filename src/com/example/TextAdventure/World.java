@@ -15,8 +15,8 @@ import static com.example.TextAdventure.UserInterface.Output.pause;
 
 public abstract class World {
 
-    private static String worldName = "world";
-    private static String playerName = "player";
+    private static String worldName = "WORLD";
+    private static String playerName = "PLAYER";
 
     private static Location startingLocation;
     private static Location startingLocationTutorial;
@@ -31,7 +31,7 @@ public abstract class World {
         WorldMap.initWorldMap();
         initGame();
 
-        output("Welcome to " + worldName + ".");
+        output("\nWelcome to " + worldName + ".");
         beginTutorial();
 
         playerLocation = startingLocation;
@@ -61,38 +61,38 @@ public abstract class World {
     }
 
     private static void beginTutorial() {
-        output("This tutorial will teach you commands to interact with the world.\n");
+        output("We will review some basic commands to interact with " + worldName + ".");
 
+        // VIEW MAP AND MOVE LOCATIONS
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
         executeCommand(Input.forceCommand(Command.CommandType.GO, WorldMap.TUTORIAL_LOCATION_2, true));
+
+        // COMBAT, ATTACK, HEAL
         executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
-
-        pause();
-
-        output("When you attack an enemy, it becomes aggressive and attacks you every turn until you defeat it or run away.");
-        output("The enemy becomes your target, and you become the enemy's target.");
-        output("You can change your target by attacking a different enemy.");
-        output("Once your target has been set, you can attack it by just entering 'attack'.\n");
+        output("You can attack your target with 'attack'.");
 
         while (playerLocation.getEnemies().get(0).isAlive())
             executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
 
         executeCommand(Input.forceCommand(Command.CommandType.HEAL));
-
         output("You can enter any command during combat; try drinking health potions or running away when necessary.");
 
-        output("");
-
-        output("You can enter 'loot " + playerLocation.getEnemies().get(0).getName() + "' to loot " + playerLocation.getEnemies().get(0).getName() +
-                ", or you can simply enter 'loot' while " + playerLocation.getEnemies().get(0).getName() + " is still your target.");
-        output("When an enemy is looted, it is removed from the game.");
+        // LOOT ENEMY AND VIEW INVENTORY
+        output("Defeating enemies gives experience and sometimes loot.");
+        output("You can enter 'loot' or 'loot bandit1' to loot bandit1.");
         executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerLocation.getEnemies().get(0).getName(), false));
-
         executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
 
+        // EQUIP SWORD AND VIEW EQUIPMENT
         executeCommand(Input.forceCommand(Command.CommandType.EQUIP, "sword1", true));
-
         executeCommand(Input.forceCommand(Command.CommandType.EQUIPMENT));
+
+
+        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
+
+        while (playerLocation.getEnemies().get(0).isAlive())
+            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
+
         executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
 
         executeCommand(Input.forceCommand(Command.CommandType.UNEQUIP, "sword1", true));
@@ -136,7 +136,7 @@ public abstract class World {
         }
 
         if (!enemyName.equals("") && ((player.getTarget() == null)||(!enemyName.equals(player.getTarget().getName())))) {
-            output("Setting target to: " + enemyName + ".");
+            output("Setting target: " + enemyName + ".");
             player.setTarget(target);
         }
 
@@ -145,6 +145,16 @@ public abstract class World {
         if (!player.getTarget().isAlive()) {
             Output.output(player.getName() + " has defeated " + player.getTarget().getName() + ".");
 
+            int oldLevel = player.getLevel();
+            int experienceGained = player.getTarget().getExperience();
+
+            player.gainXp(experienceGained);
+            output("You gain " + experienceGained + " experience.");
+
+            if (player.getLevel() > oldLevel)
+                output("You have reached level " + player.getLevel() + "!");
+
+            // Remove the enemy from the game if it has no loot
             if (player.getTarget().getInventory().isEmpty())
                 playerLocation.removeEnemy(player.getTarget().getName());
         }
@@ -175,10 +185,12 @@ public abstract class World {
         }
 
         player.lootCharacter(lootee);
-        playerLocation.removeEnemy(lootee.getName());
 
         if (player.getTarget() != null && player.getTarget().getName().equals(enemyName))
             player.setTarget(null);
+
+        // Remove the enemy from the game
+        playerLocation.removeEnemy(lootee.getName());
     }
 
     // View Functions

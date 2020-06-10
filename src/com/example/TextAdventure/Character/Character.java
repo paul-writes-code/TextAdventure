@@ -1,7 +1,6 @@
 package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Combat.Combat;
-import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
 import com.example.TextAdventure.Item.Inventory;
@@ -13,25 +12,27 @@ public abstract class Character {
     private static final int CHARACTER_BASE_DEFENCE = 1;
 
     private String name;
-    private int experience = 0;
-    private int level = 1;
+    protected int experience;
+    protected int level;
     private int currentHealth;
-    private int maxHealth;
-    private int damage;
-    private int defence;
+    protected int maxHealth;
+    protected int damage;
+    protected int defence;
 
     private Character target;
     private Inventory inventory;
     private EquipmentSet equipmentSet;
 
     public Character(String name) {
-        initCharacter(name, 0, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
+        initCharacter(name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
     }
-    public Character(String name, int experience, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
-        initCharacter(name, experience, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
+    public Character(String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+        initCharacter(name, experience, level, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
     }
-    private void initCharacter(String name, int experience, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+    private void initCharacter(String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
         this.name = name;
+        this.experience = experience;
+        this.level = level;
         this.currentHealth = currentHealth;
         this.maxHealth = maxHealth;
         this.damage = damage;
@@ -40,10 +41,11 @@ public abstract class Character {
         this.inventory = new Inventory(inventory);
         this.equipmentSet = new EquipmentSet(equipmentSet);
         target = null;
-        gainXp(experience);
     }
 
     public String getName() { return name; }
+    public int getExperience() { return experience; }
+    public int getLevel() { return level; }
     public int getCurrentHealth() { return currentHealth; }
     public int getMaxHealth() { return maxHealth + equipmentSet.getMaxHealthBonus(); }
     public int getDamage() { return damage + equipmentSet.getDamageBonus(); }
@@ -52,8 +54,6 @@ public abstract class Character {
     public Character getTarget() { return target; }
     public Inventory getInventory() { return inventory; }
     public EquipmentSet getEquipmentSet() { return equipmentSet; }
-    public int getLevel() { return level; }
-    public int getExperience() { return experience; }
 
     public abstract boolean canBeAttacked();
     public abstract boolean canBeLooted();
@@ -111,22 +111,5 @@ public abstract class Character {
         inventory.addItem(equipmentSet.unequip(equipmentType));
 
         currentHealth += getMaxHealth() - oldMaxHealth;
-    }
-
-    // EXPERIENCE MANAGEMENT
-    public void gainXp(int xp) {
-        if (xp <= 0)
-            return;
-
-        experience += xp;
-        levelUp();
-    }
-    private void levelUp() {
-        while (Utility.getLevelFromExperience(experience) - level > 0) {
-            level++;
-            maxHealth += level % 2 == 0 ? 2 : 3;
-            damage += level == 5 ? 2 : 1;
-            defence += 4;
-        }
     }
 }

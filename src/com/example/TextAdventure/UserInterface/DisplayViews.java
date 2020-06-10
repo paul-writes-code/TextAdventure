@@ -1,6 +1,7 @@
 package com.example.TextAdventure.UserInterface;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
 import com.example.TextAdventure.Item.Inventory;
@@ -37,7 +38,7 @@ public class DisplayViews {
                     lootList.add(enemy);
 
         for (Enemy enemy : attackList)
-            output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + "; " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health");
+            output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + "; level " + enemy.getLevel() + ", " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health");
 
         for (Enemy enemy : lootList)
             output("  " + Input.COMMAND_LOOT + ": " + enemy.getName() + "; " + enemy.getInventory().toString());
@@ -76,7 +77,9 @@ public class DisplayViews {
         output("CHARACTER:");
         output("\tname: " + character.getName());
         output("\thealth: " + character.getCurrentHealth() + "/" + character.getMaxHealth());
+        output("\tlevel: " + character.getLevel());
         output("\tdamage: " + character.getDamage());
         output("\tdefence: " + character.getDefence());
+        output("\texperience: " + character.getExperience() + "/" + (character.getLevel() == 5 ? "-" : Utility.getExperienceForLevel(character.getLevel() + 1)));
     }
 }
