@@ -7,9 +7,9 @@ import com.example.TextAdventure.Item.Inventory;
 
 public abstract class Character {
 
-    private static final int CHARACTER_BASE_HEALTH = 1;
-    private static final int CHARACTER_BASE_DAMAGE = 1;
-    private static final int CHARACTER_BASE_DEFENCE = 1;
+    protected static final int CHARACTER_BASE_HEALTH = 1;
+    protected static final int CHARACTER_BASE_DAMAGE = 1;
+    protected static final int CHARACTER_BASE_DEFENCE = 1;
 
     private String name;
     protected int experience;
@@ -25,6 +25,9 @@ public abstract class Character {
 
     public Character(String name) {
         initCharacter(name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
+    }
+    public Character(String name, Inventory inventory) {
+        initCharacter(name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, inventory, null);
     }
     public Character(String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
         initCharacter(name, experience, level, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
@@ -57,6 +60,7 @@ public abstract class Character {
 
     public abstract boolean canBeAttacked();
     public abstract boolean canBeLooted();
+    public abstract boolean canBeTraded();
 
     // COMBAT MANAGEMENT
     public void refresh() { currentHealth = getMaxHealth(); }

@@ -5,6 +5,7 @@ import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.Map.*;
+import com.example.TextAdventure.Trade.Trade;
 import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.DisplayViews;
 import com.example.TextAdventure.UserInterface.Input;
@@ -32,7 +33,7 @@ public abstract class World {
         initGame();
 
         output("\nWelcome to " + worldName + ".");
-        beginTutorial();
+      //  beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
@@ -240,6 +241,35 @@ public abstract class World {
             output(itemName + " is not equipped.");
     }
 
+    // Trade Functions
+    public static void tradeMerchant(String merchantName) {
+        Merchant merchant = playerLocation.getMerchant(merchantName);
+
+        if (merchant == null) {
+            output("Cannot find " + merchantName + ".");
+            return;
+        }
+
+        player.setTarget(merchant);
+        DisplayViews.viewTrade(player, merchant);
+    }
+    public static void buyFromMerchant(String itemName) {
+        if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
+            output("You must 'trade merchant' first.");
+            return;
+        }
+
+        Trade.buyFromMerchant(player, (Merchant) player.getTarget(), itemName);
+    }
+    public static void sellToMerchant(String itemName) {
+        if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
+            output("You must 'trade merchant' first.");
+            return;
+        }
+
+        Trade.sellToMerchant(player, (Merchant) player.getTarget(), itemName);
+    }
+
     public static boolean executeCommand(Command command) {
         output("");
 
@@ -265,6 +295,12 @@ public abstract class World {
             case UNEQUIP:
                 unequipFromEquipmentSet(command.getArgument());
                 break;
+            case BUY:
+                buyFromMerchant(command.getArgument());
+                break;
+            case SELL:
+                sellToMerchant(command.getArgument());
+                break;
             case INVENTORY:
                 viewInventory();
                 break;
@@ -273,6 +309,9 @@ public abstract class World {
                 break;
             case CHARACTER:
                 viewCharacter();
+                break;
+            case TRADE:
+                tradeMerchant(command.getArgument());
                 break;
             default:
                 return false;

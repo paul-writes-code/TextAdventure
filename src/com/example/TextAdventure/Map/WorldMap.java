@@ -1,6 +1,7 @@
 package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Character.Merchant;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Item.Inventory;
 
@@ -179,6 +180,12 @@ public abstract class WorldMap {
         cave1_2.addEnemy(new Enemy("scorpion1", 100, 3, 12, 12, 6, 4, null));
         cave1_2.addEnemy(new Enemy("scorpion2", 100, 3, 12, 12, 6, 4, null));
 
+        // Add Merchants
+
+        // town1:
+        town1_market.addMerchant(new Merchant("merchy"));
+        town1_market.getMerchants().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield1", 106, 10, 3, 20));
+
         // Create Tutorial Map
         Territory tutorialTerritory = new Territory(TUTORIAL_TERRITORY, 1);
         Region tutorialRegion = new Region(TUTORIAL_REGION, tutorialTerritory, 1);
@@ -202,6 +209,7 @@ public abstract class WorldMap {
         // Set Starting Locations
         startingLocationTutorial = tutorialForest1;
         startingLocation = town1_townCentre;
+        startingLocation = cave1_1;
 
         initialized = true;
     }

@@ -14,9 +14,12 @@ public class Input {
     public static final String COMMAND_LOOT = "loot"; // loot a character
     public static final String COMMAND_EQUIP = "equip"; // equip an item from inventory
     public static final String COMMAND_UNEQUIP = "unequip"; // unequip an item from equipment set
+    public static final String COMMAND_BUY = "buy"; // buy an item from merchant
+    public static final String COMMAND_SELL = "sell"; // sell an item to merchant
     public static final String COMMAND_INVENTORY = "inventory"; // display inventory
     public static final String COMMAND_EQUIPMENT = "equipment"; // display equipment set
     public static final String COMMAND_CHARACTER = "character"; // display character info
+    public static final String COMMAND_TRADE = "trade"; // establish trade with merchant
 
     private static final Scanner scanner = new Scanner(System.in);
     private static Command lastCommand = null;
@@ -53,6 +56,12 @@ public class Input {
             case COMMAND_UNEQUIP:
                 lastCommand = new Command(CommandType.UNEQUIP, input[1]);
                 break;
+            case COMMAND_BUY:
+                lastCommand = new Command(CommandType.BUY, input[1]);
+                break;
+            case COMMAND_SELL:
+                lastCommand = new Command(CommandType.SELL, input[1]);
+                break;
             case COMMAND_INVENTORY:
                 lastCommand = new Command(CommandType.INVENTORY, "");
                 break;
@@ -61,6 +70,9 @@ public class Input {
                 break;
             case COMMAND_CHARACTER:
                 lastCommand = new Command(CommandType.CHARACTER, "");
+                break;
+            case COMMAND_TRADE:
+                lastCommand = new Command(CommandType.TRADE, input[1]);
                 break;
         }
 
@@ -107,6 +119,14 @@ public class Input {
                 commandString = COMMAND_UNEQUIP;
                 actionString = "unequip that item";
                 break;
+            case BUY:
+                commandString = COMMAND_BUY;
+                actionString = "buy item from merchant";
+                break;
+            case SELL:
+                commandString = COMMAND_SELL;
+                actionString = "sell item to merchant";
+                break;
             case INVENTORY:
                 commandString = COMMAND_INVENTORY;
                 actionString = "view your inventory";
@@ -118,6 +138,10 @@ public class Input {
             case CHARACTER:
                 commandString = COMMAND_CHARACTER;
                 actionString = "view your character details";
+                break;
+            case TRADE:
+                commandString = COMMAND_TRADE;
+                actionString = "establish trade with merchant";
                 break;
             default:
                 return null;

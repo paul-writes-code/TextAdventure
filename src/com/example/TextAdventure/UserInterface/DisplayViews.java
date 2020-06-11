@@ -1,6 +1,7 @@
 package com.example.TextAdventure.UserInterface;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Character.Merchant;
 import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
@@ -28,6 +29,10 @@ public class DisplayViews {
         if (location.getNeighbours() != null)
             for (Location.LocationNeighbour neighbour : location.getNeighbours())
                 output("  " + Input.COMMAND_GO + ": " + neighbour.getDisplayName());
+
+        if (location.getMerchants() != null)
+            for (Merchant merchant : location.getMerchants())
+                output("  " + Input.COMMAND_TRADE + ": " + merchant.getName());
 
         // Display local enemies
         if (location.getEnemies() != null)
@@ -81,5 +86,14 @@ public class DisplayViews {
         output("\tdamage: " + character.getDamage());
         output("\tdefence: " + character.getDefence());
         output("\texperience: " + character.getExperience() + "/" + (character.getLevel() == 5 ? "-" : Utility.getExperienceForLevel(character.getLevel() + 1)));
+    }
+    public static void viewTrade(Character character, Merchant merchant) {
+        output("MERCHANT:");
+        for (Item item : merchant.getInventory().getItems())
+            output("\t" + Input.COMMAND_BUY + ": " + item.getItemName() + "; " + item.getSellPrice() + " gold");
+
+        output("INVENTORY:");
+        for (Item item : character.getInventory().getItems())
+            output("\t" + Input.COMMAND_SELL + ": " + item.getItemName() + "; " + item.getBuyPrice() + " gold");
     }
 }

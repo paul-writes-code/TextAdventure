@@ -10,9 +10,12 @@ public class Command {
         LOOT,
         EQUIP,
         UNEQUIP,
+        BUY,
+        SELL,
         INVENTORY,
         EQUIPMENT,
-        CHARACTER
+        CHARACTER,
+        TRADE
     }
 
     private CommandType commandType;

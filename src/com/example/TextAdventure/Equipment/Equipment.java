@@ -19,7 +19,7 @@ public class Equipment extends Item {
 
     // Initialization
     public Equipment(EquipmentType equipmentType, String itemName, int itemId, int maxHealthBonus, int damageBonus, int defenceBonus) {
-        super(itemName, itemId);
+        super(itemName, itemId, 25, 25);
         this.maxHealthBonus = maxHealthBonus;
         this.damageBonus = damageBonus;
         this.defenceBonus = defenceBonus;

@@ -1,6 +1,7 @@
 package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Character.Merchant;
 import com.example.TextAdventure.World;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class Location {
     private LocationNeighbour[] neighbours;
 
     private ArrayList<Enemy> enemies;
+    private ArrayList<Merchant> merchants;
 
     public Location(String locationName, Area area) {
         this.locationName = locationName;
@@ -53,6 +55,14 @@ public class Location {
         for (Enemy enemy : enemies)
             if (enemy.getName().equals(enemyName))
                 return enemy;
+
+        return null;
+    }
+    public ArrayList<Merchant> getMerchants() { return merchants; }
+    public Merchant getMerchant(String merchantName) {
+        for (Merchant merchant : merchants)
+            if (merchant.getName().equals(merchantName))
+                return merchant;
 
         return null;
     }
@@ -108,6 +118,7 @@ public class Location {
             this.neighbours[i] = new LocationNeighbour(neighbour, neighbourDisplayName, movementType);
         }
     }
+
     public void addEnemy(Enemy enemy) {
         if (enemy == null)
             return;
@@ -124,6 +135,24 @@ public class Location {
                 return;
             }
     }
+
+    public void addMerchant(Merchant merchant) {
+        if (merchant == null)
+            return;
+
+        if (merchants == null)
+            merchants = new ArrayList<>();
+
+        merchants.add(merchant);
+    }
+    public void removeMerchant(String merchantName) {
+        for (Merchant merchant : merchants)
+            if (merchant.getName().equals(merchantName)) {
+                merchants.remove(merchant);
+                return;
+            }
+    }
+
 
     public void enter(LocationNeighbour.MovementType movementType) {
         String printName = "";

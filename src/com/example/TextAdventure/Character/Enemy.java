@@ -12,13 +12,14 @@ public class Enemy extends Character {
 
         // Randomly generate some test items
         if ((Math.random() * 2) < 1.2)
-            getInventory().addItem(new Item("Apple", 1));
+            getInventory().addItem(new Item("Apple", 1, 3, 3));
         else
-            getInventory().addItem(new Item("Teapot", 2, true, 3));
+            getInventory().addItem(new Item("Teapot", 2, true, 3, 1, 1));
     }
 
     public boolean canBeAttacked() { return isAlive(); }
     public boolean canBeLooted() { return !isAlive(); }
+    public boolean canBeTraded() { return false; }
 
     public Inventory beLooted() { return emptyInventory(); }
 }

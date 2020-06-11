@@ -23,10 +23,12 @@ public class Player extends Character {
         gainXp(experience);
         getInventory().addHealthPotions(3);
         getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "swordX", -9, 16,24,16));
+        getInventory().addGold(500);
     }
 
     public boolean canBeAttacked() { return isAlive(); }
     public boolean canBeLooted() { return false; }
+    public boolean canBeTraded() { return true; }
 
     public Inventory beLooted() { return null; }
 
