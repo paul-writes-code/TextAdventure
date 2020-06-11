@@ -201,6 +201,9 @@ public abstract class WorldMap {
         tutorialForest2.addEnemy(new Enemy("bandit2", 25, 1,  6, 6, 1, 1, null));
         tutorialForest2.getEnemies().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword1", 103, 0, 5, 2));
 
+        tutorialForest2.addMerchant(new Merchant("merchant2"));
+        tutorialForest2.getMerchants().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield3", 107, 10, 5, 20));
+
         // Add Territories to World Map
         territories = new ArrayList<>();
         territories.add(territory1);
@@ -209,7 +212,6 @@ public abstract class WorldMap {
         // Set Starting Locations
         startingLocationTutorial = tutorialForest1;
         startingLocation = town1_townCentre;
-        startingLocation = cave1_1;
 
         initialized = true;
     }

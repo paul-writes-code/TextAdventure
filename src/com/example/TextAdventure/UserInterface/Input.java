@@ -25,58 +25,89 @@ public class Input {
     private static Command lastCommand = null;
 
     public static Command nextCommand(String prompt) {
-        if (prompt != null)
+        if (prompt != null && !prompt.equals(""))
             Output.output(prompt);
 
         String[] input = scanner.nextLine().split(" ");
+        String command = input[0];
 
-        switch (input[0]) {
+        // Zero-argument commands
+        switch (command) {
             case COMMAND_BLANK:
                 return lastCommand;
-            case COMMAND_GO:
-                if (input.length < 2)
-                    return null;
-                lastCommand = new Command(CommandType.GO, input[1]);
-                break;
             case COMMAND_EXAMINE:
-                lastCommand = new Command(CommandType.EXAMINE, "");
-                break;
-            case COMMAND_ATTACK:
-                lastCommand = new Command(CommandType.ATTACK, input.length > 1 ? input[1] : "");
-                break;
+                lastCommand = new Command(CommandType.EXAMINE);
+                return lastCommand;
             case COMMAND_HEAL:
-                lastCommand = new Command(CommandType.HEAL, "");
-                break;
-            case COMMAND_LOOT:
-                lastCommand = new Command(CommandType.LOOT, input.length > 1 ? input[1] : "");
-                break;
-            case COMMAND_EQUIP:
-                lastCommand = new Command(CommandType.EQUIP, input[1]);
-                break;
-            case COMMAND_UNEQUIP:
-                lastCommand = new Command(CommandType.UNEQUIP, input[1]);
-                break;
-            case COMMAND_BUY:
-                lastCommand = new Command(CommandType.BUY, input[1]);
-                break;
-            case COMMAND_SELL:
-                lastCommand = new Command(CommandType.SELL, input[1]);
-                break;
+                lastCommand = new Command(CommandType.HEAL);
+                return lastCommand;
             case COMMAND_INVENTORY:
-                lastCommand = new Command(CommandType.INVENTORY, "");
-                break;
+                lastCommand = new Command(CommandType.INVENTORY);
+                return lastCommand;
             case COMMAND_EQUIPMENT:
-                lastCommand = new Command(CommandType.EQUIPMENT, "");
-                break;
+                lastCommand = new Command(CommandType.EQUIPMENT);
+                return lastCommand;
             case COMMAND_CHARACTER:
-                lastCommand = new Command(CommandType.CHARACTER, "");
-                break;
-            case COMMAND_TRADE:
-                lastCommand = new Command(CommandType.TRADE, input[1]);
-                break;
+                lastCommand = new Command(CommandType.CHARACTER);
+                return lastCommand;
         }
 
-        return lastCommand;
+        // One-argument commands
+        if (input.length > 1) {
+            String argument = input[1];
+
+            switch (command) {
+                case COMMAND_GO:
+                    lastCommand = new Command(CommandType.GO, argument);
+                    return lastCommand;
+                case COMMAND_ATTACK:
+                    lastCommand = new Command(CommandType.ATTACK, argument);
+                    return lastCommand;
+                case COMMAND_LOOT:
+                    lastCommand = new Command(CommandType.LOOT, argument);
+                    return lastCommand;
+                case COMMAND_EQUIP:
+                    lastCommand = new Command(CommandType.EQUIP, argument);
+                    return lastCommand;
+                case COMMAND_UNEQUIP:
+                    lastCommand = new Command(CommandType.UNEQUIP, argument);
+                    return lastCommand;
+                case COMMAND_BUY:
+                    lastCommand = new Command(CommandType.BUY, argument);
+                    return lastCommand;
+                case COMMAND_SELL:
+                    lastCommand = new Command(CommandType.SELL, argument);
+                    return lastCommand;
+                case COMMAND_TRADE:
+                    lastCommand = new Command(CommandType.TRADE, argument);
+                    return lastCommand;
+                default:
+                    return null;
+            }
+        }
+        else {
+            switch (command) {
+                case COMMAND_ATTACK:
+                    lastCommand = new Command(CommandType.ATTACK);
+                    return lastCommand;
+                case COMMAND_LOOT:
+                    lastCommand = new Command(CommandType.LOOT);
+                    return lastCommand;
+                case COMMAND_TRADE:
+                    lastCommand = new Command(CommandType.TRADE);
+                    return lastCommand;
+                case COMMAND_GO:
+                case COMMAND_EQUIP:
+                case COMMAND_UNEQUIP:
+                case COMMAND_BUY:
+                case COMMAND_SELL:
+                    Output.output("Enter '" + command + " object' to perform that action.");
+                    return null;
+                default:
+                    Output.output("Unknown command: " + command + ".");
+                    return null;
+            }
+        }
     }
     public static Command nextCommand() {
         return nextCommand(null);

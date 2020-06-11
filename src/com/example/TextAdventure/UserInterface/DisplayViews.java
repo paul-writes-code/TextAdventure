@@ -88,12 +88,18 @@ public class DisplayViews {
         output("\texperience: " + character.getExperience() + "/" + (character.getLevel() == 5 ? "-" : Utility.getExperienceForLevel(character.getLevel() + 1)));
     }
     public static void viewTrade(Character character, Merchant merchant) {
-        output("MERCHANT:");
-        for (Item item : merchant.getInventory().getItems())
-            output("\t" + Input.COMMAND_BUY + ": " + item.getItemName() + "; " + item.getSellPrice() + " gold");
 
         output("INVENTORY:");
+        output("\t" + character.getInventory().getGold() + " gold");
+        if (character.getInventory().getItems().size() == 0)
+            output("\t<empty>");
         for (Item item : character.getInventory().getItems())
             output("\t" + Input.COMMAND_SELL + ": " + item.getItemName() + "; " + item.getBuyPrice() + " gold");
+
+        output("MERCHANT:");
+        if (merchant.getInventory().getItems().size() == 0)
+            output("\t<empty>");
+        for (Item item : merchant.getInventory().getItems())
+            output("\t" + Input.COMMAND_BUY + ": " + item.getItemName() + "; " + item.getSellPrice() + " gold");
     }
 }

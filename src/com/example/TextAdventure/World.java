@@ -33,7 +33,7 @@ public abstract class World {
         initGame();
 
         output("\nWelcome to " + worldName + ".");
-      //  beginTutorial();
+        beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
@@ -62,7 +62,7 @@ public abstract class World {
     }
 
     private static void beginTutorial() {
-        output("We will review some basic commands to interact with " + worldName + ".");
+        output("We will go over some basic commands to interact with " + worldName + ".");
 
         // VIEW MAP AND MOVE LOCATIONS
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
@@ -70,13 +70,12 @@ public abstract class World {
 
         // COMBAT, ATTACK, HEAL
         executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
-        output("You can attack your target with 'attack'.");
+        output("Now you can attack your target with 'attack'.");
 
         while (playerLocation.getEnemies().get(0).isAlive())
             executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
 
         executeCommand(Input.forceCommand(Command.CommandType.HEAL));
-        output("You can enter any command during combat; try drinking health potions or running away when necessary.");
 
         // LOOT ENEMY AND VIEW INVENTORY
         output("Defeating enemies gives experience and sometimes loot.");
@@ -95,8 +94,12 @@ public abstract class World {
             executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
 
         executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
-
         executeCommand(Input.forceCommand(Command.CommandType.UNEQUIP, "sword1", true));
+
+        output("\nItems in your inventory can be sold to merchants; first, a merchant must be targeted.");
+        executeCommand(Input.forceCommand(Command.CommandType.TRADE, "merchant2", true));
+        executeCommand(Input.forceCommand(Command.CommandType.BUY, "shield3", true));
+        executeCommand(Input.forceCommand(Command.CommandType.SELL, "sword1", true));
 
         output("This concludes the tutorial.\n");
 
@@ -127,7 +130,7 @@ public abstract class World {
             target = playerLocation.getEnemy(enemyName);
 
         if (target == null) {
-            output(enemyName.equals("") ? "You have no target." : "Unknown entity: " + enemyName + ".");
+            output(enemyName.equals("") ? "Enter 'attack enemy' to perform that action." : "Unknown entity: " + enemyName + ".");
             return;
         }
 
@@ -243,14 +246,29 @@ public abstract class World {
 
     // Trade Functions
     public static void tradeMerchant(String merchantName) {
-        Merchant merchant = playerLocation.getMerchant(merchantName);
+        Merchant merchant;
+
+        if (merchantName.equals(""))
+            if (player.getTarget() == null || player.getTarget() instanceof Merchant)
+                merchant = (Merchant) player.getTarget();
+            else {
+                output("You cannot trade with " + merchantName + ".");
+                return;
+            }
+        else {
+            merchant = playerLocation.getMerchant(merchantName);
+
+            if (merchant != null) {
+                output("Setting target: " + merchantName + ".");
+                player.setTarget(merchant);
+            }
+        }
 
         if (merchant == null) {
-            output("Cannot find " + merchantName + ".");
+            output(merchantName.equals("") ? "Enter 'trade merchant' to perform that action." : "Unknown entity: " + merchantName + ".");
             return;
         }
 
-        player.setTarget(merchant);
         DisplayViews.viewTrade(player, merchant);
     }
     public static void buyFromMerchant(String itemName) {
@@ -260,6 +278,7 @@ public abstract class World {
         }
 
         Trade.buyFromMerchant(player, (Merchant) player.getTarget(), itemName);
+        tradeMerchant("");
     }
     public static void sellToMerchant(String itemName) {
         if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
@@ -268,9 +287,13 @@ public abstract class World {
         }
 
         Trade.sellToMerchant(player, (Merchant) player.getTarget(), itemName);
+        tradeMerchant("");
     }
 
     public static boolean executeCommand(Command command) {
+        if (command == null)
+            return false;
+
         output("");
 
         switch (command.getCommandType()) {

@@ -21,7 +21,13 @@ public class Command {
     private CommandType commandType;
     private String argument;
 
+    public Command(CommandType commandType) {
+        initCommand(commandType, "");
+    }
     public Command(CommandType commandType, String argument) {
+        initCommand(commandType, argument);
+    }
+    private void initCommand(CommandType commandType, String argument) {
         this.commandType = commandType;
         this.argument = argument;
     }
