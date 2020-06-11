@@ -7,6 +7,8 @@ Features Implemented:
 -Enemies to fight and loot
 -Items and Inventory
 -Equipment
+-Experience and leveling up
+-Merchants, trading and currency
 
 Commands Implemented:
 -go: move to a new location
@@ -16,6 +18,9 @@ Commands Implemented:
 -loot: loot an enemy after defeating it in combat
 -equip: equip an item from your inventory
 -unequip: unequip a currently equipped item
+-buy: buy an item from a merchant
+-sell: sell an item to a merchant
 -inventory: display your inventory
 -equipment: display your equipment set
 -character: display your character info
+-trade: establish trade with merchant
