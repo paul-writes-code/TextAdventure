@@ -4,8 +4,8 @@ public class Output {
 
     private static final int PAUSE_TIMER = 1000;
 
-    public static void output(String output) {
-        System.out.println(output);
+    public static void output(String output, Object... args) {
+        System.out.println(String.format(output, args));
     }
 
     // Pause program execution for a given amount of time

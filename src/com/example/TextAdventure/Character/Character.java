@@ -67,12 +67,7 @@ public abstract class Character {
     public boolean isAlive() { return currentHealth > 0; }
     public void setTarget(Character target) { this.target = target; }
     public void clearTarget() { this.target = null; }
-    public int attackTarget() {
-        if (target == null)
-            return -1;
-
-        return Combat.attack(this, target);
-    }
+    public abstract int attackTarget();
     public int takeDamage(int damage) {
         int actualDamage = Math.min(damage, currentHealth);
 

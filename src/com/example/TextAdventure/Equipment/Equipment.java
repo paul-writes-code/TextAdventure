@@ -34,19 +34,6 @@ public class Equipment extends Item {
     public EquipmentType getEquipmentType() { return equipmentType; }
     public boolean isEquipped(){ return isEquipped; }
 
-    // These act as locks to prevent Equipment from being equipped in multiple EquipmentSets simultaneously
-    public boolean equip() {
-        if (isEquipped)
-            return false;
-
-        isEquipped = true;
-        return true;
-    }
-    public boolean unequip() {
-        if (!isEquipped)
-            return false;
-
-        isEquipped = false;
-        return true;
-    }
+    public void equip() { isEquipped = true; }
+    public void unequip() { isEquipped = false; }
 }

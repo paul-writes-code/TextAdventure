@@ -3,7 +3,6 @@ package com.example.TextAdventure.Map;
 import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Character.Merchant;
 import com.example.TextAdventure.Equipment.Equipment;
-import com.example.TextAdventure.Item.Inventory;
 
 import java.util.ArrayList;
 

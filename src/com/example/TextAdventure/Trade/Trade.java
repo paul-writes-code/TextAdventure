@@ -2,6 +2,7 @@ package com.example.TextAdventure.Trade;
 
 import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Character.Merchant;
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.UserInterface.Output;
 
@@ -15,19 +16,19 @@ public class Trade {
                 itemBuying = item;
 
         if (itemBuying == null) {
-            Output.output(merchant.getName() + " does not have " + itemName + ".");
+            Output.output(Strings.MERCHANT_NO_ITEM, merchant.getName(), itemName);
             return false;
         }
 
         if (buyer.getInventory().getGold() < itemBuying.getSellPrice()) {
-            Output.output("You do not have enough gold to purchase " + itemName + ".");
+            Output.output(Strings.INSUFFICIENT_GOLD, itemName);
             return false;
         }
 
         buyer.getInventory().removeGold(itemBuying.getSellPrice());
         buyer.getInventory().addItem(merchant.getInventory().removeItem(itemBuying));
 
-        Output.output("Bought " + itemName + " for " + itemBuying.getSellPrice() + " gold.");
+        Output.output(Strings.BOUGHT_FOR_GOLD, itemName, itemBuying.getSellPrice());
         return true;
     }
     public static boolean sellToMerchant(Character seller, Merchant merchant, String itemName) {
@@ -38,14 +39,14 @@ public class Trade {
                 itemSelling = item;
 
         if (itemSelling == null) {
-            Output.output("You do not have " + itemName + " in your inventory.");
+            Output.output(Strings.PLAYER_NO_ITEM, itemName);
             return false;
         }
 
         seller.getInventory().addGold(itemSelling.getBuyPrice());
         merchant.getInventory().addItem(seller.getInventory().removeItem(itemSelling));
 
-        Output.output("Sold " + itemName + " for " + itemSelling.getBuyPrice() + " gold.");
+        Output.output(Strings.SOLD_FOR_GOLD, itemName, itemSelling.getBuyPrice());
         return true;
     }
 }

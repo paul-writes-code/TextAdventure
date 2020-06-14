@@ -1,5 +1,6 @@
 package com.example.TextAdventure.Character;
 
+import com.example.TextAdventure.Combat.Combat;
 import com.example.TextAdventure.Item.Inventory;
 import com.example.TextAdventure.Item.Item;
 
@@ -22,4 +23,11 @@ public class Enemy extends Character {
     public boolean canBeTraded() { return false; }
 
     public Inventory beLooted() { return emptyInventory(); }
+
+    public int attackTarget() {
+        if (getTarget() == null)
+            return -1;
+
+        return Combat.attack(this, getTarget(), false, getTarget() instanceof Player);
+    }
 }

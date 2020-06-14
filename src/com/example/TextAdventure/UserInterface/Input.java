@@ -1,12 +1,15 @@
 package com.example.TextAdventure.UserInterface;
 
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.UserInterface.Command.CommandType;
 
 import java.util.Scanner;
 
 public class Input {
 
+    private static final String TOKEN_SPLIT = " ";
     private static final String COMMAND_BLANK = "";
+
     public static final String COMMAND_GO = "go"; // move to an adjacent location
     public static final String COMMAND_EXAMINE = "examine"; // examine the current location
     public static final String COMMAND_ATTACK = "attack"; // attack a character
@@ -28,7 +31,7 @@ public class Input {
         if (prompt != null && !prompt.equals(""))
             Output.output(prompt);
 
-        String[] input = scanner.nextLine().split(" ");
+        String[] input = scanner.nextLine().split(TOKEN_SPLIT);
         String command = input[0];
 
         // Zero-argument commands
@@ -97,14 +100,16 @@ public class Input {
                     lastCommand = new Command(CommandType.TRADE);
                     return lastCommand;
                 case COMMAND_GO:
+                    Output.output(Strings.INPUT_COMMAND_ARGUMENT_LOCATION);
+                    return null;
                 case COMMAND_EQUIP:
                 case COMMAND_UNEQUIP:
                 case COMMAND_BUY:
                 case COMMAND_SELL:
-                    Output.output("Enter '" + command + " object' to perform that action.");
+                    Output.output(Strings.INPUT_COMMAND_ARGUMENT_ITEM, command);
                     return null;
                 default:
-                    Output.output("Unknown command: " + command + ".");
+                    Output.output(Strings.INPUT_COMMAND_UNKNOWN, command);
                     return null;
             }
         }
@@ -124,67 +129,65 @@ public class Input {
         switch (requiredCommandType) {
             case GO:
                 commandString = COMMAND_GO;
-                actionString = "move there";
+                actionString = String.format(Strings.INPUT_ACTION_GO, requiredCommandArgument);
                 break;
             case EXAMINE:
                 commandString = COMMAND_EXAMINE;
-                actionString = "view your current location";
+                actionString = Strings.INPUT_ACTION_EXAMINE;
                 break;
             case ATTACK:
                 commandString = COMMAND_ATTACK;
-                actionString = "attack " + requiredCommandArgument;
+                actionString = String.format(Strings.INPUT_ACTION_ATTACK, requiredCommandArgument);
                 break;
             case HEAL:
                 commandString = COMMAND_HEAL;
-                actionString =  "drink a health potion";
+                actionString = Strings.INPUT_ACTION_HEAL;
                 break;
             case LOOT:
                 commandString = COMMAND_LOOT;
-                actionString = "loot " + requiredCommandArgument;
+                actionString = String.format(Strings.INPUT_ACTION_LOOT, requiredCommandArgument);
                 break;
             case EQUIP:
                 commandString = COMMAND_EQUIP;
-                actionString = "equip that item";
+                actionString = String.format(Strings.INPUT_ACTION_EQUIP, requiredCommandArgument);
                 break;
             case UNEQUIP:
                 commandString = COMMAND_UNEQUIP;
-                actionString = "unequip that item";
+                actionString = String.format(Strings.INPUT_ACTION_UNEQUIP, requiredCommandArgument);
                 break;
             case BUY:
                 commandString = COMMAND_BUY;
-                actionString = "buy item from merchant";
+                actionString = String.format(Strings.INPUT_ACTION_BUY, requiredCommandArgument);
                 break;
             case SELL:
                 commandString = COMMAND_SELL;
-                actionString = "sell item to merchant";
+                actionString = String.format(Strings.INPUT_ACTION_SELL, requiredCommandArgument);
                 break;
             case INVENTORY:
                 commandString = COMMAND_INVENTORY;
-                actionString = "view your inventory";
+                actionString = Strings.INPUT_ACTION_INVENTORY;
                 break;
             case EQUIPMENT:
                 commandString = COMMAND_EQUIPMENT;
-                actionString = "view your equipment set";
+                actionString = Strings.INPUT_ACTION_EQUIPMENT;
                 break;
             case CHARACTER:
                 commandString = COMMAND_CHARACTER;
-                actionString = "view your character details";
+                actionString = Strings.INPUT_ACTION_CHARACTER;
                 break;
             case TRADE:
                 commandString = COMMAND_TRADE;
-                actionString = "establish trade with merchant";
+                actionString = String.format(Strings.INPUT_ACTION_TRADE, requiredCommandArgument);
                 break;
             default:
                 return null;
         }
 
         if (argumentRequired)
-            commandString += " " + requiredCommandArgument;
-
-        String prompt = "Enter '" + commandString +"' to " + actionString + ": ";
+            commandString += TOKEN_SPLIT + requiredCommandArgument;
 
         while (ret == null || !ret.getCommandType().equals(requiredCommandType) || (!ret.getArgument().equals(requiredCommandArgument) && argumentRequired))
-            ret = Input.nextCommand(prompt);
+            ret = Input.nextCommand(String.format(Strings.INPUT_ACTION_PROMPT, commandString, actionString));
 
         return ret;
     }

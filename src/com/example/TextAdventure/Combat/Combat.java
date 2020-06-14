@@ -1,6 +1,7 @@
 package com.example.TextAdventure.Combat;
 
 import com.example.TextAdventure.Character.Character;
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Item.Inventory;
 import com.example.TextAdventure.UserInterface.Output;
 
@@ -33,7 +34,7 @@ public class Combat {
         return (int)(damage * randFactor * damageReductionFactor);
     }
 
-    public static int attack(Character attacker, Character opponent) {
+    public static int attack(Character attacker, Character opponent, boolean attackerIsPlayer, boolean opponentIsPlayer) {
         if (attacker == null || opponent == null)
             return -1;
 
@@ -42,7 +43,10 @@ public class Combat {
 
         int damage = opponent.takeDamage(generateDamageRoll(attacker, opponent));
 
-        Output.output(attacker.getName() + " attacks " + opponent.getName() + " and deals " + damage + " damage; " + opponent.getName() + " has " + opponent.getCurrentHealth() + "/" + opponent.getMaxHealth() + " health.");
+        if (attackerIsPlayer && !opponentIsPlayer)
+            Output.output(Strings.COMBAT_PLAYER_ATTACK_ENEMY, opponent.getName(), damage, opponent.getName(), opponent.getCurrentHealth(), opponent.getMaxHealth());
+        else if (!attackerIsPlayer && opponentIsPlayer)
+            Output.output(Strings.COMBAT_ENEMY_ATTACK_PLAYER, attacker.getName(), damage, opponent.getCurrentHealth(), opponent.getMaxHealth());
 
         return damage;
     }
@@ -55,6 +59,6 @@ public class Combat {
         looter.addInventory(loot);
 
         if (loot != null)
-            Output.output("You loot " + lootee.getName() + " and receive " + loot.toString() + ".");
+            Output.output(Strings.COMBAT_PLAYER_LOOT_ENEMY, lootee.getName(), loot.toString());
     }
 }

@@ -2,6 +2,7 @@ package com.example.TextAdventure.UserInterface;
 
 import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Character.Merchant;
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
@@ -16,23 +17,23 @@ import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class DisplayViews {
     public static void viewLocation(Location location, boolean entering) {
-        String displayName = location.getLocationName() + " of " + location.getArea().getAreaName();
         ArrayList<Enemy> attackList = new ArrayList<>();
         ArrayList<Enemy> lootList = new ArrayList<>();
 
         if (entering)
-            Output.output("Entering " + displayName + ".");
+            output(Strings.LOCATION_DISPLAY_TITLE_ENTER, location.getLocationName(), location.getArea().getAreaName());
         else
-            Output.output("Your current location is " + displayName + ".");
+            output(Strings.LOCATION_DISPLAY_TITLE_EXAMINE, location.getLocationName(), location.getArea().getAreaName());
 
         // Display local map
         if (location.getNeighbours() != null)
             for (Location.LocationNeighbour neighbour : location.getNeighbours())
-                output("  " + Input.COMMAND_GO + ": " + neighbour.getDisplayName());
+                output(Strings.LOCATION_DISPLAY_OBJECT_GO, neighbour.getDisplayName());
 
+        // Display local merchants
         if (location.getMerchants() != null)
             for (Merchant merchant : location.getMerchants())
-                output("  " + Input.COMMAND_TRADE + ": " + merchant.getName());
+                output(Strings.LOCATION_DISPLAY_OBJECT_TRADE, merchant.getName());
 
         // Display local enemies
         if (location.getEnemies() != null)
@@ -43,28 +44,29 @@ public class DisplayViews {
                     lootList.add(enemy);
 
         for (Enemy enemy : attackList)
-            output("  " + Input.COMMAND_ATTACK + ": " + enemy.getName() + "; level " + enemy.getLevel() + ", " + enemy.getCurrentHealth() + "/" + enemy.getMaxHealth() + " health");
+            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getName(), enemy.getLevel(), enemy.getCurrentHealth(), enemy.getMaxHealth());
 
         for (Enemy enemy : lootList)
-            output("  " + Input.COMMAND_LOOT + ": " + enemy.getName() + "; " + enemy.getInventory().toString());
+            output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.getInventory().toString());
     }
     public static void viewEquipmentSet(EquipmentSet equipmentSet) {
-        output("EQUIPMENT:");
-        output("\thealth bonus: " + equipmentSet.getMaxHealthBonus());
-        output("\tdamage bonus: " + equipmentSet.getDamageBonus());
-        output("\tdefence bonus: " + equipmentSet.getDefenceBonus());
+        output(Strings.EQUIPMENT_DISPLAY_TITLE);
 
-        output("\n\tarmour: " + (equipmentSet.getArmour() == null ? "empty" : equipmentSet.getArmour().getItemName()));
-        output("\tsword: " + (equipmentSet.getSword() == null ? "empty" : equipmentSet.getSword().getItemName()));
-        output("\tshield: " + (equipmentSet.getShield() == null ? "empty" : equipmentSet.getShield().getItemName()));
+        output(Strings.EQUIPMENT_DISPLAY_ARMOUR, equipmentSet.getArmour() == null ? Strings.EQUIPMENT_DISPLAY_EMPTY : equipmentSet.getArmour().getItemName());
+        output(Strings.EQUIPMENT_DISPLAY_SWORD, equipmentSet.getSword() == null ? Strings.EQUIPMENT_DISPLAY_EMPTY : equipmentSet.getSword().getItemName());
+        output(Strings.EQUIPMENT_DISPLAY_SHIELD + "\n", equipmentSet.getShield() == null ? Strings.EQUIPMENT_DISPLAY_EMPTY : equipmentSet.getShield().getItemName());
+
+        output(Strings.EQUIPMENT_DISPLAY_HEALTH_BONUS, equipmentSet.getMaxHealthBonus());
+        output(Strings.EQUIPMENT_DISPLAY_DAMAGE_BONUS, equipmentSet.getDamageBonus());
+        output(Strings.EQUIPMENT_DISPLAY_DEFENCE_BONUS, equipmentSet.getDefenceBonus());
     }
     public static void viewInventory(Inventory inventory) {
         ArrayList<Item> equipList = new ArrayList<>();
         ArrayList<Item> otherList = new ArrayList<>();
 
-        output("INVENTORY:");
-        output("\t" + inventory.getGold() + " gold");
-        output("\t" + inventory.getNumHealthPotions() + " health potions");
+        output(Strings.INVENTORY_DISPLAY_TITLE);
+        output(Strings.INVENTORY_DISPLAY_GOLD, inventory.getGold());
+        output(Strings.INVENTORY_DISPLAY_HEALTH_POTIONS, inventory.getNumHealthPotions());
 
         for (Item item : inventory.getItems())
             if (item instanceof Equipment)
@@ -73,33 +75,35 @@ public class DisplayViews {
                 otherList.add(item);
 
         for (Item item : equipList)
-            output("\t" + Input.COMMAND_EQUIP + ": " + item.getItemName());
+            output(Strings.INVENTORY_DISPLAY_ITEM_EQUIP, item.getItemName());
 
         for (Item item : otherList)
-            output("\t" + item.getItemName());
+            output(Strings.INVENTORY_DISPLAY_ITEM, item.getItemName());
     }
     public static void viewCharacter(Character character) {
-        output("CHARACTER:");
-        output("\tname: " + character.getName());
-        output("\thealth: " + character.getCurrentHealth() + "/" + character.getMaxHealth());
-        output("\tlevel: " + character.getLevel());
-        output("\tdamage: " + character.getDamage());
-        output("\tdefence: " + character.getDefence());
-        output("\texperience: " + character.getExperience() + "/" + (character.getLevel() == 5 ? "-" : Utility.getExperienceForLevel(character.getLevel() + 1)));
+        output(Strings.CHARACTER_DISPLAY_TITLE);
+        output(Strings.CHARACTER_DISPLAY_NAME, character.getName());
+        output(Strings.CHARACTER_DISPLAY_HEALTH, character.getCurrentHealth(), character.getMaxHealth());
+        output(Strings.CHARACTER_DISPLAY_LEVEL, character.getLevel());
+        output(Strings.CHARACTER_DISPLAY_DAMAGE, character.getDamage());
+        output(Strings.CHARACTER_DISPLAY_DEFENCE, character.getDefence());
+
+        if (character.getLevel() == 5)
+            output(Strings.CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL, character.getExperience());
+        else
+            output(Strings.CHARACTER_DISPLAY_EXPERIENCE, character.getExperience(), Utility.getExperienceForLevel(character.getLevel() + 1));
     }
     public static void viewTrade(Character character, Merchant merchant) {
+        output(Strings.TRADE_DISPLAY_TITLE, merchant.getName());
+        output(Strings.TRADE_DISPLAY_GOLD, character.getInventory().getGold());
 
-        output("INVENTORY:");
-        output("\t" + character.getInventory().getGold() + " gold");
-        if (character.getInventory().getItems().size() == 0)
-            output("\t<empty>");
-        for (Item item : character.getInventory().getItems())
-            output("\t" + Input.COMMAND_SELL + ": " + item.getItemName() + "; " + item.getBuyPrice() + " gold");
-
-        output("MERCHANT:");
-        if (merchant.getInventory().getItems().size() == 0)
-            output("\t<empty>");
         for (Item item : merchant.getInventory().getItems())
-            output("\t" + Input.COMMAND_BUY + ": " + item.getItemName() + "; " + item.getSellPrice() + " gold");
+            output(Strings.TRADE_DISPLAY_OBJECT_BUY, item.getItemName(), item.getSellPrice());
+
+        for (Item item : character.getInventory().getItems())
+            output(Strings.TRADE_DISPLAY_OBJECT_SELL, item.getItemName(), item.getBuyPrice());
+
+        if (merchant.getInventory().getItems().size() == 0 && character.getInventory().getItems().size() == 0)
+            output(Strings.TRADE_DISPLAY_EMPTY);
     }
 }

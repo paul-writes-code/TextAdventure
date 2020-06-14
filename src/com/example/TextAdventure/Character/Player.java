@@ -1,5 +1,6 @@
 package com.example.TextAdventure.Character;
 
+import com.example.TextAdventure.Combat.Combat;
 import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
@@ -31,6 +32,13 @@ public class Player extends Character {
     public boolean canBeTraded() { return true; }
 
     public Inventory beLooted() { return null; }
+
+    public int attackTarget() {
+        if (getTarget() == null)
+            return -1;
+
+        return Combat.attack(this, getTarget(), true, getTarget() instanceof Player);
+    }
 
     // EXPERIENCE MANAGEMENT
     public void gainXp(int xp) {

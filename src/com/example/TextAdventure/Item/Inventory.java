@@ -1,8 +1,8 @@
 package com.example.TextAdventure.Item;
 
-import java.util.ArrayList;
+import com.example.TextAdventure.Common.Strings;
 
-import static com.example.TextAdventure.UserInterface.Output.output;
+import java.util.ArrayList;
 
 public class Inventory {
     private ItemManager itemManager;
@@ -88,14 +88,14 @@ public class Inventory {
             if (!ret.equals(""))
                 ret += ", ";
 
-            ret += gold + " Gold";
+            ret += String.format(Strings.X_GOLD, gold);
         }
 
         if (numHealthPotions > 0) {
             if (!ret.equals(""))
                 ret += ", ";
 
-            ret += numHealthPotions + " Health Potions";
+            ret += String.format(Strings.X_HEALTH_POTIONS, numHealthPotions);
         }
 
         if (itemManager != null && itemManager.getNumItems() > 0) {

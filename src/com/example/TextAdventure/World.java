@@ -2,6 +2,7 @@ package com.example.TextAdventure;
 
 import com.example.TextAdventure.Character.*;
 import com.example.TextAdventure.Character.Character;
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.Map.*;
@@ -9,7 +10,6 @@ import com.example.TextAdventure.Trade.Trade;
 import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.DisplayViews;
 import com.example.TextAdventure.UserInterface.Input;
-import com.example.TextAdventure.UserInterface.Output;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
 import static com.example.TextAdventure.UserInterface.Output.pause;
@@ -32,14 +32,14 @@ public abstract class World {
         WorldMap.initWorldMap();
         initGame();
 
-        output("\nWelcome to " + worldName + ".");
+        output("\n" + Strings.WORLD_WELCOME, worldName);
         beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
 
         while (playerAlive) {
-            output("Enter command: ");
+            output(Strings.INPUT_COMMAND);
             executeCommand(Input.nextCommand());
         }
     }
@@ -62,46 +62,47 @@ public abstract class World {
     }
 
     private static void beginTutorial() {
-        output("We will go over some basic commands to interact with " + worldName + ".");
+        output(Strings.TUTORIAL_BEGIN, worldName);
 
-        // VIEW MAP AND MOVE LOCATIONS
+        // VIEW MAP, MOVE LOCATIONS
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
         executeCommand(Input.forceCommand(Command.CommandType.GO, WorldMap.TUTORIAL_LOCATION_2, true));
 
         // COMBAT, ATTACK, HEAL
         executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
-        output("Now you can attack your target with 'attack'.");
+        output(Strings.TUTORIAL_ATTACK_TARGET);
 
         while (playerLocation.getEnemies().get(0).isAlive())
             executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
 
         executeCommand(Input.forceCommand(Command.CommandType.HEAL));
 
-        // LOOT ENEMY AND VIEW INVENTORY
-        output("Defeating enemies gives experience and sometimes loot.");
-        output("You can enter 'loot' or 'loot bandit1' to loot bandit1.");
+        // LOOT ENEMY, VIEW INVENTORY
+        output(Strings.TUTORIAL_DEFEAT_ENEMY);
+        output(Strings.TUTORIAL_LOOT_TARGET);
         executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerLocation.getEnemies().get(0).getName(), false));
         executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
 
-        // EQUIP SWORD AND VIEW EQUIPMENT
+        // EQUIP SWORD, VIEW EQUIPMENT
         executeCommand(Input.forceCommand(Command.CommandType.EQUIP, "sword1", true));
         executeCommand(Input.forceCommand(Command.CommandType.EQUIPMENT));
-
 
         executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
 
         while (playerLocation.getEnemies().get(0).isAlive())
             executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
 
+        // VIEW CHARACTER
         executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
         executeCommand(Input.forceCommand(Command.CommandType.UNEQUIP, "sword1", true));
 
-        output("\nItems in your inventory can be sold to merchants; first, a merchant must be targeted.");
+        // TRADE, BUY, SELL
+        output("\n" + Strings.TUTORIAL_ITEMS_MERCHANT);
         executeCommand(Input.forceCommand(Command.CommandType.TRADE, "merchant2", true));
         executeCommand(Input.forceCommand(Command.CommandType.BUY, "shield3", true));
         executeCommand(Input.forceCommand(Command.CommandType.SELL, "sword1", true));
 
-        output("This concludes the tutorial.\n");
+        output(Strings.TUTORIAL_HEALTH_ZERO + "\n");
 
         player.setTarget(null);
         pause();
@@ -119,7 +120,7 @@ public abstract class World {
             return;
         }
 
-        output("Unknown location: " + displayName + ".");
+        output(Strings.WORLD_UNKNOWN_LOCATION, displayName);
     }
     public static void attackEnemy(String enemyName) {
         Character target;
@@ -130,33 +131,36 @@ public abstract class World {
             target = playerLocation.getEnemy(enemyName);
 
         if (target == null) {
-            output(enemyName.equals("") ? "Enter 'attack enemy' to perform that action." : "Unknown entity: " + enemyName + ".");
+            if (enemyName.equals(""))
+                output(Strings.COMBAT_ATTACK_ENEMY);
+            else
+                output(Strings.UNKNOWN_ENTITY, enemyName);
             return;
         }
 
         if (!target.isAlive()) {
-            output(target.getName() + " has already been defeated.");
+            output(Strings.COMBAT_TARGET_ALREADY_DEFEATED, target.getName());
             return;
         }
 
         if (!enemyName.equals("") && ((player.getTarget() == null)||(!enemyName.equals(player.getTarget().getName())))) {
-            output("Setting target: " + enemyName + ".");
+            output(Strings.COMBAT_SETTING_TARGET, enemyName);
             player.setTarget(target);
         }
 
         player.attackTarget();
 
         if (!player.getTarget().isAlive()) {
-            Output.output(player.getName() + " has defeated " + player.getTarget().getName() + ".");
+            output(Strings.COMBAT_PLAYER_VICTORY, player.getTarget().getName());
 
             int oldLevel = player.getLevel();
             int experienceGained = player.getTarget().getExperience();
 
             player.gainXp(experienceGained);
-            output("You gain " + experienceGained + " experience.");
+            output(Strings.COMBAT_GAIN_XP, experienceGained);
 
             if (player.getLevel() > oldLevel)
-                output("You have reached level " + player.getLevel() + "!");
+                output(Strings.COMBAT_LEVEL_UP, player.getLevel());
 
             // Remove the enemy from the game if it has no loot
             if (player.getTarget().getInventory().isEmpty())
@@ -165,10 +169,9 @@ public abstract class World {
     }
     public static void consumeHealthPotion() {
         if (player.consumeHealthPotion())
-            Output.output("You drink a health potion and now have " + player.getCurrentHealth() + "/" + player.getMaxHealth() + " health;" +
-                    " You have " + player.getInventory().getNumHealthPotions() + " health potions remaining.");
+            output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getCurrentHealth(), player.getMaxHealth(), player.getInventory().getNumHealthPotions());
         else
-            Output.output("You do not have any health potions.");
+            output(Strings.COMBAT_INSUFFICIENT_HEALTH_POTIONS);
     }
     public static void lootEnemy(String enemyName) {
         Character lootee;
@@ -179,12 +182,15 @@ public abstract class World {
             lootee = playerLocation.getEnemy(enemyName);
 
         if (lootee == null) {
-            output(enemyName.equals("") ? "You have no target." : "Unknown entity: " + enemyName + ".");
+            if (enemyName.equals(""))
+                output(Strings.COMBAT_LOOT_ENEMY);
+            else
+                output(Strings.UNKNOWN_ENTITY, enemyName);
             return;
         }
 
         if (lootee.isAlive()) {
-            output(lootee.getName() + " has not been defeated yet.");
+            output(Strings.COMBAT_TARGET_NOT_DEFEATED, lootee.getName());
             return;
         }
 
@@ -217,31 +223,31 @@ public abstract class World {
             if (item.getItemName().equals(itemName)) {
                 if (item instanceof Equipment) {
                     player.equip((Equipment) item);
-                    output("You equip " + item.getItemName() + ".");
+                    output(Strings.EQUIPMENT_EQUIP_ITEM, item.getItemName());
                     player.getInventory().getItems().remove(item);
                 } else
-                    output("You cannot equip that item.");
+                    output(Strings.EQUIPMENT_CANNOT_EQUIP);
 
                 return;
             }
 
-        output("You do not have " + itemName + ".");
+        output(Strings.EQUIPMENT_DO_NOT_HAVE, itemName);
     }
     public static void unequipFromEquipmentSet(String itemName) {
         if (player.getEquipmentSet().getArmour() != null && player.getEquipmentSet().getArmour().getItemName().equals(itemName)) {
             player.unequip(Equipment.EquipmentType.ARMOUR);
-            output("You unequip "  + itemName + ".");
+            output(Strings.EQUIPMENT_UNEQUIP_ITEM, itemName);
         }
         else if (player.getEquipmentSet().getSword() != null && player.getEquipmentSet().getSword().getItemName().equals(itemName)) {
             player.unequip(Equipment.EquipmentType.SWORD);
-            output("You unequip " + itemName + ".");
+            output(Strings.EQUIPMENT_UNEQUIP_ITEM, itemName);
         }
         else if (player.getEquipmentSet().getShield() != null && player.getEquipmentSet().getShield().getItemName().equals(itemName)) {
             player.unequip(Equipment.EquipmentType.SHIELD);
-            output("You unequip " + itemName + ".");
+            output(Strings.EQUIPMENT_UNEQUIP_ITEM, itemName);
         }
         else
-            output(itemName + " is not equipped.");
+            output(Strings.EQUIPMENT_NOT_EQUIPPED, itemName);
     }
 
     // Trade Functions
@@ -252,20 +258,19 @@ public abstract class World {
             if (player.getTarget() == null || player.getTarget() instanceof Merchant)
                 merchant = (Merchant) player.getTarget();
             else {
-                output("You cannot trade with " + merchantName + ".");
+                output(Strings.TRADE_CANNOT_TRADE, player.getTarget().getName());
                 return;
             }
         else {
             merchant = playerLocation.getMerchant(merchantName);
 
             if (merchant != null) {
-                output("Setting target: " + merchantName + ".");
                 player.setTarget(merchant);
             }
         }
 
         if (merchant == null) {
-            output(merchantName.equals("") ? "Enter 'trade merchant' to perform that action." : "Unknown entity: " + merchantName + ".");
+            output(merchantName.equals("") ? Strings.TRADE_TRADE_MERCHANT : Strings.UNKNOWN_ENTITY, merchantName);
             return;
         }
 
@@ -273,20 +278,24 @@ public abstract class World {
     }
     public static void buyFromMerchant(String itemName) {
         if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
-            output("You must 'trade merchant' first.");
+            output(Strings.TRADE_MUST_TRADE_FIRST);
             return;
         }
 
         Trade.buyFromMerchant(player, (Merchant) player.getTarget(), itemName);
+
+        // Re-display updated trade window
         tradeMerchant("");
     }
     public static void sellToMerchant(String itemName) {
         if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
-            output("You must 'trade merchant' first.");
+            output(Strings.TRADE_MUST_TRADE_FIRST);
             return;
         }
 
         Trade.sellToMerchant(player, (Merchant) player.getTarget(), itemName);
+
+        // Re-display updated trade window
         tradeMerchant("");
     }
 
@@ -350,7 +359,7 @@ public abstract class World {
         output("");
 
         if (!player.isAlive()) {
-            output("You have been defeated.");
+            output(Strings.COMBAT_PLAYER_DEFEATED);
             playerAlive = false;
         }
     }

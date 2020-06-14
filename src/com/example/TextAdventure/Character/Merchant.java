@@ -16,4 +16,8 @@ public class Merchant extends Character {
     public boolean canBeTraded() { return true; }
 
     public Inventory beLooted() { return null; }
+
+    public int attackTarget() {
+        return 0;
+    }
 }

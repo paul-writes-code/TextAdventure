@@ -2,6 +2,7 @@ package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Character.Merchant;
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.World;
 
 import java.util.ArrayList;
@@ -46,6 +47,9 @@ public class Location {
         neighbours = null;
 
         this.area.addLocation(this);
+
+        enemies = new ArrayList<>();
+        merchants = new ArrayList<>();
     }
 
     public String getLocationName() { return locationName; }
@@ -163,12 +167,13 @@ public class Location {
                 break;
             case INIT:
             case AREA:
-                printName = locationName + " of " + area.getAreaName();
+                printName = String.format(Strings.WORLD_AREA_NAME, locationName, area.getAreaName());
                 break;
             case REGION:
-                printName = locationName + ", of " + area.getRegion().getRegionName() + " Region";
+                printName = String.format(Strings.WORLD_REGION_NAME, locationName, area.getRegion().getRegionName());
+                break;
             case TERRITORY:
-                printName = locationName + ", of " + area.getRegion().getTerritory().getTerritoryName() + " Territory";
+                printName = String.format(Strings.WORLD_TERRITORY_NAME, locationName, area.getRegion().getTerritory().getTerritoryName());
                 break;
         }
 
