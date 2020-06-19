@@ -1,6 +1,5 @@
 package com.example.TextAdventure.UserInterface;
 
-import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Character.Merchant;
 import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Common.Utility;
@@ -9,46 +8,13 @@ import com.example.TextAdventure.Equipment.EquipmentSet;
 import com.example.TextAdventure.Item.Inventory;
 import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Item.Item;
-import com.example.TextAdventure.Map.Location;
 
 import java.util.ArrayList;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class DisplayViews {
-    public static void viewLocation(Location location, boolean entering) {
-        ArrayList<Enemy> attackList = new ArrayList<>();
-        ArrayList<Enemy> lootList = new ArrayList<>();
 
-        if (entering)
-            output(Strings.LOCATION_DISPLAY_TITLE_ENTER, location.getLocationName(), location.getArea().getAreaName());
-        else
-            output(Strings.LOCATION_DISPLAY_TITLE_EXAMINE, location.getLocationName(), location.getArea().getAreaName());
-
-        // Display local map
-        if (location.getNeighbours() != null)
-            for (Location.LocationNeighbour neighbour : location.getNeighbours())
-                output(Strings.LOCATION_DISPLAY_OBJECT_GO, neighbour.getDisplayName());
-
-        // Display local merchants
-        if (location.getMerchants() != null)
-            for (Merchant merchant : location.getMerchants())
-                output(Strings.LOCATION_DISPLAY_OBJECT_TRADE, merchant.getName());
-
-        // Display local enemies
-        if (location.getEnemies() != null)
-            for (Enemy enemy : location.getEnemies())
-                if (enemy.getCurrentHealth() > 0)
-                    attackList.add(enemy);
-                else
-                    lootList.add(enemy);
-
-        for (Enemy enemy : attackList)
-            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getName(), enemy.getLevel(), enemy.getCurrentHealth(), enemy.getMaxHealth());
-
-        for (Enemy enemy : lootList)
-            output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.getInventory().toString());
-    }
     public static void viewEquipmentSet(EquipmentSet equipmentSet) {
         output(Strings.EQUIPMENT_DISPLAY_TITLE);
 

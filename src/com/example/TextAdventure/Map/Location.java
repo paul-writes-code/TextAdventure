@@ -7,54 +7,95 @@ import com.example.TextAdventure.World;
 
 import java.util.ArrayList;
 
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class Location {
 
-    public static class LocationNeighbour {
+    public enum MovementType {
+        INIT,
+        LOCATION,
+        AREA,
+        REGION,
+        TERRITORY
+    }
+    private static class LocationNeighbour {
 
-        public enum MovementType {
-            INIT,
-            LOCATION,
-            AREA,
-            REGION,
-            TERRITORY
-        }
-
-        private Location location;
+        private int locationId;
         private String displayName;
         private MovementType movementType;
 
-        public LocationNeighbour(Location location, String displayName, MovementType movementType) {
-            this.location = location;
-            this.displayName = displayName;
-            this.movementType = movementType;
+        private LocationNeighbour(int locationId) {
+            this.locationId = locationId;
         }
-
-        public Location getLocation() { return location; }
-        public String getDisplayName() { return displayName; }
-        public MovementType getMovementType() { return movementType; }
     }
 
+    private int locationId;
     private String locationName;
-    private Area area;
+    private String areaName;
+    private String regionName;
+    private String territoryName;
     private LocationNeighbour[] neighbours;
 
     private ArrayList<Enemy> enemies;
     private ArrayList<Merchant> merchants;
 
-    public Location(String locationName, Area area) {
+    public Location(int locationId, String locationName, String areaName, String regionName, String territoryName, int[] neighbourIds) {
+        this.locationId = locationId;
         this.locationName = locationName;
-        this.area = area;
-        neighbours = null;
+        this.areaName = areaName;
+        this.regionName = regionName;
+        this.territoryName = territoryName;
 
-        this.area.addLocation(this);
+        neighbours = new LocationNeighbour[neighbourIds.length];
+        for (int i = 0; i < neighbourIds.length; i++)
+            neighbours[i] = new LocationNeighbour(neighbourIds[i]);
 
         enemies = new ArrayList<>();
         merchants = new ArrayList<>();
     }
+    public void initNeighbours() {
+        for (LocationNeighbour neighbour : neighbours) {
+            Location location = WorldMap.getLocation(neighbour.locationId);
 
+            if (!location.territoryName.equals(territoryName)) {
+                neighbour.displayName = location.territoryName;
+                neighbour.movementType = MovementType.TERRITORY;
+            }
+            else if (!location.regionName.equals(regionName)) {
+                neighbour.displayName = location.regionName;
+                neighbour.movementType = MovementType.REGION;
+            }
+            else if (!location.areaName.equals(areaName)) {
+                neighbour.displayName = location.areaName;
+                neighbour.movementType = MovementType.AREA;
+            }
+            else {
+                neighbour.displayName = location.locationName;
+                neighbour.movementType = MovementType.LOCATION;
+            }
+        }
+    }
+
+    public int getLocationId() { return locationId; }
     public String getLocationName() { return locationName; }
-    public Area getArea() { return area; }
-    public ArrayList<Enemy> getEnemies() { return enemies; }
+    public String getAreaName() { return areaName; }
+    public String getRegionName() { return regionName; }
+    public String getTerritoryName() { return territoryName; }
+    public Location getNeighbour(String displayName) {
+        for (LocationNeighbour locationNeighbour : neighbours)
+            if (locationNeighbour.displayName.equals(displayName))
+                return WorldMap.getLocation(locationNeighbour.locationId);
+
+        return null;
+    }
+    public MovementType getMovementType(String displayName) {
+        for (LocationNeighbour locationNeighbour : neighbours)
+            if (locationNeighbour.displayName.equals(displayName))
+                return locationNeighbour.movementType;
+
+        return null;
+    }
+
     public Enemy getEnemy(String enemyName) {
         for (Enemy enemy : enemies)
             if (enemy.getName().equals(enemyName))
@@ -62,7 +103,6 @@ public class Location {
 
         return null;
     }
-    public ArrayList<Merchant> getMerchants() { return merchants; }
     public Merchant getMerchant(String merchantName) {
         for (Merchant merchant : merchants)
             if (merchant.getName().equals(merchantName))
@@ -70,58 +110,8 @@ public class Location {
 
         return null;
     }
-
-    public LocationNeighbour getNeighbour(String displayName) {
-        for (LocationNeighbour locationNeighbour : neighbours)
-            if (locationNeighbour.displayName.equals(displayName))
-                return locationNeighbour;
-
-        return null;
-    }
-    public LocationNeighbour[] getNeighbours() { return neighbours; }
-    public void setNeighbours(Location[] neighbours) {
-        if (neighbours == null || neighbours.length == 0)
-            return;
-
-        this.neighbours = new LocationNeighbour[neighbours.length];
-
-        Area currentArea = getArea();
-        Region currentRegion = currentArea.getRegion();
-        Territory currentTerritory = currentRegion.getTerritory();
-
-        for (int i = 0; i < neighbours.length; i++) {
-
-            Location neighbour = neighbours[i];
-            Area neighbourArea = neighbour.getArea();
-            Region neighbourRegion = neighbourArea.getRegion();
-            Territory neighbourTerritory = neighbourRegion.getTerritory();
-
-            String neighbourDisplayName = "";
-            LocationNeighbour.MovementType movementType;
-
-            if (!neighbourTerritory.getTerritoryName().equals(currentTerritory.getTerritoryName())) {
-                neighbourDisplayName = neighbourTerritory.getTerritoryName();
-                movementType = LocationNeighbour.MovementType.TERRITORY;
-            }
-
-            else if (!neighbourRegion.getRegionName().equals(currentRegion.getRegionName())) {
-                neighbourDisplayName = neighbourRegion.getRegionName();
-                movementType = LocationNeighbour.MovementType.REGION;
-            }
-
-            else if (!neighbourArea.getAreaName().equals(currentArea.getAreaName())) {
-                neighbourDisplayName = neighbourArea.getAreaName();
-                movementType = LocationNeighbour.MovementType.AREA;
-            }
-
-            else {
-                neighbourDisplayName = neighbour.getLocationName();
-                movementType = LocationNeighbour.MovementType.LOCATION;
-            }
-
-            this.neighbours[i] = new LocationNeighbour(neighbour, neighbourDisplayName, movementType);
-        }
-    }
+    public ArrayList<Enemy> getEnemies() { return enemies; }
+    public ArrayList<Merchant> getMerchants() { return merchants; }
 
     public void addEnemy(Enemy enemy) {
         if (enemy == null)
@@ -157,27 +147,22 @@ public class Location {
             }
     }
 
-
-    public void enter(LocationNeighbour.MovementType movementType) {
+    public void enter(MovementType movementType, boolean enteringGame) {
         String printName = "";
 
-        switch (movementType) {
-            case LOCATION:
-                printName = locationName;
-                break;
-            case INIT:
-            case AREA:
-                printName = String.format(Strings.WORLD_AREA_NAME, locationName, area.getAreaName());
-                break;
-            case REGION:
-                printName = String.format(Strings.WORLD_REGION_NAME, locationName, area.getRegion().getRegionName());
-                break;
-            case TERRITORY:
-                printName = String.format(Strings.WORLD_TERRITORY_NAME, locationName, area.getRegion().getTerritory().getTerritoryName());
-                break;
-        }
+        if (enteringGame || movementType == MovementType.AREA)
+            printName = String.format(Strings.WORLD_AREA_NAME, locationName, areaName);
+        else if (movementType == MovementType.TERRITORY)
+            printName = String.format(Strings.WORLD_TERRITORY_NAME, locationName, territoryName);
+        else if (movementType == MovementType.REGION)
+            printName = String.format(Strings.WORLD_REGION_NAME, locationName, regionName);
+        else
+            printName = locationName;
 
         World.viewLocation(true);
+    }
+    public void enter(MovementType movementType) {
+        enter(movementType, false);
     }
     public void leave() {
         if (enemies == null || enemies.size() == 0)
@@ -196,5 +181,39 @@ public class Location {
         for (Enemy enemy : enemies)
             if (enemy.isAlive() && enemy.getTarget() != null)
                 enemy.attackTarget();
+    }
+
+    public void viewLocation(boolean entering) {
+        ArrayList<Enemy> attackList = new ArrayList<>();
+        ArrayList<Enemy> lootList = new ArrayList<>();
+
+        if (entering)
+            output(Strings.LOCATION_DISPLAY_TITLE_ENTER, locationName, areaName);
+        else
+            output(Strings.LOCATION_DISPLAY_TITLE_EXAMINE, locationName, areaName);
+
+        // Display local map
+        if (neighbours != null)
+            for (Location.LocationNeighbour neighbour : neighbours)
+                output(Strings.LOCATION_DISPLAY_OBJECT_GO, neighbour.displayName);
+
+        // Display local merchants
+        if (merchants != null)
+            for (Merchant merchant : merchants)
+                output(Strings.LOCATION_DISPLAY_OBJECT_TRADE, merchant.getName());
+
+        // Display local enemies
+        if (enemies != null)
+            for (Enemy enemy : enemies)
+                if (enemy.getCurrentHealth() > 0)
+                    attackList.add(enemy);
+                else
+                    lootList.add(enemy);
+
+        for (Enemy enemy : attackList)
+            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getName(), enemy.getLevel(), enemy.getCurrentHealth(), enemy.getMaxHealth());
+
+        for (Enemy enemy : lootList)
+            output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.getInventory().toString());
     }
 }

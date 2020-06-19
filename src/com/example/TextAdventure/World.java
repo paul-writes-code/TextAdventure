@@ -29,14 +29,14 @@ public abstract class World {
     private static boolean playerAlive = true;
 
     public static void enterWorld() {
-        WorldMap.initWorldMap();
+        WorldMap.initMap();
         initGame();
 
         output("\n" + Strings.WORLD_WELCOME, worldName);
         beginTutorial();
 
         playerLocation = startingLocation;
-        playerLocation.enter(Location.LocationNeighbour.MovementType.INIT);
+        playerLocation.enter(Location.MovementType.INIT);
 
         while (playerAlive) {
             output(Strings.INPUT_COMMAND);
@@ -57,8 +57,6 @@ public abstract class World {
     private static void initPlayer() {
         player = new Player(playerName);
         playerLocation = startingLocationTutorial;
-     //   player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword", 100, 0, 2, 0));
-     //   player.getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield", 101, 3, 0, 6));
     }
 
     private static void beginTutorial() {
@@ -66,7 +64,7 @@ public abstract class World {
 
         // VIEW MAP, MOVE LOCATIONS
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
-        executeCommand(Input.forceCommand(Command.CommandType.GO, WorldMap.TUTORIAL_LOCATION_2, true));
+        executeCommand(Input.forceCommand(Command.CommandType.GO, "forest2", true));
 
         // COMBAT, ATTACK, HEAL
         executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
@@ -110,13 +108,13 @@ public abstract class World {
 
     // Character Functions
     public static void movePlayer(String displayName) {
-        Location.LocationNeighbour newLocation = playerLocation.getNeighbour(displayName);
+        Location newLocation = playerLocation.getNeighbour(displayName);
 
         if (newLocation != null) {
             playerLocation.leave();
             player.setTarget(null);
-            playerLocation = newLocation.getLocation();
-            playerLocation.enter(newLocation.getMovementType());
+            playerLocation = newLocation;
+            playerLocation.enter(newLocation.getMovementType(displayName));
             return;
         }
 
@@ -205,7 +203,7 @@ public abstract class World {
 
     // View Functions
     public static void viewLocation(boolean entering) {
-        DisplayViews.viewLocation(playerLocation, entering);
+        playerLocation.viewLocation(entering);
     }
     public static void viewCharacter() {
         DisplayViews.viewCharacter(player);
