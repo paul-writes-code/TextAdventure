@@ -4,11 +4,11 @@ import com.example.TextAdventure.Item.Inventory;
 
 public class Merchant extends Character {
 
-    public Merchant(String name) {
-        super(name);
+    public Merchant(int id, String name) {
+        super(id, name);
     }
-    public Merchant(String name, Inventory inventory) {
-        super(name, inventory);
+    public Merchant(int id, String name, Inventory inventory) {
+        super(id, name, inventory);
     }
 
     public boolean canBeAttacked() { return false; }

@@ -129,6 +129,6 @@ public class Inventory {
             output(Strings.INVENTORY_DISPLAY_ITEM_EQUIP, item.getItemName());
 
         for (Item item : otherList)
-            output(Strings.INVENTORY_DISPLAY_ITEM, item.getItemName());
+            output(Strings.INVENTORY_DISPLAY_ITEM, item.toString());
     }
 }

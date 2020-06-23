@@ -16,6 +16,7 @@ public abstract class Character {
     protected static final int CHARACTER_BASE_DAMAGE = 1;
     protected static final int CHARACTER_BASE_DEFENCE = 1;
 
+    protected int id;
     protected String name;
     protected int experience;
     protected int level;
@@ -28,16 +29,17 @@ public abstract class Character {
     protected Inventory inventory;
     protected EquipmentSet equipmentSet;
 
-    public Character(String name) {
-        initCharacter(name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
+    public Character(int id, String name) {
+        initCharacter(id, name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
     }
-    public Character(String name, Inventory inventory) {
-        initCharacter(name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, inventory, null);
+    public Character(int id, String name, Inventory inventory) {
+        initCharacter(id, name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, inventory, null);
     }
-    public Character(String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
-        initCharacter(name, experience, level, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
+    public Character(int id, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+        initCharacter(id, name, experience, level, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
     }
-    private void initCharacter(String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+    private void initCharacter(int id, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+        this.id = id;
         this.name = name;
         this.experience = experience;
         this.level = level;

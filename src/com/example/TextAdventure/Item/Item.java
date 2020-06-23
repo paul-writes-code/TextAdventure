@@ -21,6 +21,9 @@ public class Item {
     public Item(String itemName, int itemId, boolean isStackable, int quantity, int unitPrice){
         initItem(itemName, itemId, isStackable, quantity, unitPrice);
     }
+    public Item(Item item) {
+        initItem(item.itemName, item.itemId, item.isStackable, item.quantity, item.unitPrice);
+    }
     private void initItem(String itemName, int itemId, boolean isStackable, int quantity, int unitPrice) {
         this.itemName = itemName;
         this.itemId = itemId;

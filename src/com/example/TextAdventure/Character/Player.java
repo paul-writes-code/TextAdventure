@@ -2,28 +2,29 @@ package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Combat.Combat;
 import com.example.TextAdventure.Common.Utility;
-import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
 import com.example.TextAdventure.Item.Inventory;
+import com.example.TextAdventure.Item.ItemList;
 
 public class Player extends Character {
 
+    public static final int PLAYER_ID = -1;
     public static final int PLAYER_BASE_HEALTH = 10;
     public static final int PLAYER_BASE_DAMAGE = 2;
     public static final int PLAYER_BASE_DEFENCE = 2;
 
     public Player(String name) {
-        super(name, 0, 1, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE, PLAYER_BASE_DEFENCE, null, null);
+        super(PLAYER_ID, name, 0, 1, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE, PLAYER_BASE_DEFENCE, null, null);
         initPlayer(0);
     }
     public Player(String name, int experience, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
-        super(name, 0, 1, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
+        super(PLAYER_ID, name, 0, 1, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
         initPlayer(experience);
     }
     private void initPlayer(int experience) {
         gainXp(experience);
         inventory.addHealthPotions(3);
-        inventory.addItem(new Equipment(Equipment.EquipmentType.SWORD, "swordX", -9, 16,24,16));
+        inventory.addItem(ItemList.getItem(7));
         inventory.addGold(500);
     }
 

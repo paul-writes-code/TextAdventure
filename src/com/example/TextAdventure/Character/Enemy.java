@@ -2,20 +2,20 @@ package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Combat.Combat;
 import com.example.TextAdventure.Item.Inventory;
-import com.example.TextAdventure.Item.Item;
+import com.example.TextAdventure.Item.ItemList;
 
 public class Enemy extends Character {
 
-    public Enemy(String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory) {
-        super(name, experience, level, currentHealth, maxHealth, damage, defence, inventory, null);
+    public Enemy(int id, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory) {
+        super(id, name, experience, level, currentHealth, maxHealth, damage, defence, inventory, null);
 
         addGold((int)(Math.random() * 6));
 
         // Randomly generate some test items
         if ((Math.random() * 2) < 1.2)
-            addItem(new Item("Apple", 1, 3));
+            addItem(ItemList.getItem(12));
         else
-            addItem(new Item("Teapot", 2, true, 3, 1));
+            addItem(ItemList.getItem(13));
     }
 
     public boolean canBeAttacked() { return isAlive(); }
