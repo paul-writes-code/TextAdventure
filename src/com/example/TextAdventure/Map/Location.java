@@ -214,6 +214,6 @@ public class Location {
             output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getName(), enemy.getLevel(), enemy.getCurrentHealth(), enemy.getMaxHealth());
 
         for (Enemy enemy : lootList)
-            output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.getInventory().toString());
+            output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.inventoryToString());
     }
 }

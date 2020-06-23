@@ -1,9 +1,14 @@
 package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Combat.Combat;
+import com.example.TextAdventure.Common.Strings;
+import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Equipment.Equipment;
 import com.example.TextAdventure.Equipment.EquipmentSet;
 import com.example.TextAdventure.Item.Inventory;
+import com.example.TextAdventure.Item.Item;
+
+import static com.example.TextAdventure.UserInterface.Output.output;
 
 public abstract class Character {
 
@@ -11,17 +16,17 @@ public abstract class Character {
     protected static final int CHARACTER_BASE_DAMAGE = 1;
     protected static final int CHARACTER_BASE_DEFENCE = 1;
 
-    private String name;
+    protected String name;
     protected int experience;
     protected int level;
-    private int currentHealth;
+    protected int currentHealth;
     protected int maxHealth;
     protected int damage;
     protected int defence;
 
-    private Character target;
-    private Inventory inventory;
-    private EquipmentSet equipmentSet;
+    protected Character target;
+    protected Inventory inventory;
+    protected EquipmentSet equipmentSet;
 
     public Character(String name) {
         initCharacter(name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
@@ -55,8 +60,6 @@ public abstract class Character {
     public int getDefence() { return defence + equipmentSet.getDefenceBonus(); }
 
     public Character getTarget() { return target; }
-    public Inventory getInventory() { return inventory; }
-    public EquipmentSet getEquipmentSet() { return equipmentSet; }
 
     public abstract boolean canBeAttacked();
     public abstract boolean canBeLooted();
@@ -89,6 +92,9 @@ public abstract class Character {
     public void die() { clearTarget(); }
 
     // INVENTORY MANAGEMENT
+    public String inventoryToString() {
+        return inventory.toString();
+    }
     public void lootCharacter(Character lootee) { Combat.loot(this, lootee); }
     public abstract Inventory beLooted();
     public Inventory emptyInventory() {
@@ -97,6 +103,40 @@ public abstract class Character {
         return ret;
     }
     public void addInventory(Inventory inventory) { this.inventory.addInventory(inventory); }
+    public boolean isInventoryEmpty() { return inventory.isEmpty(); }
+
+    public void addGold(int gold) {
+        inventory.addGold(gold);
+    }
+    public int getNumHealthPotions() { return inventory.getNumHealthPotions(); }
+    public boolean hasGold(int amount) {
+        return inventory.getGold() >= amount;
+    }
+    public void addItem(Item item) {
+        if (item != null)
+            inventory.addItem(item);
+    }
+    public Item getItem(String itemName) {
+        for (Item item : inventory.getItems())
+            if (item.getItemName().equals(itemName))
+                return item;
+
+        return null;
+    }
+    public void buyItem(Item item) {
+        if (item == null)
+            return;
+
+        inventory.removeGold(item.getPrice());
+        inventory.addItem(item);
+    }
+    public void sellItem(Item item) {
+        if (item == null)
+            return;
+
+        inventory.addGold(item.getPrice());
+        inventory.removeItem(item);
+    }
 
     // EQUIPMENT MANAGEMENT
     public void equip(Equipment equipment) {
@@ -110,5 +150,70 @@ public abstract class Character {
         inventory.addItem(equipmentSet.unequip(equipmentType));
 
         currentHealth += getMaxHealth() - oldMaxHealth;
+    }
+    public boolean equipFromInventory(String itemName) {
+        for (Item item : inventory.getItems())
+            if (item.getItemName().equals(itemName)) {
+                if (item instanceof Equipment) {
+                    equip((Equipment) item);
+                    inventory.getItems().remove(item);
+                    return true;
+                } else
+                    return false;
+            }
+
+        return false;
+    }
+    public boolean unequipFromEquipmentSet(String itemName) {
+        if (equipmentSet.getArmour() != null && equipmentSet.getArmour().getItemName().equals(itemName)) {
+            unequip(Equipment.EquipmentType.ARMOUR);
+            return true;
+        }
+        else if (equipmentSet.getSword() != null && equipmentSet.getSword().getItemName().equals(itemName)) {
+            unequip(Equipment.EquipmentType.SWORD);
+            return true;
+        }
+        else if (equipmentSet.getShield() != null && equipmentSet.getShield().getItemName().equals(itemName)) {
+            unequip(Equipment.EquipmentType.SHIELD);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    // DISPLAY FUNCTIONS
+    public void viewCharacter() {
+        output(Strings.CHARACTER_DISPLAY_TITLE);
+        output(Strings.CHARACTER_DISPLAY_NAME, getName());
+        output(Strings.CHARACTER_DISPLAY_HEALTH, getCurrentHealth(), getMaxHealth());
+        output(Strings.CHARACTER_DISPLAY_LEVEL, getLevel());
+        output(Strings.CHARACTER_DISPLAY_DAMAGE, getDamage());
+        output(Strings.CHARACTER_DISPLAY_DEFENCE, getDefence());
+
+        if (getLevel() == 5)
+            output(Strings.CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL, getExperience());
+        else
+            output(Strings.CHARACTER_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForLevel(getLevel() + 1));
+    }
+    public void viewInventory() {
+        inventory.viewInventory();
+    }
+    public void viewEquipmentSet() {
+        equipmentSet.viewEquipmentSet();
+    }
+    public boolean viewTradeBuyer() {
+        output(Strings.TRADE_DISPLAY_GOLD, inventory.getGold());
+
+        for (Item item : inventory.getItems())
+            output(Strings.TRADE_DISPLAY_OBJECT_SELL, item.getItemName(), item.getPrice());
+
+        return inventory.getItems().size() > 0;
+    }
+    public boolean viewTradeSeller() {
+
+        for (Item item : inventory.getItems())
+            output(Strings.TRADE_DISPLAY_OBJECT_BUY, item.getItemName(), item.getPrice());
+
+        return inventory.getItems().size() > 0;
     }
 }

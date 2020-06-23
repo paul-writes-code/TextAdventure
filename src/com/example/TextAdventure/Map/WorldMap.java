@@ -117,15 +117,15 @@ public class WorldMap {
 
         // town1:
         locations[2].addMerchant(new Merchant("merchy"));
-        locations[2].getMerchants().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield1", 106, 10, 3, 20));
+        locations[2].getMerchants().get(0).addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield1", 106, 10, 3, 20));
 
         // TUTORIAL
         locations[24].addEnemy(new Enemy("bandit1", 25, 1,  6, 6, 1, 1, null));
         locations[24].addEnemy(new Enemy("bandit2", 25, 1,  6, 6, 1, 1, null));
-        locations[24].getEnemies().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword1", 103, 0, 5, 2));
+        locations[24].getEnemies().get(0).addItem(new Equipment(Equipment.EquipmentType.SWORD, "sword1", 103, 0, 5, 2));
 
         locations[24].addMerchant(new Merchant("merchant2"));
-        locations[24].getMerchants().get(0).getInventory().addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield3", 107, 10, 5, 20));
+        locations[24].getMerchants().get(0).addItem(new Equipment(Equipment.EquipmentType.SHIELD, "shield3", 107, 10, 5, 20));
 
     }
 }

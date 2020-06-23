@@ -2,51 +2,55 @@ package com.example.TextAdventure.Trade;
 
 import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Character.Merchant;
+import com.example.TextAdventure.Character.Player;
 import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.UserInterface.Output;
 
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class Trade {
 
-    public static boolean buyFromMerchant(Character buyer, Merchant merchant, String itemName) {
-        Item itemBuying = null;
+    public static void buyItem(Player buyer, Merchant seller, String itemName) {
+        Item item = seller.getItem(itemName);
 
-        for (Item item : merchant.getInventory().getItems())
-            if (item.getItemName().equals(itemName))
-                itemBuying = item;
-
-        if (itemBuying == null) {
-            Output.output(Strings.MERCHANT_NO_ITEM, merchant.getName(), itemName);
-            return false;
+        if (item == null) {
+            Output.output(Strings.MERCHANT_NO_ITEM, seller.getName(), itemName);
+            return;
         }
 
-        if (buyer.getInventory().getGold() < itemBuying.getSellPrice()) {
+        if (!buyer.hasGold(item.getPrice())) {
             Output.output(Strings.INSUFFICIENT_GOLD, itemName);
-            return false;
+            return;
         }
 
-        buyer.getInventory().removeGold(itemBuying.getSellPrice());
-        buyer.getInventory().addItem(merchant.getInventory().removeItem(itemBuying));
+        buyer.buyItem(item);
+        seller.sellItem(item);
 
-        Output.output(Strings.BOUGHT_FOR_GOLD, itemName, itemBuying.getSellPrice());
-        return true;
+        Output.output(Strings.BOUGHT_FOR_GOLD, itemName, item.getPrice());
     }
-    public static boolean sellToMerchant(Character seller, Merchant merchant, String itemName) {
-        Item itemSelling = null;
 
-        for (Item item : seller.getInventory().getItems())
-            if (item.getItemName().equals(itemName))
-                itemSelling = item;
+    public static void sellItem(Player seller, Merchant buyer, String itemName) {
+        Item item = seller.getItem(itemName);
 
-        if (itemSelling == null) {
+        if (item == null) {
             Output.output(Strings.PLAYER_NO_ITEM, itemName);
-            return false;
+            return;
         }
 
-        seller.getInventory().addGold(itemSelling.getBuyPrice());
-        merchant.getInventory().addItem(seller.getInventory().removeItem(itemSelling));
+        buyer.buyItem(item);
+        seller.sellItem(item);
 
-        Output.output(Strings.SOLD_FOR_GOLD, itemName, itemSelling.getBuyPrice());
-        return true;
+        Output.output(Strings.SOLD_FOR_GOLD, itemName, item.getPrice());
+    }
+
+    public static void viewTrade(Character character, Merchant merchant) {
+        output(Strings.TRADE_DISPLAY_TITLE, merchant.getName());
+
+        boolean buyerEmpty = !character.viewTradeBuyer();
+        boolean sellerEmpty = !merchant.viewTradeSeller();
+
+        if (buyerEmpty && sellerEmpty)
+            output(Strings.TRADE_DISPLAY_EMPTY);
     }
 }

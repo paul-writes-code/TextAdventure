@@ -4,30 +4,27 @@ public class Item {
 
     private String itemName;
     private int itemId;
-    private int buyPriceUnit;
-    private int sellPriceUnit;
+    private int unitPrice;
     private boolean isStackable;
     private int quantity;
 
     public String getItemName() { return itemName; }
     public int getItemId() { return itemId; }
-    public int getBuyPrice() { return buyPriceUnit * quantity; }
-    public int getSellPrice() { return sellPriceUnit * quantity; }
+    public int getPrice() { return unitPrice * quantity; }
     public int getQuantity() { return quantity; }
     public boolean isStackable() { return isStackable; }
 
     // INITIALIZATION
-    public Item(String itemName, int itemId, int buyPriceUnit, int sellPriceUnit) {
-        initItem(itemName, itemId, false, 1, buyPriceUnit, sellPriceUnit);
+    public Item(String itemName, int itemId, int unitPrice) {
+        initItem(itemName, itemId, false, 1, unitPrice);
     }
-    public Item(String itemName, int itemId, boolean isStackable, int quantity, int buyPriceUnit, int sellPriceUnit){
-        initItem(itemName, itemId, isStackable, quantity, buyPriceUnit, sellPriceUnit);
+    public Item(String itemName, int itemId, boolean isStackable, int quantity, int unitPrice){
+        initItem(itemName, itemId, isStackable, quantity, unitPrice);
     }
-    private void initItem(String itemName, int itemId, boolean isStackable, int quantity, int buyPriceUnit, int sellPriceUnit) {
+    private void initItem(String itemName, int itemId, boolean isStackable, int quantity, int unitPrice) {
         this.itemName = itemName;
         this.itemId = itemId;
-        this.buyPriceUnit = buyPriceUnit;
-        this.sellPriceUnit = sellPriceUnit;
+        this.unitPrice = unitPrice;
         this.isStackable = isStackable;
         this.quantity = isStackable ? quantity : 1;
     }

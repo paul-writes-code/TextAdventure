@@ -1,8 +1,11 @@
 package com.example.TextAdventure.Item;
 
 import com.example.TextAdventure.Common.Strings;
+import com.example.TextAdventure.Equipment.Equipment;
 
 import java.util.ArrayList;
+
+import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class Inventory {
     private ItemManager itemManager;
@@ -106,5 +109,26 @@ public class Inventory {
         }
 
         return ret;
+    }
+
+    public void viewInventory() {
+        ArrayList<Item> equipList = new ArrayList<>();
+        ArrayList<Item> otherList = new ArrayList<>();
+
+        output(Strings.INVENTORY_DISPLAY_TITLE);
+        output(Strings.INVENTORY_DISPLAY_GOLD, getGold());
+        output(Strings.INVENTORY_DISPLAY_HEALTH_POTIONS, getNumHealthPotions());
+
+        for (Item item : getItems())
+            if (item instanceof Equipment)
+                equipList.add(item);
+            else
+                otherList.add(item);
+
+        for (Item item : equipList)
+            output(Strings.INVENTORY_DISPLAY_ITEM_EQUIP, item.getItemName());
+
+        for (Item item : otherList)
+            output(Strings.INVENTORY_DISPLAY_ITEM, item.getItemName());
     }
 }

@@ -1,6 +1,9 @@
 package com.example.TextAdventure.Equipment;
 
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Equipment.Equipment.EquipmentType;
+
+import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class EquipmentSet {
 
@@ -100,5 +103,17 @@ public class EquipmentSet {
             defenceBonus -= equipment.getDefenceBonus();
             equipment.unequip();
         }
+    }
+
+    public void viewEquipmentSet() {
+        output(Strings.EQUIPMENT_DISPLAY_TITLE);
+
+        output(Strings.EQUIPMENT_DISPLAY_ARMOUR, getArmour() == null ? Strings.EQUIPMENT_DISPLAY_EMPTY : getArmour().getItemName());
+        output(Strings.EQUIPMENT_DISPLAY_SWORD, getSword() == null ? Strings.EQUIPMENT_DISPLAY_EMPTY : getSword().getItemName());
+        output(Strings.EQUIPMENT_DISPLAY_SHIELD + "\n", getShield() == null ? Strings.EQUIPMENT_DISPLAY_EMPTY : getShield().getItemName());
+
+        output(Strings.EQUIPMENT_DISPLAY_HEALTH_BONUS, getMaxHealthBonus());
+        output(Strings.EQUIPMENT_DISPLAY_DAMAGE_BONUS, getDamageBonus());
+        output(Strings.EQUIPMENT_DISPLAY_DEFENCE_BONUS, getDefenceBonus());
     }
 }

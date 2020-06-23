@@ -22,9 +22,9 @@ public class Player extends Character {
     }
     private void initPlayer(int experience) {
         gainXp(experience);
-        getInventory().addHealthPotions(3);
-        getInventory().addItem(new Equipment(Equipment.EquipmentType.SWORD, "swordX", -9, 16,24,16));
-        getInventory().addGold(500);
+        inventory.addHealthPotions(3);
+        inventory.addItem(new Equipment(Equipment.EquipmentType.SWORD, "swordX", -9, 16,24,16));
+        inventory.addGold(500);
     }
 
     public boolean canBeAttacked() { return isAlive(); }

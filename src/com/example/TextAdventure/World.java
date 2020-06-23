@@ -3,12 +3,9 @@ package com.example.TextAdventure;
 import com.example.TextAdventure.Character.*;
 import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Common.Strings;
-import com.example.TextAdventure.Equipment.Equipment;
-import com.example.TextAdventure.Item.Item;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.Trade.Trade;
 import com.example.TextAdventure.UserInterface.Command;
-import com.example.TextAdventure.UserInterface.DisplayViews;
 import com.example.TextAdventure.UserInterface.Input;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
@@ -161,13 +158,13 @@ public abstract class World {
                 output(Strings.COMBAT_LEVEL_UP, player.getLevel());
 
             // Remove the enemy from the game if it has no loot
-            if (player.getTarget().getInventory().isEmpty())
+            if (player.getTarget().isInventoryEmpty())
                 playerLocation.removeEnemy(player.getTarget().getName());
         }
     }
     public static void consumeHealthPotion() {
         if (player.consumeHealthPotion())
-            output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getCurrentHealth(), player.getMaxHealth(), player.getInventory().getNumHealthPotions());
+            output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getCurrentHealth(), player.getMaxHealth(), player.getNumHealthPotions());
         else
             output(Strings.COMBAT_INSUFFICIENT_HEALTH_POTIONS);
     }
@@ -206,44 +203,25 @@ public abstract class World {
         playerLocation.viewLocation(entering);
     }
     public static void viewCharacter() {
-        DisplayViews.viewCharacter(player);
+        player.viewCharacter();
     }
     public static void viewInventory() {
-        DisplayViews.viewInventory(player.getInventory());
+        player.viewInventory();
     }
     public static void viewEquipment() {
-        DisplayViews.viewEquipmentSet(player.getEquipmentSet());
+        player.viewEquipmentSet();
     }
 
     // Equipment Functions
     public static void equipFromInventory(String itemName) {
-        for (Item item : player.getInventory().getItems())
-            if (item.getItemName().equals(itemName)) {
-                if (item instanceof Equipment) {
-                    player.equip((Equipment) item);
-                    output(Strings.EQUIPMENT_EQUIP_ITEM, item.getItemName());
-                    player.getInventory().getItems().remove(item);
-                } else
-                    output(Strings.EQUIPMENT_CANNOT_EQUIP);
-
-                return;
-            }
-
-        output(Strings.EQUIPMENT_DO_NOT_HAVE, itemName);
+        if (player.equipFromInventory(itemName))
+            output(Strings.EQUIPMENT_EQUIP_ITEM, itemName);
+        else
+            output(Strings.EQUIPMENT_CANNOT_EQUIP);
     }
     public static void unequipFromEquipmentSet(String itemName) {
-        if (player.getEquipmentSet().getArmour() != null && player.getEquipmentSet().getArmour().getItemName().equals(itemName)) {
-            player.unequip(Equipment.EquipmentType.ARMOUR);
+        if (player.unequipFromEquipmentSet(itemName))
             output(Strings.EQUIPMENT_UNEQUIP_ITEM, itemName);
-        }
-        else if (player.getEquipmentSet().getSword() != null && player.getEquipmentSet().getSword().getItemName().equals(itemName)) {
-            player.unequip(Equipment.EquipmentType.SWORD);
-            output(Strings.EQUIPMENT_UNEQUIP_ITEM, itemName);
-        }
-        else if (player.getEquipmentSet().getShield() != null && player.getEquipmentSet().getShield().getItemName().equals(itemName)) {
-            player.unequip(Equipment.EquipmentType.SHIELD);
-            output(Strings.EQUIPMENT_UNEQUIP_ITEM, itemName);
-        }
         else
             output(Strings.EQUIPMENT_NOT_EQUIPPED, itemName);
     }
@@ -272,7 +250,7 @@ public abstract class World {
             return;
         }
 
-        DisplayViews.viewTrade(player, merchant);
+        Trade.viewTrade(player, merchant);
     }
     public static void buyFromMerchant(String itemName) {
         if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
@@ -280,7 +258,7 @@ public abstract class World {
             return;
         }
 
-        Trade.buyFromMerchant(player, (Merchant) player.getTarget(), itemName);
+        Trade.buyItem(player, (Merchant) player.getTarget(), itemName);
 
         // Re-display updated trade window
         tradeMerchant("");
@@ -291,7 +269,7 @@ public abstract class World {
             return;
         }
 
-        Trade.sellToMerchant(player, (Merchant) player.getTarget(), itemName);
+        Trade.sellItem(player, (Merchant) player.getTarget(), itemName);
 
         // Re-display updated trade window
         tradeMerchant("");
