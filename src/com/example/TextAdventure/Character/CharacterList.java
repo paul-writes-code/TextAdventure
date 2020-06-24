@@ -28,7 +28,6 @@ public class CharacterList {
 
         initialized = true;
     }
-    // TODO: randomly generate enemy inventory based on difficulty
     private static void initEnemyList() {
         String[] enemyLines = enemyString.substring(1, enemyString.length() - 1) // remove '{' and '}'
                 .split("'");
@@ -84,7 +83,6 @@ public class CharacterList {
         Enemy enemy = enemies[enemyId];
         return new Enemy(enemyId, enemy.getName() + increment, enemy.getExperience(), enemy.getLevel(), enemy.getCurrentHealth(), enemy.getMaxHealth(), enemy.getDamage(), enemy.getDefence(), enemy.inventory);
     }
-
     public static Merchant getMerchant(int merchantId) {
         initCharacterLists();
 

@@ -39,7 +39,7 @@ public class ItemManager {
 
         return false;
     }
-    public void addItem(Item item) { // TODO: Limit inventory size?
+    public void addItem(Item item) {
         if (item == null)
             return;
 

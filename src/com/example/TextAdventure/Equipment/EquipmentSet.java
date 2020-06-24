@@ -49,17 +49,19 @@ public class EquipmentSet {
 
         Equipment oldEquipment = null;
 
-        if (equipment.getEquipmentType() == EquipmentType.ARMOUR) {
-            oldEquipment = armour;
-            armour = equipment;
-        }
-        else if (equipment.getEquipmentType() == EquipmentType.SWORD) {
-            oldEquipment = sword;
-            sword = equipment;
-        }
-        else if (equipment.getEquipmentType() == EquipmentType.SHIELD) {
-            oldEquipment = shield;
-            shield = equipment;
+        switch (equipment.getEquipmentType()) {
+            case ARMOUR:
+                oldEquipment = armour;
+                armour = equipment;
+                break;
+            case SWORD:
+                oldEquipment = sword;
+                sword = equipment;
+                break;
+            case SHIELD:
+                oldEquipment = shield;
+                shield = equipment;
+                break;
         }
 
         onEquip(equipment);
@@ -71,17 +73,19 @@ public class EquipmentSet {
 
         Equipment oldEquipment = null;
 
-        if (equipmentType == EquipmentType.ARMOUR) {
-            oldEquipment = armour;
-            armour = null;
-        }
-        else if (equipmentType == EquipmentType.SWORD) {
-            oldEquipment = sword;
-            sword = null;
-        }
-        else if (equipmentType == EquipmentType.SHIELD) {
-            oldEquipment = shield;
-            shield = null;
+        switch (equipmentType) {
+            case ARMOUR:
+                oldEquipment = armour;
+                armour = null;
+                break;
+            case SWORD:
+                oldEquipment = sword;
+                sword = null;
+                break;
+            case SHIELD:
+                oldEquipment = shield;
+                shield = null;
+                break;
         }
 
         onUnequip(oldEquipment);

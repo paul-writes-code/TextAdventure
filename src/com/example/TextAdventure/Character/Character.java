@@ -16,7 +16,7 @@ public abstract class Character {
     protected static final int CHARACTER_BASE_DAMAGE = 1;
     protected static final int CHARACTER_BASE_DEFENCE = 1;
 
-    protected int id;
+    protected int characterId;
     protected String name;
     protected int experience;
     protected int level;
@@ -29,17 +29,17 @@ public abstract class Character {
     protected Inventory inventory;
     protected EquipmentSet equipmentSet;
 
-    public Character(int id, String name) {
-        initCharacter(id, name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
+    public Character(int characterId, String name) {
+        initCharacter(characterId, name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, null, null);
     }
-    public Character(int id, String name, Inventory inventory) {
-        initCharacter(id, name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, inventory, null);
+    public Character(int characterId, String name, Inventory inventory) {
+        initCharacter(characterId, name, 0, 1, CHARACTER_BASE_HEALTH, CHARACTER_BASE_HEALTH, CHARACTER_BASE_DAMAGE, CHARACTER_BASE_DEFENCE, inventory, null);
     }
-    public Character(int id, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
-        initCharacter(id, name, experience, level, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
+    public Character(int characterId, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+        initCharacter(characterId, name, experience, level, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
     }
-    private void initCharacter(int id, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
-        this.id = id;
+    private void initCharacter(int characterId, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
+        this.characterId = characterId;
         this.name = name;
         this.experience = experience;
         this.level = level;
@@ -48,9 +48,9 @@ public abstract class Character {
         this.damage = damage;
         this.defence = defence;
 
+        target = null;
         this.inventory = new Inventory(inventory);
         this.equipmentSet = new EquipmentSet(equipmentSet);
-        target = null;
     }
 
     public String getName() { return name; }
@@ -107,13 +107,13 @@ public abstract class Character {
     public void addInventory(Inventory inventory) { this.inventory.addInventory(inventory); }
     public boolean isInventoryEmpty() { return inventory.isEmpty(); }
 
+    public boolean hasGold(int amount) {
+        return inventory.getGold() >= amount;
+    }
     public void addGold(int gold) {
         inventory.addGold(gold);
     }
     public int getNumHealthPotions() { return inventory.getNumHealthPotions(); }
-    public boolean hasGold(int amount) {
-        return inventory.getGold() >= amount;
-    }
     public void addItem(Item item) {
         if (item != null)
             inventory.addItem(item);

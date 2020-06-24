@@ -29,7 +29,6 @@ public class Trade {
 
         Output.output(Strings.BOUGHT_FOR_GOLD, itemName, item.getPrice());
     }
-
     public static void sellItem(Player seller, Merchant buyer, String itemName) {
         Item item = seller.getItem(itemName);
 

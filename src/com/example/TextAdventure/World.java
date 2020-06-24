@@ -26,7 +26,6 @@ public abstract class World {
     private static boolean playerAlive = true;
 
     public static void enterWorld() {
-        WorldMap.initMap();
         initGame();
 
         output("\n" + Strings.WORLD_WELCOME, worldName);

@@ -68,7 +68,7 @@ public class WorldMap {
         return locations[locationId];
     }
 
-    public static void initMap() {
+    private static void initMap() {
         if (locationsInitialized)
             return;
 
