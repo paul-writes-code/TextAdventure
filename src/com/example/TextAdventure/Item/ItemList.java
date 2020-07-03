@@ -15,15 +15,15 @@ public class ItemList {
             "4;sword1;25;sword;0;5;0'" +
             "5;sword2;50;sword;0;8;0'" +
             "6;sword3;75;sword;0;10;0'" +
-            "7;swordX;100;sword;0;25;0'" +
+            "7;sword of despair;100;sword;0;25;0'" +
             "8;shield1;25;shield;4;3;3'" +
             "9;shield2;50;shield;8;4;6'" +
             "10;shield3;75;shield;12;6;9'" +
             "11;shieldX;100;shield;20;10;20" +
             "}";
     private static final String itemString = "{" +
-            "12;Apple;3;0;1'" +
-            "13;Teapot;1;1;3" +
+            "12;Apple seeds;3;0;1'" +
+            "13;Tea pot;1;1;3" +
             "}";
 
     public static void initItemList() {

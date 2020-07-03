@@ -22,13 +22,13 @@ public class WorldMap {
 
             // town1
             "0;territory1/region1/town1/entrance;[1,12];[];[]'" +
-            "1;territory1/region1/town1/town-centre;[0,2,3];[];[]'" +
+            "1;territory1/region1/town1/town centre;[0,2,3];[];[]'" +
             "2;territory1/region1/town1/market;[1];[];[100]'" +
             "3;territory1/region1/town1/barracks;[1];[];[]'" +
 
             // town2
             "4;territory1/region1/town2/entrance;[5,16];[];[]'" +
-            "5;territory1/region1/town2/town-centre;[4,6];[];[]'" +
+            "5;territory1/region1/town2/town centre;[4,6];[];[]'" +
             "6;territory1/region1/town2/market;[5];[];[]'" +
 
             // cave1

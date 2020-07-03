@@ -29,7 +29,7 @@ public abstract class World {
         initGame();
 
         output("\n" + Strings.WORLD_WELCOME, worldName);
-        beginTutorial();
+      //  beginTutorial();
 
         playerLocation = startingLocation;
         playerLocation.enter(Location.MovementType.INIT);

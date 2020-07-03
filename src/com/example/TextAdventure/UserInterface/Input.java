@@ -31,12 +31,15 @@ public class Input {
         if (prompt != null && !prompt.equals(""))
             Output.output(prompt);
 
-        String[] input = scanner.nextLine().split(TOKEN_SPLIT);
+        // Remove excess white space
+        String[] input = scanner.nextLine().trim().replaceAll(" +", " ").split(TOKEN_SPLIT);
+
+        // First token is always the command
         String command = input[0];
 
         // Zero-argument commands
         switch (command) {
-            case COMMAND_BLANK:
+            case COMMAND_BLANK: // Entering nothing will execute the most recently executed command
                 return lastCommand;
             case COMMAND_EXAMINE:
                 lastCommand = new Command(CommandType.EXAMINE);
@@ -58,6 +61,9 @@ public class Input {
         // One-argument commands
         if (input.length > 1) {
             String argument = input[1];
+
+            for (int i = 2; i < input.length; i++)
+                argument += " " + input[i];
 
             switch (command) {
                 case COMMAND_GO:
