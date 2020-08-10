@@ -24,7 +24,7 @@ public class Player extends Character {
     private void initPlayer(int experience) {
         gainXp(experience);
         inventory.addHealthPotions(3);
-        inventory.addItem(ItemList.getItem(7));
+        inventory.addItem(ItemList.getItem(12)); // 7
         inventory.addGold(500);
     }
 

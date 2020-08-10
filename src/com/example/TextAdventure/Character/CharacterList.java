@@ -12,7 +12,7 @@ public class CharacterList {
     private static final String enemyString = "{" +
             "0;goblin test ;1;25;5;5;1;1;[0,0,0]'" +
             "1;bandit;1;25;6;6;1;1;[4]'" +
-            "2;scorpion;3;100;12;12;6;4;[0]" +
+            "2;scorpion;3;100;120;120;6;4;[0]" + // 12
             "}";
     private static final String merchantString = "{" +
             "100;merchy;[8,8,8]'" +

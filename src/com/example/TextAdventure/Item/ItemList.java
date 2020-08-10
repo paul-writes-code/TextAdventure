@@ -19,7 +19,8 @@ public class ItemList {
             "8;shield1;25;shield;4;3;3'" +
             "9;shield2;50;shield;8;4;6'" +
             "10;shield3;75;shield;12;6;9'" +
-            "11;shieldX;100;shield;20;10;20" +
+            "11;shieldX;100;shield;20;10;20'" +
+            "12;unholy mace of death;500;mace;15;73;0" +
             "}";
     private static final String itemString = "{" +
             "12;Apple seeds;3;0;1'" +

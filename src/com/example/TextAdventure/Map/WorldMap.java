@@ -117,7 +117,7 @@ public class WorldMap {
 
         locationsInitialized = true;
 
-        startingLocation = locations[1];
+        startingLocation = locations[8]; // 1
         startingLocationTutorial = locations[23];
 
         // Once Locations are initialized, connect neighbours
