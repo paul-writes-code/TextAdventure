@@ -1,127 +1,364 @@
 package com.example.TextAdventure.Map;
 
-import com.example.TextAdventure.Character.CharacterList;
+import java.util.ArrayList;
 
 public class WorldMap {
     private static boolean locationsInitialized = false;
-    private static Location[] locations;
 
-    private static Location startingLocation = null;
-    private static Location startingLocationTutorial = null;
+    private static ArrayList<Area> areas;
 
-    public static Location getStartingLocation() {
+    private static Room spawnRoom = null;
+
+    public static Room getSpawnRoom() {
         initMap();
-        return startingLocation;
+        return spawnRoom;
     }
-    public static Location getStartingLocationTutorial() {
-        initMap();
-        return startingLocationTutorial;
+    public static void setSpawnRoom(Room room) {
+        spawnRoom = room;
     }
 
-    private static String mapString = "{" +
+    private static Area generateDarkForest() {
 
-            // town1
-            "0;territory1/region1/town1/entrance;[1,12];[];[]'" +
-            "1;territory1/region1/town1/town centre;[0,2,3];[];[]'" +
-            "2;territory1/region1/town1/market;[1];[];[100]'" +
-            "3;territory1/region1/town1/barracks;[1];[];[]'" +
+        String[] levelStrings = new String[4];
 
-            // town2
-            "4;territory1/region1/town2/entrance;[5,16];[];[]'" +
-            "5;territory1/region1/town2/town centre;[4,6];[];[]'" +
-            "6;territory1/region1/town2/market;[5];[];[]'" +
+        levelStrings[0] =
+                "#11;12'"+
+                "12;11,13'" +
+                "13;12,23'" +
+                "23;13,22'" +
+                "22;23,32'" +
+                "]32;22";
 
-            // cave1
-            "7;territory1/region1/cave1/cave1-1;[8,18];[0/3];[]'" +
-            "8;territory1/region1/cave1/cave1-2;[7];[2/2];[]'" +
+        levelStrings[1] =
+                "[01;02'" +
+                "02;01,12'" +
+                "12;02,22'" +
+                "22;12,32'" +
+                "]32;22";
 
-            // cave2
-            "9;territory1/region1/cave2/cave2-1;[10,22];[];[]'" +
-            "10;territory1/region1/cave2/cave2-2;[9,11];[];[]'" +
-            "11;territory1/region1/cave2/cave2-3;[10];[];[]'" +
+        levelStrings[2] =
+                "[02;12'" +
+                "12;02,11'" +
+                "11;12,21'" +
+                "21;11,20,22'" +
+                "22;21,23'" +
+                "#23;22'" +
+                "20;21,30'" +
+                "]30;20";
 
-            // path1
-            "12;territory1/region1/path1/path1-1;[0,13];[];[]'" +
-            "13;territory1/region1/path1/path1-2;[12,14];[];[]'" +
-            "14;territory1/region1/path1/path1-3;[13,15,17];[];[]'" +
-            "15;territory1/region1/path1/path1-4;[14,16];[];[]'" +
-            "16;territory1/region1/path1/path1-5;[4,15,20];[];[]'" +
+        levelStrings[3] =
+                "[03;13'" +
+                "13;03,23'" +
+                "]23;13";
 
-            // path2
-            "17;territory1/region1/path2/path2-1;[14,18];[];[]'" +
-            "18;territory1/region1/path2/path2-2;[7,17,19];[];[]'" +
-            "19;territory1/region1/path2/path2-3;[18];[];[]'" +
+        return Area.generateArea("dark forest", levelStrings);
+    }
+    private static Area generateMountain() {
 
-            // path3
-            "20;territory1/region1/path3/path3-1;[16,21];[];[]'" +
-            "21;territory1/region1/path3/path3-2;[20,22];[];[]'" +
-            "22;territory1/region1/path3/path3-3;[9,21];[];[]'" +
+        String[] levelStrings = new String[3];
 
-            // Tutorial
-            "23;Tutorial/Tutorial/tutorial/forest1;[24];[];[]'" +
-            "24;Tutorial/Tutorial/tutorial/forest2;[23];[1/2];[101]" +
+        levelStrings[0] =
+                "[32;22'" +
+                "22;32,21'" +
+                "21;22,20'" +
+                "20;21,30'" +
+                "]30;20";
 
-            "}";
+        levelStrings[1] =
+                "[00;10'" +
+                "#10;00,11'" +
+                "11;10,12'" +
+                "12;11,13'" +
+                "13;12,23'" +
+                "23;13,22'" +
+                "22;21,23,32'" +
+                "21;20,22'" +
+                "20;21,30'" +
+                "30;20'" +
+                "32;22,33'" +
+                "]33;32";
 
-    public static Location getLocation(int locationId) {
-        initMap();
-        return locations[locationId];
+        levelStrings[2] =
+                "[00;01'" +
+                "01;00,11'" +
+                "11;01,21'" +
+                "21;11,20,22'" +
+                "20;21'" +
+                "22;21,12'" +
+                "12;22,13'" +
+                "]13;12";
+
+        return Area.generateArea("mountain", levelStrings);
+    }
+    private static Area generateEnchantedSwamp() {
+
+        String[] levelStrings = new String[3];
+
+        levelStrings[0] =
+                "[21;11'" +
+                "11;01,21,12'" +
+                "01;11,02'" +
+                "02;01'" +
+                "12;11,22'" +
+                "22;12,32'" +
+                "32;22,31'" +
+                "]31;32";
+
+        levelStrings[1] =
+                "[02;12'" +
+                "12;02,22,11'" +
+                "#22;12'" +
+                "11;12,10'" +
+                "10;11,20'" +
+                "20;10,30'" +
+                "]30;20";
+
+        levelStrings[2] =
+                "[01;02'" +
+                "02;01,12'" +
+                "12;02,22'" +
+                "22;12,21'" +
+                "21;22,20,31'" +
+                "20;21,10'" +
+                "10;20'" +
+                "31;21,30'" +
+                "]30;31";
+
+        return Area.generateArea("enchanted swamp", levelStrings);
+    }
+    private static Area generateUndeadTemple() {
+
+        // TODO: make these arraylists so i dont need to know the number beforehand.
+        String[] levelStrings = new String[5];
+
+
+        levelStrings[0] =
+                "[12;13'" +
+                        "13;03,12,23'" +
+                        "03;13,02'" +
+                        "02;03'" +
+                        "23;13,22'" +
+                        "22;23,21'" +
+                        "21;22,20,31'" +
+                        "20;21,10'" +
+                        "10;00,20'" +
+                        "00;10'" +
+                        "31;21,32'" +
+                        "32;31,33'" +
+                        "]33;32";
+
+        levelStrings[1] =
+                "[33;23'" +
+                        "23;13,33,22'" +
+                        "13;23,03'" +
+                        "03;13'" +
+                        "22;23,21'" +
+                        "21;11,22,31'" +
+                        "31;21,30'" +
+                        "30;20,31'" +
+                        "]20;10,30'" +
+                        "10;00,11,20'" +
+                        "11;10,21'" +
+                        "00;10,01'" +
+                        "01;00,02'" +
+                        "02;01,12'" +
+                        "12;02";
+
+        levelStrings[2] =
+                "[20;30'" +
+                        "30;20,31'" +
+                        "31;30,32'" +
+                        "32;31,33'" +
+                        "33;32,23'" +
+                        "23;22,33'" +
+                        "22;12,21,23'" +
+                        "21;11,22'" +
+                        "11;01,10,21'" +
+                        "10;11'" +
+                        "01;11,02'" +
+                        "]02;01,03'" +
+                        "03;02,13'" +
+                        "13;03,12'" +
+                        "12;13,22";
+
+        levelStrings[3] =
+                "[02;03,01,12'" +
+                        "03;02,13'" +
+                        "13;03,23'" +
+                        "23;13,22'" +
+                        "12;02,22'" +
+                        "22;12,23,32'" +
+                        "32;22'" +
+                        "01;02,11'" +
+                        "11;01,21'" +
+                        "21;11,20,31'" +
+                        "31;21'" +
+                        "20;21,10'" +
+                        "]10;20";
+
+        levelStrings[4] =
+                "[10;11'" +
+                        "11;10,21'" +
+                        "21;11,22'" +
+                        "22;21,23'" +
+                        "23;22";
+
+        return Area.generateArea("undead temple", levelStrings);
+    }
+
+    private static Area generateCrypt() {
+
+        String[] levelStrings = new String[3];
+
+        levelStrings[0] =
+                "[03;02'" +
+                "02;01,03'" +
+                "01;00,02'" +
+                "00;10,01'" +
+                "10;00,11'" +
+                "]11;10";
+
+        levelStrings[1] =
+                "[11;10'" +
+                "10;11,20'" +
+                "20;10,21'" +
+                "21;20,22'" +
+                "22;21,23'" +
+                "]23;22";
+
+        levelStrings[2] =
+                "[23;22,13'" +
+                "22;23,12'" +
+                "13;23,12'" +
+                "12;13,22,11'" +
+                "11;12,21'" +
+                "x21;11"; // x is spawn point
+
+        return Area.generateArea("crypt", levelStrings);
+    }
+    private static Area generateBanditHideout() {
+
+        String[] levelStrings = new String[2];
+
+        levelStrings[0] =
+                "[20;21'" +
+                "21;20,31,22'" +
+                "31;21,32'" +
+                "32;22,31'" +
+                "22;12,21,32'" +
+                "12;22,13'" +
+                "13;03,23,12'" +
+                "]23;13'" +
+                "03;13,02'" +
+                "02;03,01'" +
+                "01;02,00'" +
+                "00;01";
+
+        levelStrings[1] =
+                "[10;00,20,11'" +
+                "00;01,10'" +
+                "01;00'" +
+                "11;10'" +
+                "20;10,21'" +
+                "21;20,22'" +
+                "22;21,12'" +
+                "12;22";
+
+        return Area.generateArea("bandit hideout", levelStrings);
+    }
+    private static Area generateLizardCave() {
+
+        String[] levelStrings = new String[2];
+
+        levelStrings[0] =
+                "[02;12'" +
+                "12;02,11,13'" +
+                "11;12,21'" +
+                "13;12,23'" +
+                "23;13,22'" +
+                "22;23,21'" +
+                "21;11,22,20'" +
+                "20;21,30'" +
+                "]30;20";
+
+        levelStrings[1] =
+                "[11;12'" +
+                "12;11,13'" +
+                "13;12,23'" +
+                "23;13,33'" +
+                "33;23,32'" +
+                "32;33";
+
+        return Area.generateArea("lizard cave", levelStrings);
+    }
+    private static Area generateDarkElfCave() {
+
+        // TODO: make these arraylists so i dont need to know the number beforehand.
+        String[] levelStrings = new String[2];
+
+        levelStrings[0] =
+                "[12;02,11,22'" +
+                "02;12,01'" +
+                "01;02,11'" +
+                "11;01,12'" +
+                "22;12,23,32'" +
+                "23;22,33'" +
+                "33;23'" +
+                "32;22,31'" +
+                "31;32,30'" +
+                "30;31,20'" +
+                "]20;30";
+
+        levelStrings[1] =
+                "[13;12'" +
+                "12;13,22'" +
+                "22;12,21'" +
+                "21;11,20,22,31'" +
+                "31;21,30'" +
+                "30;31'" +
+                "11;21,10'" +
+                "10;11,20'" +
+                "20;10,21";
+
+        return Area.generateArea("dark elf cave", levelStrings);
     }
 
     private static void initMap() {
         if (locationsInitialized)
             return;
 
-        String[] locationLines = mapString.substring(1, mapString.length() - 1) // remove '{' and '}'
-                                        .split("'"); // each line separated by apostrophe
-        locations = new Location[locationLines.length];
+        areas = new ArrayList<>();
 
-        // Initialize all Locations
-        for (int i = 0; i < locationLines.length; i++) {
-            String[] locationInfo = locationLines[i].split(";");
-            String[] locationPositionInfo = locationInfo[1].split("/");
-            String[] locationNeighbourIdStrings = locationInfo[2].substring(1, locationInfo[2].length() - 1).split(",");
-            String[] locationEnemyIdStrings = locationInfo[3].substring(1, locationInfo[3].length() - 1).split(",");
-            String[] locationMerchantIdStrings = locationInfo[4].substring(1, locationInfo[4].length() - 1).split(",");
+        // Generate the main map
+        Area crypt = generateCrypt();
+        Area darkForest = generateDarkForest();
+        Area mountain = generateMountain();
+        Area enchantedSwamp = generateEnchantedSwamp();
+        Area undeadTemple = generateUndeadTemple();
 
-            int[] locationNeighbourIds = new int[locationNeighbourIdStrings.length];
+        Area.connectAreaToExitRoom(darkForest.getAreaExitRooms().get(0), crypt);
+        Area.connectAreas(darkForest, mountain);
+        Area.connectAreas(mountain, enchantedSwamp);
+        Area.connectAreas(enchantedSwamp, undeadTemple);
 
-            int locationId = Integer.parseInt(locationInfo[0]);
-            String locationName = locationPositionInfo[3];
-            String areaName = locationPositionInfo[2];
-            String regionName = locationPositionInfo[1];
-            String territoryName = locationPositionInfo[0];
+        // Generate the side objectives
+        Area banditHideout = generateBanditHideout();
+        Area lizardCave = generateLizardCave();
+        Area darkElfCave = generateDarkElfCave();
 
-            for (int j = 0; j < locationNeighbourIdStrings.length; j++)
-                locationNeighbourIds[j] = Integer.parseInt(locationNeighbourIdStrings[j]);
+        Area.connectAreaToExitRoom(darkForest.getAreaExitRooms().get(1), banditHideout);
+        Area.connectAreaToExitRoom(mountain.getAreaExitRooms().get(0), lizardCave);
+        Area.connectAreaToExitRoom(enchantedSwamp.getAreaExitRooms().get(0), darkElfCave);
 
-            locations[i] = new Location(locationId, locationName, areaName, regionName, territoryName, locationNeighbourIds);
-
-            // Add Enemies
-            if (!locationEnemyIdStrings[0].equals(""))
-                for (int j = 0; j < locationEnemyIdStrings.length; j++) {
-                    String[] enemyInfo = locationEnemyIdStrings[j].split("/");
-                    int enemyId = Integer.parseInt(enemyInfo[0]);
-                    int enemyQuantity = Integer.parseInt(enemyInfo[1]);
-
-                    for (int k = 1; k <= enemyQuantity; k++)
-                        locations[i].addEnemy(CharacterList.getEnemy(enemyId, k));
-                }
-
-            // Add Merchants
-            if (!locationMerchantIdStrings[0].equals(""))
-                for (int j = 0; j < locationMerchantIdStrings.length; j++)
-                    locations[i].addMerchant(CharacterList.getMerchant(Integer.parseInt(locationMerchantIdStrings[j])));
-
-        }
+        areas.add(crypt);
+        areas.add(darkForest);
+        areas.add(mountain);
+        areas.add(enchantedSwamp);
+        areas.add(undeadTemple);
+        areas.add(banditHideout);
+        areas.add(lizardCave);
+        areas.add(darkElfCave);
 
         locationsInitialized = true;
-
-        startingLocation = locations[8]; // 1
-        startingLocationTutorial = locations[23];
-
-        // Once Locations are initialized, connect neighbours
-        for (Location location : locations)
-            location.initNeighbours();
     }
 }

@@ -1,7 +1,6 @@
 package com.example.TextAdventure;
 
 import com.example.TextAdventure.Character.*;
-import com.example.TextAdventure.Character.Character;
 import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.Trade.Trade;
@@ -9,18 +8,16 @@ import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
-import static com.example.TextAdventure.UserInterface.Output.pause;
 
 public abstract class World {
 
     private static String worldName = "WORLD";
     private static String playerName = "PLAYER";
 
-    private static Location startingLocation;
-    private static Location startingLocationTutorial;
+    private static Room spawnRoom;
 
     private static Player player;
-    private static Location playerLocation;
+    private static Room playerRoom;
 
     private static boolean initialized = false;
     private static boolean playerAlive = true;
@@ -31,8 +28,7 @@ public abstract class World {
         output("\n" + Strings.WORLD_WELCOME, worldName);
       //  beginTutorial();
 
-        playerLocation = startingLocation;
-        playerLocation.enter(Location.MovementType.INIT);
+        World.spawnPlayer();
 
         while (playerAlive) {
             output(Strings.INPUT_COMMAND);
@@ -44,47 +40,45 @@ public abstract class World {
         if (initialized)
             return;
 
-        startingLocation = WorldMap.getStartingLocation();
-        startingLocationTutorial = WorldMap.getStartingLocationTutorial();
+        spawnRoom = WorldMap.getSpawnRoom();
         initPlayer();
 
         initialized = true;
     }
     private static void initPlayer() {
         player = new Player(playerName);
-        playerLocation = startingLocationTutorial;
     }
 
     private static void beginTutorial() {
-        output(Strings.TUTORIAL_BEGIN, worldName);
+ /*       output(Strings.TUTORIAL_BEGIN, worldName);
 
         // VIEW MAP, MOVE LOCATIONS
         executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
         executeCommand(Input.forceCommand(Command.CommandType.GO, "forest2", true));
 
         // COMBAT, ATTACK, HEAL
-        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
+        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),true));
         output(Strings.TUTORIAL_ATTACK_TARGET);
 
-        while (playerLocation.getEnemies().get(0).isAlive())
-            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
+        while (playerRoom.getEnemies().get(0).isAlive())
+            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),false));
 
         executeCommand(Input.forceCommand(Command.CommandType.HEAL));
 
         // LOOT ENEMY, VIEW INVENTORY
         output(Strings.TUTORIAL_DEFEAT_ENEMY);
         output(Strings.TUTORIAL_LOOT_TARGET);
-        executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerLocation.getEnemies().get(0).getName(), false));
+        executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerRoom.getEnemies().get(0).getName(), false));
         executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
 
         // EQUIP SWORD, VIEW EQUIPMENT
         executeCommand(Input.forceCommand(Command.CommandType.EQUIP, "sword1", true));
         executeCommand(Input.forceCommand(Command.CommandType.EQUIPMENT));
 
-        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),true));
+        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),true));
 
-        while (playerLocation.getEnemies().get(0).isAlive())
-            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerLocation.getEnemies().get(0).getName(),false));
+        while (playerRoom.getEnemies().get(0).isAlive())
+            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),false));
 
         // VIEW CHARACTER
         executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
@@ -99,30 +93,35 @@ public abstract class World {
         output(Strings.TUTORIAL_HEALTH_ZERO + "\n");
 
         player.setTarget(null);
-        pause();
+        pause();*/
     }
 
     // Character Functions
+    public static void spawnPlayer() {
+        playerRoom = spawnRoom;
+        viewRoom();
+    }
     public static void movePlayer(String displayName) {
-        Location newLocation = playerLocation.getNeighbour(displayName);
+        Room.AdjacentRoom adjacentRoom = playerRoom.getAdjacentRoom(displayName);
 
-        if (newLocation != null) {
-            playerLocation.leave();
-            player.setTarget(null);
-            playerLocation = newLocation;
-            playerLocation.enter(newLocation.getMovementType(displayName));
+        if (adjacentRoom == null) {
+            output(Strings.WORLD_UNKNOWN_LOCATION, displayName);
             return;
         }
 
-        output(Strings.WORLD_UNKNOWN_LOCATION, displayName);
+        playerRoom.leave();
+        player.setTarget(null);
+        playerRoom = adjacentRoom.getRoom();
+
+        viewRoom();
     }
     public static void attackEnemy(String enemyName) {
-        Character target;
+      /*  Character target;
 
         if (enemyName.equals(""))
             target = player.getTarget();
         else
-            target = playerLocation.getEnemy(enemyName);
+            target = playerRoom.getEnemy(enemyName);
 
         if (target == null) {
             if (enemyName.equals(""))
@@ -158,9 +157,9 @@ public abstract class World {
 
             // Remove the enemy from the game if it has no loot
             if (player.getTarget().isInventoryEmpty())
-                playerLocation.removeEnemy(player.getTarget().getName());
-        }
-    }
+                playerRoom.removeEnemy(player.getTarget().getName());
+        }*/
+    } // TODO
     public static void consumeHealthPotion() {
         if (player.consumeHealthPotion())
             output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getCurrentHealth(), player.getMaxHealth(), player.getNumHealthPotions());
@@ -168,12 +167,12 @@ public abstract class World {
             output(Strings.COMBAT_INSUFFICIENT_HEALTH_POTIONS);
     }
     public static void lootEnemy(String enemyName) {
-        Character lootee;
+   /*     Character lootee;
 
         if (enemyName.equals(""))
             lootee = player.getTarget();
         else
-            lootee = playerLocation.getEnemy(enemyName);
+            lootee = playerRoom.getEnemy(enemyName);
 
         if (lootee == null) {
             if (enemyName.equals(""))
@@ -194,12 +193,13 @@ public abstract class World {
             player.setTarget(null);
 
         // Remove the enemy from the game
-        playerLocation.removeEnemy(lootee.getName());
-    }
+        playerRoom.removeEnemy(lootee.getName());*/
+    } // TODO
 
     // View Functions
-    public static void viewLocation(boolean entering) {
-        playerLocation.viewLocation(entering);
+    public static void viewRoom() {
+        output("You are in " + playerRoom.getAreaName() + ", level " + playerRoom.getLevelNumber() + ".");
+        playerRoom.viewRoom();
     }
     public static void viewCharacter() {
         player.viewCharacter();
@@ -227,7 +227,7 @@ public abstract class World {
 
     // Trade Functions
     public static void tradeMerchant(String merchantName) {
-        Merchant merchant;
+      /*  Merchant merchant;
 
         if (merchantName.equals(""))
             if (player.getTarget() == null || player.getTarget() instanceof Merchant)
@@ -237,7 +237,7 @@ public abstract class World {
                 return;
             }
         else {
-            merchant = playerLocation.getMerchant(merchantName);
+            merchant = playerRoom.getMerchant(merchantName);
 
             if (merchant != null) {
                 player.setTarget(merchant);
@@ -249,7 +249,7 @@ public abstract class World {
             return;
         }
 
-        Trade.viewTrade(player, merchant);
+        Trade.viewTrade(player, merchant);*/
     }
     public static void buyFromMerchant(String itemName) {
         if (player.getTarget() == null || !(player.getTarget() instanceof Merchant)) {
@@ -285,7 +285,7 @@ public abstract class World {
                 movePlayer(command.getArgument());
                 break;
             case EXAMINE:
-                viewLocation(false);
+                viewRoom();
                 break;
             case ATTACK:
                 attackEnemy(command.getArgument());
@@ -330,7 +330,7 @@ public abstract class World {
 
     // called after each valid command
     private static void postCommand() {
-        playerLocation.attackCycle();
+      //  playerRoom.attackCycle();
         output("");
 
         if (!player.isAlive()) {
