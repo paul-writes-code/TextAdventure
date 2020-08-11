@@ -14,15 +14,18 @@ public class Enemy extends Character {
     }
 
     private int experienceGiven;
-    private boolean aggressive; // TODO: once an enemy is attacked, it becomes aggressive and attacks the player every turn while in the same room.
+    private double healthPotionDropChance;
+    private boolean aggressive;
 
-    private Enemy(String name, int hitpoints, int damage, int experienceGiven) {
-        super(name, hitpoints, hitpoints, damage);
+    private Enemy(String name, int hitpoints, int damage, int experienceGiven, double healthPotionDropChance, int enemyNumber) {
+        super(enemyNumber > 0 ? name + enemyNumber : name, hitpoints, hitpoints, damage);
         this.experienceGiven = experienceGiven;
+        this.healthPotionDropChance = healthPotionDropChance;
         aggressive = false;
     }
 
     public int getExperienceGiven() { return experienceGiven; }
+    public double getHealthPotionDropChance() { return healthPotionDropChance; }
     public boolean isAggressive() { return aggressive; }
     public void setAggressive(boolean aggressive) { this.aggressive = aggressive; }
 
@@ -35,18 +38,18 @@ public class Enemy extends Character {
         Output.output(Strings.COMBAT_ENEMY_ATTACK_PLAYER, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
     }
 
-    public static Enemy createEnemy(EnemyType enemyType) {
+    public static Enemy createEnemy(EnemyType enemyType, int enemyNumber) {
         switch (enemyType) {
             case SKELETON:
-                return new Enemy("skeleton", 5, 2, 10);
+                return new Enemy("skeleton", 5, 2, 10, 0.15, enemyNumber);
             case BANDIT:
-                return new Enemy("bandit", 12, 5, 20);
+                return new Enemy("bandit", 12, 5, 20, 0.20, enemyNumber);
             case LIZARD:
-                return new Enemy("lizard", 20, 9, 30);
+                return new Enemy("lizard", 20, 9, 30, 0.25, enemyNumber);
             case DARKELF:
-                return new Enemy("dark elf", 28, 13, 40);
+                return new Enemy("dark elf", 28, 13, 40, .30, enemyNumber);
             case UNDEAD:
-                return new Enemy("undead", 38, 18, 50);
+                return new Enemy("undead", 38, 18, 50, 0.35, enemyNumber);
         }
 
         return null;

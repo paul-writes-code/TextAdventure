@@ -91,6 +91,10 @@ public abstract class World {
             output(Strings.COMBAT_PLAYER_VICTORY, enemy.getDisplayName());
 
             // check if the enemy has a health potion, and take it
+            if (Math.random() < enemy.getHealthPotionDropChance()) {
+                output(Strings.COMBAT_FIND_HEALTH_POTION);
+                player.addHealthPotions(1);
+            }
 
             int oldLevel = player.getLevel();
             int experienceGained = enemy.getExperienceGiven();

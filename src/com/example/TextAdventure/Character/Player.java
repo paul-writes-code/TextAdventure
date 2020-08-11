@@ -17,6 +17,8 @@ public class Player extends Character {
     public Player(String name) {
         super(name, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE);
         numHealthPotions = 5;
+        experience = 0;
+        level = 1;
     }
 
     public int getExperience() { return experience; }
@@ -44,7 +46,6 @@ public class Player extends Character {
 
     // DISPLAY FUNCTIONS
     public void viewCharacter() {
-        output(Strings.CHARACTER_DISPLAY_TITLE);
         output(getDisplayName() + ", level " + getLevel() + " undead warrior");
         output(Strings.CHARACTER_DISPLAY_HEALTH, getHealth(), getHitpoints());
         output(Strings.CHARACTER_DISPLAY_DAMAGE, getDamage());
@@ -53,6 +54,8 @@ public class Player extends Character {
             output(Strings.CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL, getExperience());
         else
             output(Strings.CHARACTER_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForLevel(getLevel() + 1));
+
+        output(Strings.CHARACTER_DISPLAY_HEALTH_POTIONS, getNumHealthPotions());
     }
 
     // EXPERIENCE MANAGEMENT

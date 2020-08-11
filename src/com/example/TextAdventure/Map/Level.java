@@ -60,8 +60,12 @@ public class Level {
             int y =  Character.getNumericValue(roomId.charAt(roomId.length() - 1));
 
             int numEnemies = (int)(Math.random() * 3);
-            for (int j = 0; j < numEnemies; j++)
-                enemies.add(Enemy.createEnemy(enemyType));
+
+            if (numEnemies > 1)
+                for (int j = 1; j <= numEnemies; j++)
+                    enemies.add(Enemy.createEnemy(enemyType, j));
+            else
+                enemies.add(Enemy.createEnemy(enemyType, 0));
 
             Room room = new Room(areaName, levelNumber, x, y, adjacentRoomsString, enemies);
             rooms.add(room);
