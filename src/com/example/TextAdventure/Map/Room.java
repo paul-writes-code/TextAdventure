@@ -1,6 +1,7 @@
 package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Character.Player;
 import com.example.TextAdventure.Common.Strings;
 
 import java.util.ArrayList;
@@ -149,13 +150,31 @@ public class Room {
             enemies.add(enemy);
     }
 
-    public void removeEnemy(String displayName) {
+    public Enemy getEnemy(String displayName) {
         for (Enemy enemy : enemies)
             if (enemy.getDisplayName().equals(displayName))
-                enemies.remove(enemy);
+                return enemy;
+
+        return null;
+    }
+
+    public void removeEnemy(Enemy enemy) {
+        if (enemy != null)
+            enemies.remove(enemy);
     }
 
     public void leave() {
-        // set all enemies to be non-aggressive
+        for (Enemy enemy : enemies)
+            enemy.setAggressive(false);
+    }
+
+    public void attackCycle(Player player) {
+        for (Enemy enemy : enemies)
+            if (enemy.isAggressive()) {
+                enemy.attackPlayer(player);
+
+                if (!player.isAlive())
+                    return;
+            }
     }
 }

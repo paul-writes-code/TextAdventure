@@ -19,7 +19,6 @@ public abstract class World {
     private static Room playerRoom;
 
     private static boolean initialized = false;
-    private static boolean playerAlive = true;
 
     public static void enterWorld() {
         initGame();
@@ -28,8 +27,8 @@ public abstract class World {
 
         World.spawnPlayer();
 
-        // TODO
-        while (playerAlive) {
+        // TODO: ??
+        while (true) {
             output(Strings.INPUT_COMMAND);
             executeCommand(Input.nextCommand());
         }
@@ -40,19 +39,21 @@ public abstract class World {
             return;
 
         spawnRoom = WorldMap.getSpawnRoom();
-        initPlayer();
+        player = new Player(playerName);
 
         initialized = true;
     }
-    private static void initPlayer() {
-        player = new Player(playerName);
-    }
 
-    // Character Functions
-
-    // TODO: exit old room if necessary
+    // Player Functions
     public static void spawnPlayer() {
+        if (playerRoom != null)
+            playerRoom.leave();
+
         playerRoom = spawnRoom;
+        player.fillHealth();
+
+        // TODO: respawn enemies on death?
+
         viewRoom();
     }
 
@@ -70,10 +71,10 @@ public abstract class World {
         viewRoom();
     }
 
-    // TODO
     public static void attackEnemy(String enemyName) {
-   /*     Enemy enemy = playerRoom.getEnemy(enemyName);
+        Enemy enemy = playerRoom.getEnemy(enemyName);
 
+        // Enemy not found
         if (enemy == null) {
             if (enemyName.equals(""))
                 output(Strings.COMBAT_ATTACK_ENEMY);
@@ -82,24 +83,19 @@ public abstract class World {
             return;
         }
 
+        player.attackEnemy(enemy);
+        enemy.setAggressive(true);
+
         if (!enemy.isAlive()) {
-            output(Strings.COMBAT_TARGET_ALREADY_DEFEATED, enemy.getDisplayName());
-            return;
-        }
 
-        if (!enemyName.equals("") && ((player.getTarget() == null)||(!enemyName.equals(player.getTarget().getName())))) {
-            output(Strings.COMBAT_SETTING_TARGET, enemyName);
-            player.setTarget(enemy);
-        }
+            output(Strings.COMBAT_PLAYER_VICTORY, enemy.getDisplayName());
 
-        player.attackTarget();
-
-        if (!player.getTarget().isAlive()) {
-            output(Strings.COMBAT_PLAYER_VICTORY, player.getTarget().getName());
+            // check if the enemy has a health potion, and take it
 
             int oldLevel = player.getLevel();
-            int experienceGained = player.getTarget().getExperience();
+            int experienceGained = enemy.getExperienceGiven();
 
+            // Gain experience, possibly leveling up
             player.gainXp(experienceGained);
             output(Strings.COMBAT_GAIN_XP, experienceGained);
 
@@ -107,28 +103,27 @@ public abstract class World {
                 output(Strings.COMBAT_LEVEL_UP, player.getLevel());
 
             // Remove the enemy from the game if it has no loot
-            if (player.getTarget().isInventoryEmpty())
-                playerRoom.removeEnemy(player.getTarget().getName());
-        }*/
+            playerRoom.removeEnemy(enemy);
+
+            output("");
+            viewRoom();
+        }
     }
 
-    // TODO
-    public static void consumeHealthPotion() { // TODO
+    public static void consumeHealthPotion() {
         if (player.consumeHealthPotion())
             output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getHealth(), player.getHitpoints(), player.getNumHealthPotions());
         else
             output(Strings.COMBAT_INSUFFICIENT_HEALTH_POTIONS);
-    } // TODO
+    }
 
 
     // View Functions
-    // TODO
     public static void viewRoom() {
         output("You are in " + playerRoom.getAreaName() + " level " + playerRoom.getLevelNumber() + ".");
         playerRoom.viewRoom();
     }
 
-    // TODO
     public static void viewCharacter() {
         player.viewCharacter();
     }
@@ -165,12 +160,13 @@ public abstract class World {
 
     // called after each valid command
     private static void postCommand() {
-      //  playerRoom.attackCycle();
+
+        playerRoom.attackCycle(player);
         output("");
 
         if (!player.isAlive()) {
             output(Strings.COMBAT_PLAYER_DEFEATED);
-            playerAlive = false;
+            spawnPlayer();
         }
     }
 }

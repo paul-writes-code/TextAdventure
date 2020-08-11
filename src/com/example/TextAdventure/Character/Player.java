@@ -2,7 +2,6 @@ package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Common.Utility;
-import com.example.TextAdventure.UserInterface.Output;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
 

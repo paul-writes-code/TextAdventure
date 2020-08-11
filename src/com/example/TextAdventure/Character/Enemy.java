@@ -22,6 +22,10 @@ public class Enemy extends Character {
         aggressive = false;
     }
 
+    public int getExperienceGiven() { return experienceGiven; }
+    public boolean isAggressive() { return aggressive; }
+    public void setAggressive(boolean aggressive) { this.aggressive = aggressive; }
+
     public void attackPlayer(Player player) {
         if (player == null)
             return;
