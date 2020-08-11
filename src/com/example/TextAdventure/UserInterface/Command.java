@@ -7,15 +7,7 @@ public class Command {
         EXAMINE,
         ATTACK,
         HEAL,
-        LOOT,
-        EQUIP,
-        UNEQUIP,
-        BUY,
-        SELL,
-        INVENTORY,
-        EQUIPMENT,
         CHARACTER,
-        TRADE
     }
 
     private CommandType commandType;
@@ -24,9 +16,11 @@ public class Command {
     public Command(CommandType commandType) {
         initCommand(commandType, "");
     }
+
     public Command(CommandType commandType, String argument) {
         initCommand(commandType, argument);
     }
+
     private void initCommand(CommandType commandType, String argument) {
         this.commandType = commandType;
         this.argument = argument;

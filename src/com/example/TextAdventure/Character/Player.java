@@ -1,44 +1,60 @@
 package com.example.TextAdventure.Character;
 
-import com.example.TextAdventure.Combat.Combat;
+import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.Common.Utility;
-import com.example.TextAdventure.Equipment.EquipmentSet;
-import com.example.TextAdventure.Item.Inventory;
-import com.example.TextAdventure.Item.ItemList;
+import com.example.TextAdventure.UserInterface.Output;
+
+import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class Player extends Character {
 
-    public static final int PLAYER_ID = -1;
+    public static final int PLAYER_ID = 0;
     public static final int PLAYER_BASE_HEALTH = 10;
     public static final int PLAYER_BASE_DAMAGE = 2;
-    public static final int PLAYER_BASE_DEFENCE = 2;
+
+    protected int experience;
+    protected int level;
+    protected int numHealthPotions;
 
     public Player(String name) {
-        super(PLAYER_ID, name, 0, 1, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE, PLAYER_BASE_DEFENCE, null, null);
-        initPlayer(0);
-    }
-    public Player(String name, int experience, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory, EquipmentSet equipmentSet) {
-        super(PLAYER_ID, name, 0, 1, currentHealth, maxHealth, damage, defence, inventory, equipmentSet);
-        initPlayer(experience);
-    }
-    private void initPlayer(int experience) {
-        gainXp(experience);
-        inventory.addHealthPotions(3);
-        inventory.addItem(ItemList.getItem(12)); // 7
-        inventory.addGold(500);
+        super(PLAYER_ID, name, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE);
+        numHealthPotions = 5;
     }
 
-    public boolean canBeAttacked() { return isAlive(); }
-    public boolean canBeLooted() { return false; }
-    public boolean canBeTraded() { return true; }
+    public int getExperience() { return experience; }
+    public int getLevel() { return level; }
 
-    public Inventory beLooted() { return null; }
+    public int getNumHealthPotions() { return numHealthPotions; }
+    public void addHealthPotions(int quantity) { numHealthPotions += quantity; }
+    public boolean consumeHealthPotion() {
+        if (numHealthPotions <= 0)
+            return false;
 
-    public int attackTarget() {
-        if (getTarget() == null)
-            return -1;
+        numHealthPotions--;
+        fillHealth();
+        return true;
+    }
 
-        return Combat.attack(this, getTarget(), true, getTarget() instanceof Player);
+    public void attackEnemy(Enemy enemy) {
+        if (enemy == null)
+            return;
+
+        int damageInflicted = enemy.takeDamage(generateDamageRoll());
+
+        output(Strings.COMBAT_PLAYER_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
+    }
+
+    // DISPLAY FUNCTIONS
+    public void viewCharacter() {
+        output(Strings.CHARACTER_DISPLAY_TITLE);
+        output(getDisplayName() + ", level " + getLevel() + " undead warrior");
+        output(Strings.CHARACTER_DISPLAY_HEALTH, getHealth(), getHitpoints());
+        output(Strings.CHARACTER_DISPLAY_DAMAGE, getDamage());
+
+        if (getLevel() == 5)
+            output(Strings.CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL, getExperience());
+        else
+            output(Strings.CHARACTER_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForLevel(getLevel() + 1));
     }
 
     // EXPERIENCE MANAGEMENT
@@ -52,10 +68,9 @@ public class Player extends Character {
     private void levelUp() {
         while (Utility.getLevelFromExperience(experience) - level > 0) {
             level++;
-            maxHealth += level % 2 == 0 ? 2 : 3;
+            hitpoints += level % 2 == 0 ? 2 : 3;
             damage += level == 5 ? 2 : 1;
-            defence += 4;
-            refresh();
+            fillHealth();
         }
     }
 }

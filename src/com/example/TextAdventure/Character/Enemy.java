@@ -1,33 +1,20 @@
 package com.example.TextAdventure.Character;
 
-import com.example.TextAdventure.Combat.Combat;
-import com.example.TextAdventure.Item.Inventory;
-import com.example.TextAdventure.Item.ItemList;
+import com.example.TextAdventure.Common.Strings;
+import com.example.TextAdventure.UserInterface.Output;
 
 public class Enemy extends Character {
 
-    public Enemy(int id, String name, int experience, int level, int currentHealth, int maxHealth, int damage, int defence, Inventory inventory) {
-        super(id, name, experience, level, currentHealth, maxHealth, damage, defence, inventory, null);
-
-        addGold((int)(Math.random() * 6));
-
-        // Randomly generate some test items
-        if ((Math.random() * 2) < 1.2)
-            addItem(ItemList.getItem(12));
-        else
-            addItem(ItemList.getItem(13));
+    public Enemy(int id, String name, int currentHealth, int maxHealth, int damage) {
+        super(id, name, currentHealth, maxHealth, damage);
     }
 
-    public boolean canBeAttacked() { return isAlive(); }
-    public boolean canBeLooted() { return !isAlive(); }
-    public boolean canBeTraded() { return false; }
+    public void attackPlayer(Player player) {
+        if (player == null)
+            return;
 
-    public Inventory beLooted() { return emptyInventory(); }
+        int damageInflicted = player.takeDamage(generateDamageRoll());
 
-    public int attackTarget() {
-        if (getTarget() == null)
-            return -1;
-
-        return Combat.attack(this, getTarget(), false, getTarget() instanceof Player);
+        Output.output(Strings.COMBAT_ENEMY_ATTACK_PLAYER, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
     }
 }
