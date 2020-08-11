@@ -5,11 +5,21 @@ import com.example.TextAdventure.UserInterface.Output;
 
 public class Enemy extends Character {
 
-    private int experienceGiven;
+    public enum EnemyType {
+        SKELETON,
+        BANDIT,
+        LIZARD,
+        DARKELF,
+        UNDEAD
+    }
 
-    private Enemy(int id, String name, int hitpoints, int damage, int experienceGiven) {
-        super(id, name, hitpoints, hitpoints, damage);
+    private int experienceGiven;
+    private boolean aggressive; // TODO: once an enemy is attacked, it becomes aggressive and attacks the player every turn while in the same room.
+
+    private Enemy(String name, int hitpoints, int damage, int experienceGiven) {
+        super(name, hitpoints, hitpoints, damage);
         this.experienceGiven = experienceGiven;
+        aggressive = false;
     }
 
     public void attackPlayer(Player player) {
@@ -21,19 +31,20 @@ public class Enemy extends Character {
         Output.output(Strings.COMBAT_ENEMY_ATTACK_PLAYER, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
     }
 
-    public static Enemy createSkeleton() {
-        return new Enemy(1, "skeleton", 5, 2, 10);
-    }
-    public static Enemy createBandit() {
-        return new Enemy(2, "bandit", 12, 5, 20);
-    }
-    public static Enemy createLizard() {
-        return new Enemy(3, "lizard", 20, 9, 30);
-    }
-    public static Enemy createDarkElf() {
-        return new Enemy(4, "dark elf", 28, 13, 40);
-    }
-    public static Enemy createUndead() {
-        return new Enemy(5, "undead", 38, 18, 50);
+    public static Enemy createEnemy(EnemyType enemyType) {
+        switch (enemyType) {
+            case SKELETON:
+                return new Enemy("skeleton", 5, 2, 10);
+            case BANDIT:
+                return new Enemy("bandit", 12, 5, 20);
+            case LIZARD:
+                return new Enemy("lizard", 20, 9, 30);
+            case DARKELF:
+                return new Enemy("dark elf", 28, 13, 40);
+            case UNDEAD:
+                return new Enemy("undead", 38, 18, 50);
+        }
+
+        return null;
     }
 }

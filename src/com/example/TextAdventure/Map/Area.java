@@ -1,5 +1,7 @@
 package com.example.TextAdventure.Map;
 
+import com.example.TextAdventure.Character.Enemy;
+
 import java.util.ArrayList;
 
 public class Area {
@@ -34,11 +36,11 @@ public class Area {
         adjacentArea.startRoom.connectToRoom(areaExitRoom);
     }
 
-    public static Area generateArea(String areaName, ArrayList<String> levelStrings) {
+    public static Area generateArea(String areaName, ArrayList<String> levelStrings, Enemy.EnemyType enemyType) {
         ArrayList<Level> levels = new ArrayList<>();
         ArrayList<Room> areaExitRooms = new ArrayList<>();
 
-        Level previousLevel = Level.generateLevel(areaName, 1, levelStrings.get(0));
+        Level previousLevel = Level.generateLevel(areaName, 1, levelStrings.get(0), enemyType);
         Level nextLevel;
 
         for (Room room : previousLevel.getAreaExitRooms())
@@ -48,7 +50,7 @@ public class Area {
 
         // Generates each level and chains them together sequentially, from endRoom to startRoom
         for (int i = 1; i < levelStrings.size(); i++) {
-            nextLevel = Level.generateLevel(areaName, i + 1, levelStrings.get(i));
+            nextLevel = Level.generateLevel(areaName, i + 1, levelStrings.get(i), enemyType);
 
             for (Room room : nextLevel.getAreaExitRooms())
                 areaExitRooms.add(room);

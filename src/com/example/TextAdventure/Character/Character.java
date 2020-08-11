@@ -2,14 +2,12 @@ package com.example.TextAdventure.Character;
 
 public abstract class Character {
 
-    protected int characterId;
     protected String displayName;
     protected int health;
     protected int hitpoints;
     protected int damage;
 
-    public Character(int characterId, String displayName, int health, int hitpoints, int damage) {
-        this.characterId = characterId;
+    public Character(String displayName, int health, int hitpoints, int damage) {
         this.displayName = displayName;
         this.health = health;
         this.hitpoints = hitpoints;

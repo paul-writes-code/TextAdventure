@@ -1,5 +1,7 @@
 package com.example.TextAdventure.Map;
 
+import com.example.TextAdventure.Character.Enemy;
+
 import java.util.ArrayList;
 
 public class Level {
@@ -32,7 +34,7 @@ public class Level {
         secondLevel.startRoom.connectToRoom(firstLevel.endRoom);
     }
 
-    public static Level generateLevel(String areaName, int levelNumber, String levelString) {
+    public static Level generateLevel(String areaName, int levelNumber, String levelString, Enemy.EnemyType enemyType) {
 
         // Split up each room's information line, which are separated by apostrophes.
         String[] roomLines = levelString.split("'");
@@ -45,6 +47,8 @@ public class Level {
         // Create each room
         for (int i = 0; i < roomLines.length; i++) {
 
+            ArrayList<Enemy> enemies = new ArrayList<>();
+
             // Split up the roomId from the room adjacency list, which are separated by a semi-colon.
             String[] roomInfo = roomLines[i].split(";");
 
@@ -55,7 +59,11 @@ public class Level {
             int x =  Character.getNumericValue(roomId.charAt(roomId.length() - 2));
             int y =  Character.getNumericValue(roomId.charAt(roomId.length() - 1));
 
-            Room room = new Room(areaName, levelNumber, x, y, adjacentRoomsString);
+            int numEnemies = (int)(Math.random() * 3);
+            for (int j = 0; j < numEnemies; j++)
+                enemies.add(Enemy.createEnemy(enemyType));
+
+            Room room = new Room(areaName, levelNumber, x, y, adjacentRoomsString, enemies);
             rooms.add(room);
 
             // Search for markers

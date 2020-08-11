@@ -1,5 +1,7 @@
 package com.example.TextAdventure.Map;
 
+import com.example.TextAdventure.Character.Enemy;
+
 import java.util.ArrayList;
 
 public class WorldMap {
@@ -51,7 +53,7 @@ public class WorldMap {
                 "13;03,23'" +
                 "]23;13");
 
-        return Area.generateArea("dark forest", levelStrings);
+        return Area.generateArea("dark forest", levelStrings, Enemy.EnemyType.BANDIT);
     }
     private static Area generateMountain() {
 
@@ -88,7 +90,7 @@ public class WorldMap {
                 "12;22,13'" +
                 "]13;12");
 
-        return Area.generateArea("mountain", levelStrings);
+        return Area.generateArea("mountain", levelStrings, Enemy.EnemyType.LIZARD);
     }
     private static Area generateEnchantedSwamp() {
 
@@ -124,7 +126,7 @@ public class WorldMap {
                 "31;21,30'" +
                 "]30;31");
 
-        return Area.generateArea("enchanted swamp", levelStrings);
+        return Area.generateArea("enchanted swamp", levelStrings, Enemy.EnemyType.DARKELF);
     }
     private static Area generateUndeadTemple() {
 
@@ -201,7 +203,7 @@ public class WorldMap {
                         "22;21,23'" +
                         "23;22");
 
-        return Area.generateArea("undead temple", levelStrings);
+        return Area.generateArea("undead temple", levelStrings, Enemy.EnemyType.UNDEAD);
     }
 
     private static Area generateCrypt() {
@@ -232,7 +234,7 @@ public class WorldMap {
                 "11;12,21'" +
                 "x21;11");
 
-        return Area.generateArea("crypt", levelStrings);
+        return Area.generateArea("crypt", levelStrings, Enemy.EnemyType.SKELETON);
     }
     private static Area generateBanditHideout() {
 
@@ -262,7 +264,7 @@ public class WorldMap {
                 "22;21,12'" +
                 "12;22");
 
-        return Area.generateArea("bandit hideout", levelStrings);
+        return Area.generateArea("bandit hideout", levelStrings, Enemy.EnemyType.BANDIT);
     }
     private static Area generateLizardCave() {
 
@@ -287,7 +289,7 @@ public class WorldMap {
                 "33;23,32'" +
                 "32;33");
 
-        return Area.generateArea("lizard cave", levelStrings);
+        return Area.generateArea("lizard cave", levelStrings, Enemy.EnemyType.LIZARD);
     }
     private static Area generateDarkElfCave() {
         ArrayList<String> levelStrings = new ArrayList<>();
@@ -316,7 +318,7 @@ public class WorldMap {
                 "10;11,20'" +
                 "20;10,21");
 
-        return Area.generateArea("dark elf cave", levelStrings);
+        return Area.generateArea("dark elf cave", levelStrings, Enemy.EnemyType.DARKELF);
     }
 
     private static void initMap() {

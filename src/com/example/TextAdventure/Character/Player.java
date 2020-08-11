@@ -8,7 +8,6 @@ import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class Player extends Character {
 
-    public static final int PLAYER_ID = 0;
     public static final int PLAYER_BASE_HEALTH = 10;
     public static final int PLAYER_BASE_DAMAGE = 2;
 
@@ -17,7 +16,7 @@ public class Player extends Character {
     protected int numHealthPotions;
 
     public Player(String name) {
-        super(PLAYER_ID, name, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE);
+        super(name, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE);
         numHealthPotions = 5;
     }
 

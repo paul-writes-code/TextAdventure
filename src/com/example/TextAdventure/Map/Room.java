@@ -71,10 +71,11 @@ public class Room {
         initRoomInfo(areaName, levelNumber, x, y);
     }
 
-    public Room(String areaName, int levelNumber, int x, int y, String[] adjacentRoomStrings) {
+    public Room(String areaName, int levelNumber, int x, int y, String[] adjacentRoomStrings, ArrayList<Enemy> enemies) {
         initRoomInfo(areaName, levelNumber, x, y);
 
         adjacentRooms = new ArrayList<>();
+        this.enemies = enemies;
 
         // These are the adjacent rooms within the same level
         for (int i = 0; i < adjacentRoomStrings.length; i++) {
@@ -100,6 +101,13 @@ public class Room {
     public int getX() { return x; }
     public int getY() { return y; }
 
+    public AdjacentRoom getAdjacentRoom(String displayName) {
+        for (AdjacentRoom room : adjacentRooms)
+            if (room.displayName.equals(displayName))
+                return room;
+
+        return null;
+    }
 
     // Second pass replaces temporary Room objects with pointers to real rooms, once all the rooms have been created.
     public void finalizeAdjacentRooms(Level level) {
@@ -111,16 +119,6 @@ public class Room {
 
     public void connectToRoom(Room room) {
         adjacentRooms.add(new AdjacentRoom(room, this));
-    }
-
-
-
-    public AdjacentRoom getAdjacentRoom(String displayName) {
-        for (AdjacentRoom room : adjacentRooms)
-            if (room.displayName.equals(displayName))
-                return room;
-
-        return null;
     }
 
     @Override
@@ -138,63 +136,26 @@ public class Room {
     public void viewRoom() {
 
         // Display local map
-        if (adjacentRooms != null)
-            for (AdjacentRoom adjacentRoom : adjacentRooms)
-                output(Strings.LOCATION_DISPLAY_OBJECT_GO, adjacentRoom.displayName);
-
-    }
-
-    // TODO
-    public void leave() {
-     /*   if (enemies == null || enemies.size() == 0)
-            return;
-
-        for (Enemy enemy : enemies)
-            if (enemy.getTarget() != null)
-                enemy.setTarget(null);*/
-    }
-
-    // TODO: tidy this up after implementing combat
-    // This gets called every time a command has been input (every turn).
- /*   public void attackCycle() {
-        if (enemies == null || enemies.size() == 0)
-            return;
-
-        for (Enemy enemy : enemies)
-            if (enemy.isAlive() && enemy.getTarget() != null)
-                enemy.attackTarget();
-    }*/
- /*   public void viewRoom() {
-        ArrayList<Enemy> attackList = new ArrayList<>();
-        ArrayList<Enemy> lootList = new ArrayList<>();
-
-        if (entering)
-            output(Strings.LOCATION_DISPLAY_TITLE_ENTER, locationName, areaName);
-        else
-            output(Strings.LOCATION_DISPLAY_TITLE_EXAMINE, locationName, areaName);
-
-        // Display local map
-        if (neighbours != null)
-            for (Location.LocationNeighbour neighbour : neighbours)
-                output(Strings.LOCATION_DISPLAY_OBJECT_GO, neighbour.displayName);
-
-        // Display local merchants
-        if (merchants != null)
-            for (Merchant merchant : merchants)
-                output(Strings.LOCATION_DISPLAY_OBJECT_TRADE, merchant.getName());
+        for (AdjacentRoom adjacentRoom : adjacentRooms)
+            output(Strings.LOCATION_DISPLAY_OBJECT_GO, adjacentRoom.displayName);
 
         // Display local enemies
-        if (enemies != null)
-            for (Enemy enemy : enemies)
-                if (enemy.getCurrentHealth() > 0)
-                    attackList.add(enemy);
-                else
-                    lootList.add(enemy);
+        for (Enemy enemy : enemies)
+            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
+    }
 
-        for (Enemy enemy : attackList)
-            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getName(), enemy.getLevel(), enemy.getCurrentHealth(), enemy.getMaxHealth());
+    public void addEnemy(Enemy enemy) {
+        if (enemy != null)
+            enemies.add(enemy);
+    }
 
-        for (Enemy enemy : lootList)
-            output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.inventoryToString());
-    }*/
+    public void removeEnemy(String displayName) {
+        for (Enemy enemy : enemies)
+            if (enemy.getDisplayName().equals(displayName))
+                enemies.remove(enemy);
+    }
+
+    public void leave() {
+        // set all enemies to be non-aggressive
+    }
 }

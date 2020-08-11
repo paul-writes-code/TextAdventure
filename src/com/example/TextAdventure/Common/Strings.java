@@ -45,7 +45,7 @@ public class Strings {
     // View Location
     public static final String LOCATION_DISPLAY_OBJECT_GO = INDENTATION + Input.COMMAND_GO + DISPLAY_STRING;
     public static final String LOCATION_DISPLAY_OBJECT_ATTACK = INDENTATION + Input.COMMAND_ATTACK + DISPLAY_STRING
-            + DISPLAY_DETAILS + DISPLAY_LEVEL + " " + "%d" + DISPLAY_DETAILS_SEPARATOR + "%d/%d " + DISPLAY_HEALTH;
+            + DISPLAY_DETAILS + "%d/%d " + DISPLAY_HEALTH;
 
     // View Character
     public static final String CHARACTER_DISPLAY_TITLE = DISPLAY_TITLE_CHARACTER + DISPLAY;
