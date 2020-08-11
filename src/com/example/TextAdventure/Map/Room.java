@@ -16,18 +16,17 @@ public class Room {
 
     public static class AdjacentRoom {
         private Room room;
-        private String displayName; // the name the player sees.
-        private MovementType movementType; // whether this adjacent room is in a different level or area.
+        private String displayName; // The name of the room the player sees.
+        private MovementType movementType; // Whether this adjacent room is in a different level or area.
 
-        private AdjacentRoom(Room adjacentRoom, Room originalRoom) {
-            room = adjacentRoom;
+        // First pass stores the room adjacency information in temporary placeholder Room objects, as not all room objects have been created at this point.
+        private AdjacentRoom(String areaName, int levelNumber, int xCoordinate, int yCoordinate, Room originalRoom) {
+            room = new Room(areaName, levelNumber, xCoordinate, yCoordinate);
             initMovementInfo(originalRoom);
         }
 
-        // first pass just stores the room information in these temporary Room objects
-        // second pass will replace these Room objects with pointers to real rooms.
-        private AdjacentRoom(String roomId, String areaName, int levelNumber, Room originalRoom) {
-            room = new Room(roomId, areaName, levelNumber);
+        private AdjacentRoom(Room adjacentRoom, Room originalRoom) {
+            room = adjacentRoom;
             initMovementInfo(originalRoom);
         }
 
@@ -47,11 +46,11 @@ public class Room {
             else { // same level, different room
                 movementType = MovementType.ROOM;
 
-                if (originalRoom.xCoord < room.xCoord)
+                if (originalRoom.x < room.x)
                     displayName = "east";
-                else if (originalRoom.xCoord > room.xCoord)
+                else if (originalRoom.x > room.x)
                     displayName = "west";
-                else if (originalRoom.yCoord < room.yCoord)
+                else if (originalRoom.y < room.y)
                     displayName = "north";
                 else
                     displayName = "south";
@@ -61,8 +60,8 @@ public class Room {
 
     private String areaName;
     private int levelNumber;
-    private int xCoord;
-    private int yCoord;
+    private int x; // x-coordinate in level
+    private int y; // y-coordinate in level
 
     public AdjacentRoom getAdjacentRoom(String displayName) {
         for (AdjacentRoom room : adjacentRooms)
@@ -74,29 +73,43 @@ public class Room {
 
     private ArrayList<AdjacentRoom> adjacentRooms;
 
-    private Room(String roomId, String areaName, int levelNumber) {
-        initRoomInfo(roomId, areaName, levelNumber);
-    }
-    public Room(String roomId, String areaName, int levelNumber, String[] adjacentRoomStrings) {
-        initRoomInfo(roomId, areaName, levelNumber);
-
-        adjacentRooms = new ArrayList<AdjacentRoom>();
-
-        for (int i = 0; i < adjacentRoomStrings.length; i++)
-            adjacentRooms.add(new AdjacentRoom(adjacentRoomStrings[i], areaName, levelNumber, this));
+    private Room(String areaName, int levelNumber, int x, int y) {
+        initRoomInfo(areaName, levelNumber, x, y);
     }
 
-    //  roomId is xy, the (x, y) position of the room within its level // TODO: change this to take in coords
-    private void initRoomInfo(String roomId, String areaName, int levelNumber) {
+    public Room(String areaName, int levelNumber, int x, int y, String[] adjacentRoomStrings) {
+        initRoomInfo(areaName, levelNumber, x, y);
+
+        adjacentRooms = new ArrayList<>();
+
+        // These are the adjacent rooms within the same level
+        for (int i = 0; i < adjacentRoomStrings.length; i++) {
+
+            // adjacentRoomStrings[i] is "xy"
+            int xAdj = Integer.parseInt(adjacentRoomStrings[i].substring(0, 1));
+            int yAdj = Integer.parseInt(adjacentRoomStrings[i].substring(1));
+
+            // Create a placeholder room to store adjacency information (first pass).
+            adjacentRooms.add(new AdjacentRoom(areaName, levelNumber, xAdj, yAdj, this));
+        }
+    }
+
+    private void initRoomInfo(String areaName, int levelNumber, int x, int y) {
         this.areaName = areaName;
         this.levelNumber = levelNumber;
-        xCoord = Integer.parseInt(roomId.substring(0,1));
-        yCoord = Integer.parseInt(roomId.substring(1));
+        this.x = x;
+        this.y = y;
     }
 
-    public void setAdjacentRooms(Room[] rooms) {
+    public String getAreaName() { return areaName; }
+    public int getLevelNumber() { return levelNumber; }
+    public int getX() { return x; }
+    public int getY() { return y; }
+
+    // Second pass replaces temporary Room objects with pointers to real rooms, once all the rooms have been created.
+    public void finalizeAdjacentRooms(Level level) {
         for (AdjacentRoom adjacentRoom : adjacentRooms)
-            for (Room room : rooms)
+            for (Room room : level.getRooms())
                 if (adjacentRoom.room.equals(room))
                     adjacentRoom.room = room;
     }
@@ -104,11 +117,6 @@ public class Room {
     public void connectToRoom(Room room) {
         adjacentRooms.add(new AdjacentRoom(room, this));
     }
-
-    public String getAreaName() { return areaName; }
-    public int getLevelNumber() { return levelNumber; }
-    public int getxCoord() { return xCoord; }
-    public int getyCoord() { return yCoord; }
 
     @Override
     public boolean equals(Object object) {
@@ -118,10 +126,18 @@ public class Room {
         return object instanceof Room
                 && ((Room) object).areaName.equals(areaName)
                 && ((Room) object).levelNumber == levelNumber
-                && ((Room) object).xCoord == xCoord
-                && ((Room) object).yCoord == yCoord;
+                && ((Room) object).x == x
+                && ((Room) object).y == y;
     }
 
+    public void viewRoom() {
+
+        // Display local map
+        if (adjacentRooms != null)
+            for (AdjacentRoom adjacentRoom : adjacentRooms)
+                output(Strings.LOCATION_DISPLAY_OBJECT_GO, adjacentRoom.displayName);
+
+    }
 
     public void leave() {
      /*   if (enemies == null || enemies.size() == 0)
@@ -132,6 +148,7 @@ public class Room {
                 enemy.setTarget(null);*/
     }
 
+    // TODO: tidy this up after implementing combat
     // This gets called every time a command has been input (every turn).
  /*   public void attackCycle() {
         if (enemies == null || enemies.size() == 0)
@@ -141,7 +158,6 @@ public class Room {
             if (enemy.isAlive() && enemy.getTarget() != null)
                 enemy.attackTarget();
     }*/
-
  /*   public void viewRoom() {
         ArrayList<Enemy> attackList = new ArrayList<>();
         ArrayList<Enemy> lootList = new ArrayList<>();
@@ -175,13 +191,4 @@ public class Room {
         for (Enemy enemy : lootList)
             output(Strings.LOCATION_DISPLAY_OBJECT_LOOT, enemy.getName(), enemy.inventoryToString());
     }*/
-
-    public void viewRoom() {
-
-        // Display local map
-        if (adjacentRooms != null)
-            for (AdjacentRoom adjacentRoom : adjacentRooms)
-                output(Strings.LOCATION_DISPLAY_OBJECT_GO, adjacentRoom.displayName);
-
-    }
 }

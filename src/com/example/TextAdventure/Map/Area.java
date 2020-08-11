@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 public class Area {
     private String areaName;
+
+    private ArrayList<Level> levels;
     private Room startRoom;
     private Room endRoom;
-    private ArrayList<Level> levels;
     private ArrayList<Room> areaExitRooms;
 
     private Area(String areaName, ArrayList<Level> levels, ArrayList<Room> areaExitRooms) {
@@ -21,23 +22,23 @@ public class Area {
     public Room getEndRoom() { return endRoom; }
     public ArrayList<Room> getAreaExitRooms() { return areaExitRooms; }
 
-    // chains two areas together
+    // Chain two areas together sequentially.
     public static void connectAreas(Area firstArea, Area secondArea) {
         firstArea.endRoom.connectToRoom(secondArea.startRoom);
         secondArea.startRoom.connectToRoom(firstArea.endRoom);
     }
 
-    // chains adjacentArea to areaExitRoom
+    // Chain adjacentArea on to areaExitRoom
     public static void connectAreaToExitRoom(Room areaExitRoom, Area adjacentArea) {
         areaExitRoom.connectToRoom(adjacentArea.startRoom);
         adjacentArea.startRoom.connectToRoom(areaExitRoom);
     }
 
-    public static Area generateArea(String areaName, String[] levelStrings) {
+    public static Area generateArea(String areaName, ArrayList<String> levelStrings) {
         ArrayList<Level> levels = new ArrayList<>();
         ArrayList<Room> areaExitRooms = new ArrayList<>();
 
-        Level previousLevel = Level.generateLevel(areaName, 1, levelStrings[0]);
+        Level previousLevel = Level.generateLevel(areaName, 1, levelStrings.get(0));
         Level nextLevel;
 
         for (Room room : previousLevel.getAreaExitRooms())
@@ -45,8 +46,9 @@ public class Area {
 
         levels.add(previousLevel);
 
-        for (int i = 1; i < levelStrings.length; i++) {
-            nextLevel = Level.generateLevel(areaName, i + 1, levelStrings[i]);
+        // Generates each level and chains them together sequentially, from endRoom to startRoom
+        for (int i = 1; i < levelStrings.size(); i++) {
+            nextLevel = Level.generateLevel(areaName, i + 1, levelStrings.get(i));
 
             for (Room room : nextLevel.getAreaExitRooms())
                 areaExitRooms.add(room);

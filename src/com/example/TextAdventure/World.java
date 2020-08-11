@@ -49,53 +49,6 @@ public abstract class World {
         player = new Player(playerName);
     }
 
-    private static void beginTutorial() {
- /*       output(Strings.TUTORIAL_BEGIN, worldName);
-
-        // VIEW MAP, MOVE LOCATIONS
-        executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
-        executeCommand(Input.forceCommand(Command.CommandType.GO, "forest2", true));
-
-        // COMBAT, ATTACK, HEAL
-        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),true));
-        output(Strings.TUTORIAL_ATTACK_TARGET);
-
-        while (playerRoom.getEnemies().get(0).isAlive())
-            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),false));
-
-        executeCommand(Input.forceCommand(Command.CommandType.HEAL));
-
-        // LOOT ENEMY, VIEW INVENTORY
-        output(Strings.TUTORIAL_DEFEAT_ENEMY);
-        output(Strings.TUTORIAL_LOOT_TARGET);
-        executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerRoom.getEnemies().get(0).getName(), false));
-        executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
-
-        // EQUIP SWORD, VIEW EQUIPMENT
-        executeCommand(Input.forceCommand(Command.CommandType.EQUIP, "sword1", true));
-        executeCommand(Input.forceCommand(Command.CommandType.EQUIPMENT));
-
-        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),true));
-
-        while (playerRoom.getEnemies().get(0).isAlive())
-            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),false));
-
-        // VIEW CHARACTER
-        executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
-        executeCommand(Input.forceCommand(Command.CommandType.UNEQUIP, "sword1", true));
-
-        // TRADE, BUY, SELL
-        output("\n" + Strings.TUTORIAL_ITEMS_MERCHANT);
-        executeCommand(Input.forceCommand(Command.CommandType.TRADE, "merchant2", true));
-        executeCommand(Input.forceCommand(Command.CommandType.BUY, "shield3", true));
-        executeCommand(Input.forceCommand(Command.CommandType.SELL, "sword1", true));
-
-        output(Strings.TUTORIAL_HEALTH_ZERO + "\n");
-
-        player.setTarget(null);
-        pause();*/
-    }
-
     // Character Functions
     public static void spawnPlayer() {
         playerRoom = spawnRoom;
@@ -198,7 +151,7 @@ public abstract class World {
 
     // View Functions
     public static void viewRoom() {
-        output("You are in " + playerRoom.getAreaName() + ", level " + playerRoom.getLevelNumber() + ".");
+        output("You are in " + playerRoom.getAreaName() + " level " + playerRoom.getLevelNumber() + ".");
         playerRoom.viewRoom();
     }
     public static void viewCharacter() {
@@ -337,5 +290,52 @@ public abstract class World {
             output(Strings.COMBAT_PLAYER_DEFEATED);
             playerAlive = false;
         }
+    }
+    
+    private static void beginTutorial() { // TODO: ??
+ /*       output(Strings.TUTORIAL_BEGIN, worldName);
+
+        // VIEW MAP, MOVE LOCATIONS
+        executeCommand(Input.forceCommand(Command.CommandType.EXAMINE));
+        executeCommand(Input.forceCommand(Command.CommandType.GO, "forest2", true));
+
+        // COMBAT, ATTACK, HEAL
+        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),true));
+        output(Strings.TUTORIAL_ATTACK_TARGET);
+
+        while (playerRoom.getEnemies().get(0).isAlive())
+            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),false));
+
+        executeCommand(Input.forceCommand(Command.CommandType.HEAL));
+
+        // LOOT ENEMY, VIEW INVENTORY
+        output(Strings.TUTORIAL_DEFEAT_ENEMY);
+        output(Strings.TUTORIAL_LOOT_TARGET);
+        executeCommand(Input.forceCommand(Command.CommandType.LOOT, playerRoom.getEnemies().get(0).getName(), false));
+        executeCommand(Input.forceCommand(Command.CommandType.INVENTORY));
+
+        // EQUIP SWORD, VIEW EQUIPMENT
+        executeCommand(Input.forceCommand(Command.CommandType.EQUIP, "sword1", true));
+        executeCommand(Input.forceCommand(Command.CommandType.EQUIPMENT));
+
+        executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),true));
+
+        while (playerRoom.getEnemies().get(0).isAlive())
+            executeCommand(Input.forceCommand(Command.CommandType.ATTACK, playerRoom.getEnemies().get(0).getName(),false));
+
+        // VIEW CHARACTER
+        executeCommand(Input.forceCommand(Command.CommandType.CHARACTER));
+        executeCommand(Input.forceCommand(Command.CommandType.UNEQUIP, "sword1", true));
+
+        // TRADE, BUY, SELL
+        output("\n" + Strings.TUTORIAL_ITEMS_MERCHANT);
+        executeCommand(Input.forceCommand(Command.CommandType.TRADE, "merchant2", true));
+        executeCommand(Input.forceCommand(Command.CommandType.BUY, "shield3", true));
+        executeCommand(Input.forceCommand(Command.CommandType.SELL, "sword1", true));
+
+        output(Strings.TUTORIAL_HEALTH_ZERO + "\n");
+
+        player.setTarget(null);
+        pause();*/
     }
 }

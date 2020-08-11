@@ -19,24 +19,24 @@ public class WorldMap {
 
     private static Area generateDarkForest() {
 
-        String[] levelStrings = new String[4];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings[0] =
+        levelStrings.add(
                 "#11;12'"+
                 "12;11,13'" +
                 "13;12,23'" +
                 "23;13,22'" +
                 "22;23,32'" +
-                "]32;22";
+                "]32;22");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[01;02'" +
                 "02;01,12'" +
                 "12;02,22'" +
                 "22;12,32'" +
-                "]32;22";
+                "]32;22");
 
-        levelStrings[2] =
+        levelStrings.add(
                 "[02;12'" +
                 "12;02,11'" +
                 "11;12,21'" +
@@ -44,27 +44,27 @@ public class WorldMap {
                 "22;21,23'" +
                 "#23;22'" +
                 "20;21,30'" +
-                "]30;20";
+                "]30;20");
 
-        levelStrings[3] =
+        levelStrings.add(
                 "[03;13'" +
                 "13;03,23'" +
-                "]23;13";
+                "]23;13");
 
         return Area.generateArea("dark forest", levelStrings);
     }
     private static Area generateMountain() {
 
-        String[] levelStrings = new String[3];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings[0] =
+        levelStrings.add(
                 "[32;22'" +
                 "22;32,21'" +
                 "21;22,20'" +
                 "20;21,30'" +
-                "]30;20";
+                "]30;20");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[00;10'" +
                 "#10;00,11'" +
                 "11;10,12'" +
@@ -76,9 +76,9 @@ public class WorldMap {
                 "20;21,30'" +
                 "30;20'" +
                 "32;22,33'" +
-                "]33;32";
+                "]33;32");
 
-        levelStrings[2] =
+        levelStrings.add(
                 "[00;01'" +
                 "01;00,11'" +
                 "11;01,21'" +
@@ -86,15 +86,15 @@ public class WorldMap {
                 "20;21'" +
                 "22;21,12'" +
                 "12;22,13'" +
-                "]13;12";
+                "]13;12");
 
         return Area.generateArea("mountain", levelStrings);
     }
     private static Area generateEnchantedSwamp() {
 
-        String[] levelStrings = new String[3];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings[0] =
+        levelStrings.add(
                 "[21;11'" +
                 "11;01,21,12'" +
                 "01;11,02'" +
@@ -102,18 +102,18 @@ public class WorldMap {
                 "12;11,22'" +
                 "22;12,32'" +
                 "32;22,31'" +
-                "]31;32";
+                "]31;32");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[02;12'" +
                 "12;02,22,11'" +
                 "#22;12'" +
                 "11;12,10'" +
                 "10;11,20'" +
                 "20;10,30'" +
-                "]30;20";
+                "]30;20");
 
-        levelStrings[2] =
+        levelStrings.add(
                 "[01;02'" +
                 "02;01,12'" +
                 "12;02,22'" +
@@ -122,17 +122,15 @@ public class WorldMap {
                 "20;21,10'" +
                 "10;20'" +
                 "31;21,30'" +
-                "]30;31";
+                "]30;31");
 
         return Area.generateArea("enchanted swamp", levelStrings);
     }
     private static Area generateUndeadTemple() {
 
-        // TODO: make these arraylists so i dont need to know the number beforehand.
-        String[] levelStrings = new String[5];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-
-        levelStrings[0] =
+        levelStrings.add(
                 "[12;13'" +
                         "13;03,12,23'" +
                         "03;13,02'" +
@@ -145,9 +143,9 @@ public class WorldMap {
                         "00;10'" +
                         "31;21,32'" +
                         "32;31,33'" +
-                        "]33;32";
+                        "]33;32");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[33;23'" +
                         "23;13,33,22'" +
                         "13;23,03'" +
@@ -162,9 +160,9 @@ public class WorldMap {
                         "00;10,01'" +
                         "01;00,02'" +
                         "02;01,12'" +
-                        "12;02";
+                        "12;02");
 
-        levelStrings[2] =
+        levelStrings.add(
                 "[20;30'" +
                         "30;20,31'" +
                         "31;30,32'" +
@@ -179,9 +177,9 @@ public class WorldMap {
                         "]02;01,03'" +
                         "03;02,13'" +
                         "13;03,12'" +
-                        "12;13,22";
+                        "12;13,22");
 
-        levelStrings[3] =
+        levelStrings.add(
                 "[02;03,01,12'" +
                         "03;02,13'" +
                         "13;03,23'" +
@@ -194,53 +192,53 @@ public class WorldMap {
                         "21;11,20,31'" +
                         "31;21'" +
                         "20;21,10'" +
-                        "]10;20";
+                        "]10;20");
 
-        levelStrings[4] =
+        levelStrings.add(
                 "[10;11'" +
                         "11;10,21'" +
                         "21;11,22'" +
                         "22;21,23'" +
-                        "23;22";
+                        "23;22");
 
         return Area.generateArea("undead temple", levelStrings);
     }
 
     private static Area generateCrypt() {
 
-        String[] levelStrings = new String[3];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings[0] =
+        levelStrings.add(
                 "[03;02'" +
                 "02;01,03'" +
                 "01;00,02'" +
                 "00;10,01'" +
                 "10;00,11'" +
-                "]11;10";
+                "]11;10");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[11;10'" +
                 "10;11,20'" +
                 "20;10,21'" +
                 "21;20,22'" +
                 "22;21,23'" +
-                "]23;22";
+                "]23;22");
 
-        levelStrings[2] =
+        levelStrings.add(
                 "[23;22,13'" +
                 "22;23,12'" +
                 "13;23,12'" +
                 "12;13,22,11'" +
                 "11;12,21'" +
-                "x21;11"; // x is spawn point
+                "x21;11");
 
         return Area.generateArea("crypt", levelStrings);
     }
     private static Area generateBanditHideout() {
 
-        String[] levelStrings = new String[2];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings[0] =
+        levelStrings.add(
                 "[20;21'" +
                 "21;20,31,22'" +
                 "31;21,32'" +
@@ -252,9 +250,9 @@ public class WorldMap {
                 "03;13,02'" +
                 "02;03,01'" +
                 "01;02,00'" +
-                "00;01";
+                "00;01");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[10;00,20,11'" +
                 "00;01,10'" +
                 "01;00'" +
@@ -262,15 +260,15 @@ public class WorldMap {
                 "20;10,21'" +
                 "21;20,22'" +
                 "22;21,12'" +
-                "12;22";
+                "12;22");
 
         return Area.generateArea("bandit hideout", levelStrings);
     }
     private static Area generateLizardCave() {
 
-        String[] levelStrings = new String[2];
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings[0] =
+        levelStrings.add(
                 "[02;12'" +
                 "12;02,11,13'" +
                 "11;12,21'" +
@@ -279,24 +277,22 @@ public class WorldMap {
                 "22;23,21'" +
                 "21;11,22,20'" +
                 "20;21,30'" +
-                "]30;20";
+                "]30;20");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[11;12'" +
                 "12;11,13'" +
                 "13;12,23'" +
                 "23;13,33'" +
                 "33;23,32'" +
-                "32;33";
+                "32;33");
 
         return Area.generateArea("lizard cave", levelStrings);
     }
     private static Area generateDarkElfCave() {
+        ArrayList<String> levelStrings = new ArrayList<>();
 
-        // TODO: make these arraylists so i dont need to know the number beforehand.
-        String[] levelStrings = new String[2];
-
-        levelStrings[0] =
+        levelStrings.add(
                 "[12;02,11,22'" +
                 "02;12,01'" +
                 "01;02,11'" +
@@ -307,9 +303,9 @@ public class WorldMap {
                 "32;22,31'" +
                 "31;32,30'" +
                 "30;31,20'" +
-                "]20;30";
+                "]20;30");
 
-        levelStrings[1] =
+        levelStrings.add(
                 "[13;12'" +
                 "12;13,22'" +
                 "22;12,21'" +
@@ -318,7 +314,7 @@ public class WorldMap {
                 "30;31'" +
                 "11;21,10'" +
                 "10;11,20'" +
-                "20;10,21";
+                "20;10,21");
 
         return Area.generateArea("dark elf cave", levelStrings);
     }
@@ -336,6 +332,7 @@ public class WorldMap {
         Area enchantedSwamp = generateEnchantedSwamp();
         Area undeadTemple = generateUndeadTemple();
 
+        // Connect the main map
         Area.connectAreaToExitRoom(darkForest.getAreaExitRooms().get(0), crypt);
         Area.connectAreas(darkForest, mountain);
         Area.connectAreas(mountain, enchantedSwamp);
@@ -346,6 +343,7 @@ public class WorldMap {
         Area lizardCave = generateLizardCave();
         Area darkElfCave = generateDarkElfCave();
 
+        // Connect the side objectives
         Area.connectAreaToExitRoom(darkForest.getAreaExitRooms().get(1), banditHideout);
         Area.connectAreaToExitRoom(mountain.getAreaExitRooms().get(0), lizardCave);
         Area.connectAreaToExitRoom(enchantedSwamp.getAreaExitRooms().get(0), darkElfCave);
