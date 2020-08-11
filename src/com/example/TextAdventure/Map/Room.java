@@ -1,5 +1,6 @@
 package com.example.TextAdventure.Map;
 
+import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Common.Strings;
 
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ public class Room {
         private String displayName; // The name of the room the player sees.
         private MovementType movementType; // Whether this adjacent room is in a different level or area.
 
-        // First pass stores the room adjacency information in temporary placeholder Room objects, as not all room objects have been created at this point.
         private AdjacentRoom(String areaName, int levelNumber, int xCoordinate, int yCoordinate, Room originalRoom) {
             room = new Room(areaName, levelNumber, xCoordinate, yCoordinate);
             initMovementInfo(originalRoom);
@@ -63,16 +63,10 @@ public class Room {
     private int x; // x-coordinate in level
     private int y; // y-coordinate in level
 
-    public AdjacentRoom getAdjacentRoom(String displayName) {
-        for (AdjacentRoom room : adjacentRooms)
-            if (room.displayName.equals(displayName))
-                return room;
-
-        return null;
-    }
-
     private ArrayList<AdjacentRoom> adjacentRooms;
+    private ArrayList<Enemy> enemies;
 
+    // First pass stores the room adjacency information in temporary placeholder Room objects, as not all Room objects have been created at this point.
     private Room(String areaName, int levelNumber, int x, int y) {
         initRoomInfo(areaName, levelNumber, x, y);
     }
@@ -106,6 +100,7 @@ public class Room {
     public int getX() { return x; }
     public int getY() { return y; }
 
+
     // Second pass replaces temporary Room objects with pointers to real rooms, once all the rooms have been created.
     public void finalizeAdjacentRooms(Level level) {
         for (AdjacentRoom adjacentRoom : adjacentRooms)
@@ -116,6 +111,16 @@ public class Room {
 
     public void connectToRoom(Room room) {
         adjacentRooms.add(new AdjacentRoom(room, this));
+    }
+
+
+
+    public AdjacentRoom getAdjacentRoom(String displayName) {
+        for (AdjacentRoom room : adjacentRooms)
+            if (room.displayName.equals(displayName))
+                return room;
+
+        return null;
     }
 
     @Override

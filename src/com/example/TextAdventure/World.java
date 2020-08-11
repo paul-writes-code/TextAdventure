@@ -72,7 +72,7 @@ public abstract class World {
 
     // TODO
     public static void attackEnemy(String enemyName) {
-        Enemy enemy = playerRoom.getEnemy(enemyName);
+   /*     Enemy enemy = playerRoom.getEnemy(enemyName);
 
         if (enemy == null) {
             if (enemyName.equals(""))
@@ -109,7 +109,7 @@ public abstract class World {
             // Remove the enemy from the game if it has no loot
             if (player.getTarget().isInventoryEmpty())
                 playerRoom.removeEnemy(player.getTarget().getName());
-        }
+        }*/
     }
 
     // TODO
