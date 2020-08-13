@@ -10,7 +10,7 @@ import static com.example.TextAdventure.UserInterface.Output.output;
 
 public abstract class World {
 
-    private static String worldName = "WORLD";
+    private static String worldName = "Undead Temple";
     private static String playerName = "PLAYER";
 
     private static Room spawnRoom;
@@ -19,16 +19,18 @@ public abstract class World {
     private static Room playerRoom;
 
     private static boolean initialized = false;
+    private static boolean gameRunning = true;
+    private static boolean playerInCombat = false;
 
     public static void enterWorld() {
-        initGame();
-
         output("\n" + Strings.WORLD_WELCOME, worldName);
 
+        initGame();
         World.spawnPlayer();
+        reloadDisplay();
 
-        // TODO: ??
-        while (true) {
+        // TODO: "quit" command?
+        while (gameRunning) {
             output(Strings.INPUT_COMMAND);
             executeCommand(Input.nextCommand());
         }
@@ -38,8 +40,11 @@ public abstract class World {
         if (initialized)
             return;
 
+        playerName = Input.getPlayerName();
         spawnRoom = WorldMap.getSpawnRoom();
         player = new Player(playerName);
+
+        output("\nYou are " + player.getDisplayName() + ", level " + player.getLevel() + " undead warrior. Travel to the undead temple and defeat the necromancer.\n");
 
         initialized = true;
     }
@@ -52,9 +57,18 @@ public abstract class World {
         playerRoom = spawnRoom;
         player.fillHealth();
 
-        // TODO: respawn enemies on death?
+        // TODO: respawn enemies on defeat?
 
-        viewRoom();
+      //  reloadDisplay();
+    }
+
+    public static void reloadDisplay() {
+        output(Strings.DISPLAY_HEALTH, player.getHealth(), player.getHitpoints());
+        output(Strings.DISPLAY_LEVEL, playerRoom.getAreaName(), playerRoom.getLevelNumber());
+        output(Strings.DISPLAY_COMMANDS);
+        output(Strings.COMMAND_HEAL_DISPLAY, player.getNumHealthPotions());
+        playerRoom.viewRoom();
+        output("");
     }
 
     public static void movePlayer(String displayName) {
@@ -68,7 +82,7 @@ public abstract class World {
         playerRoom.leave();
         playerRoom = adjacentRoom.getRoom();
 
-        viewRoom();
+      //  reloadDisplay();
     }
 
     public static void attackEnemy(String enemyName) {
@@ -88,7 +102,21 @@ public abstract class World {
 
         if (!enemy.isAlive()) {
 
-            output(Strings.COMBAT_PLAYER_VICTORY, enemy.getDisplayName());
+            int oldLevel = player.getLevel();
+            int experienceGained = enemy.getExperienceGiven();
+
+            if (experienceGained > 0)
+                output(Strings.COMBAT_PLAYER_VICTORY_XP, enemy.getDisplayName(), experienceGained);
+            else if (!enemy.getDisplayName().equals(Strings.NECROMANCER_NAME))
+                output(Strings.COMBAT_PLAYER_VICTORY_NO_XP, enemy.getDisplayName());
+            else
+                output(Strings.COMBAT_PLAYER_VICTORY_NECROMANCER);
+
+            // Gain experience, possibly leveling up
+            player.gainXp(experienceGained);
+
+            if (player.getLevel() > oldLevel)
+                output(Strings.COMBAT_LEVEL_UP, player.getLevel());
 
             // check if the enemy has a health potion, and take it
             if (Math.random() < enemy.getHealthPotionDropChance()) {
@@ -96,21 +124,11 @@ public abstract class World {
                 player.addHealthPotions(1);
             }
 
-            int oldLevel = player.getLevel();
-            int experienceGained = enemy.getExperienceGiven();
-
-            // Gain experience, possibly leveling up
-            player.gainXp(experienceGained);
-            output(Strings.COMBAT_GAIN_XP, experienceGained);
-
-            if (player.getLevel() > oldLevel)
-                output(Strings.COMBAT_LEVEL_UP, player.getLevel());
-
             // Remove the enemy from the game if it has no loot
             playerRoom.removeEnemy(enemy);
 
             output("");
-            viewRoom();
+          //  reloadDisplay();
         }
     }
 
@@ -119,13 +137,6 @@ public abstract class World {
             output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getHealth(), player.getHitpoints(), player.getNumHealthPotions());
         else
             output(Strings.COMBAT_INSUFFICIENT_HEALTH_POTIONS);
-    }
-
-
-    // View Functions
-    public static void viewRoom() {
-        output("You are in " + playerRoom.getAreaName() + " level " + playerRoom.getLevelNumber() + ".");
-        playerRoom.viewRoom();
     }
 
     public static void viewCharacter() {
@@ -143,7 +154,7 @@ public abstract class World {
                 movePlayer(command.getArgument());
                 break;
             case EXAMINE:
-                viewRoom();
+                reloadDisplay();
                 break;
             case ATTACK:
                 attackEnemy(command.getArgument());
@@ -165,12 +176,15 @@ public abstract class World {
     // called after each valid command
     private static void postCommand() {
 
-        playerRoom.attackCycle(player);
+        playerInCombat = playerRoom.attackCycle(player);
         output("");
 
         if (!player.isAlive()) {
             output(Strings.COMBAT_PLAYER_DEFEATED);
             spawnPlayer();
         }
+
+        if (!playerInCombat)
+            reloadDisplay();
     }
 }

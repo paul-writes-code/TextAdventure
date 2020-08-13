@@ -201,7 +201,7 @@ public class WorldMap {
                         "11;10,21'" +
                         "21;11,22'" +
                         "22;21,23'" +
-                        "23;22");
+                        "]23;22");
 
         return Area.generateArea("undead temple", levelStrings, Enemy.EnemyType.UNDEAD);
     }
@@ -358,6 +358,8 @@ public class WorldMap {
         areas.add(banditHideout);
         areas.add(lizardCave);
         areas.add(darkElfCave);
+
+        undeadTemple.getEndRoom().addEnemy(Enemy.createEnemy(Enemy.EnemyType.NECROMANCER));
 
         locationsInitialized = true;
     }

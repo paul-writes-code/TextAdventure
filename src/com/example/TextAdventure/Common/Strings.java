@@ -5,63 +5,54 @@ import com.example.TextAdventure.UserInterface.Input;
 public class Strings {
 
     private static final String INDENTATION = "  ";
-    private static final String DISPLAY = ": ";
-    private static final String DISPLAY_DETAILS = "; ";
-    private static final String DISPLAY_DETAILS_SEPARATOR = ", ";
-    private static final String DISPLAY_STRING = DISPLAY + "%s";
-    private static final String DISPLAY_INT = DISPLAY + "%d";
-    private static final String DISPLAY_INT_OUT_OF_INT = DISPLAY + "%d/%d";
-
-    private static final String DISPLAY_TITLE_LOCATION = "%s of %s";
-    private static final String DISPLAY_TITLE_CHARACTER = "CHARACTER";
-
-    private static final String DISPLAY_HEALTH = "health";
-    private static final String DISPLAY_LEVEL = "level";
-    private static final String DISPLAY_DAMAGE = "damage";
-    private static final String DISPLAY_EXPERIENCE = "experience";
-    private static final String DISPLAY_HEALTH_POTIONS = "health potions";
-
 
     // World
     public static final String WORLD_WELCOME = "Welcome to %s.";
     public static final String WORLD_UNKNOWN_LOCATION = "Unknown location: %s.";
-    public static final String UNKNOWN_ENTITY = "Unknown entity" + DISPLAY_STRING + ".";
+    public static final String UNKNOWN_ENTITY = "Unknown entity: %s.";
+
+    public static final String NECROMANCER_NAME = "necromancer";
+    public static final String SKELETON_NAME = "skeleton";
+    public static final String BANDIT_NAME = "bandit";
+    public static final String LIZARD_NAME = "lizard";
+    public static final String DARK_ELF_NAME = "dark elf";
+    public static final String UNDEAD_NAME = "undead";
 
     // Combat
-    public static final String COMBAT_PLAYER_ATTACK_ENEMY = "You attack %s and deal %d damage; %s has %d/%d health.";
-    public static final String COMBAT_ENEMY_ATTACK_PLAYER = "%s attacks you and deals %d damage; you have %d/%d health.";
-    public static final String COMBAT_PLAYER_HEALTH_POTION = "You drink a health potion and now have %d/%d health; %d health potions remaining.";
+    public static final String COMBAT_PLAYER_ATTACK_ENEMY = "You attack %s, dealing %d damage. %s has %d/%d health.";
+    public static final String COMBAT_ENEMY_ATTACK_PLAYER = "%s attacks you, dealing %d damage. You have %d/%d health.";
+    public static final String COMBAT_PLAYER_HEALTH_POTION = "You drink a health potion.";
     public static final String COMBAT_PLAYER_DEFEATED = "You have been defeated.";
 
-    public static final String COMBAT_SETTING_TARGET = "Setting target" + DISPLAY_STRING + ".";
-    public static final String COMBAT_PLAYER_VICTORY = "You have defeated %s.";
-    public static final String COMBAT_GAIN_XP = "You gain %d experience.";
-    public static final String COMBAT_LEVEL_UP = "You have reached level %d!";
+    public static final String COMBAT_PLAYER_VICTORY_XP = "You defeat %s and gain %d experience.";
+    public static final String COMBAT_PLAYER_VICTORY_NO_XP = "You defeat %s.";
+    public static final String COMBAT_PLAYER_VICTORY_NECROMANCER = "You have defeated the necromancer and completed the game.";
+    public static final String COMBAT_LEVEL_UP = "\nLevel up! Enter 'character' to view character details.";
     public static final String COMBAT_FIND_HEALTH_POTION = "You find a health potion.";
 
     public static final String COMBAT_ATTACK_ENEMY = "Enter 'attack enemy' to select an enemy to attack.";
-    public static final String COMBAT_TARGET_ALREADY_DEFEATED = "%s has already been defeated.";
-    public static final String COMBAT_TARGET_NOT_DEFEATED = "%s has not been defeated yet.";
     public static final String COMBAT_INSUFFICIENT_HEALTH_POTIONS = "You do not have any health potions.";
 
     // View Location
-    public static final String LOCATION_DISPLAY_OBJECT_GO = INDENTATION + Input.COMMAND_GO + DISPLAY_STRING;
-    public static final String LOCATION_DISPLAY_OBJECT_ATTACK = INDENTATION + Input.COMMAND_ATTACK + DISPLAY_STRING
-            + DISPLAY_DETAILS + "%d/%d " + DISPLAY_HEALTH;
+    public static final String DISPLAY_HEALTH = "health: %d/%d";
+    public static final String DISPLAY_LEVEL = "level: %s level %d";
+    public static final String DISPLAY_COMMANDS = "commands: ";
+    public static final String COMMAND_HEAL_DISPLAY = INDENTATION + Input.COMMAND_HEAL + ": drink a health potion (%d)";
+    public static final String LOCATION_DISPLAY_OBJECT_GO = INDENTATION + Input.COMMAND_GO + " %s";
+    public static final String LOCATION_DISPLAY_OBJECT_ATTACK = INDENTATION + Input.COMMAND_ATTACK + " %s: %d/%d health";
 
     // View Character
-    public static final String CHARACTER_DISPLAY_TITLE = DISPLAY_TITLE_CHARACTER + DISPLAY;
-    public static final String CHARACTER_DISPLAY_HEALTH = INDENTATION + DISPLAY_HEALTH + DISPLAY_INT_OUT_OF_INT;
-    public static final String CHARACTER_DISPLAY_DAMAGE = INDENTATION + DISPLAY_DAMAGE + DISPLAY_INT;
-    public static final String CHARACTER_DISPLAY_EXPERIENCE = INDENTATION + DISPLAY_EXPERIENCE + DISPLAY_INT_OUT_OF_INT;
-    public static final String CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL = INDENTATION + DISPLAY_EXPERIENCE + DISPLAY_INT;
-    public static final String CHARACTER_DISPLAY_HEALTH_POTIONS = INDENTATION + DISPLAY_HEALTH_POTIONS + DISPLAY_INT;
+    public static final String CHARACTER_DISPLAY_HEALTH =  "health: %d/%d";
+    public static final String CHARACTER_DISPLAY_DAMAGE =  "damage: %d";
+    public static final String CHARACTER_DISPLAY_EXPERIENCE =  "experience: %d/%d";
+    public static final String CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL =  "experience: %d";
+    public static final String CHARACTER_DISPLAY_HEALTH_POTIONS =  "health potions: %d";
 
     // Input / Actions
-    public static final String INPUT_COMMAND = "Enter command" + DISPLAY;
+    public static final String INPUT_COMMAND = "Enter command: ";
     public static final String INPUT_COMMAND_ARGUMENT_LOCATION = "Enter '%s location' to perform that action.";
     public static final String INPUT_COMMAND_UNKNOWN = "Unknown command: '%s'.";
-    public static final String INPUT_ACTION_PROMPT = "Enter '%s' to %s" + DISPLAY;
+    public static final String INPUT_ACTION_PROMPT = "Enter '%s' to %s: ";
     public static final String INPUT_ACTION_GO = "move to %s";
     public static final String INPUT_ACTION_EXAMINE = "view your current location";
     public static final String INPUT_ACTION_ATTACK = "attack %s";

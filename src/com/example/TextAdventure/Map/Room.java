@@ -135,14 +135,13 @@ public class Room {
     }
 
     public void viewRoom() {
+        // Display local enemies
+        for (Enemy enemy : enemies)
+            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
 
         // Display local map
         for (AdjacentRoom adjacentRoom : adjacentRooms)
             output(Strings.LOCATION_DISPLAY_OBJECT_GO, adjacentRoom.displayName);
-
-        // Display local enemies
-        for (Enemy enemy : enemies)
-            output(Strings.LOCATION_DISPLAY_OBJECT_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
     }
 
     public void addEnemy(Enemy enemy) {
@@ -168,13 +167,18 @@ public class Room {
             enemy.setAggressive(false);
     }
 
-    public void attackCycle(Player player) {
+    public boolean attackCycle(Player player) {
+        boolean attacked = false;
+
         for (Enemy enemy : enemies)
             if (enemy.isAggressive()) {
                 enemy.attackPlayer(player);
+                attacked = true;
 
                 if (!player.isAlive())
-                    return;
+                    return false;
             }
+
+        return attacked;
     }
 }

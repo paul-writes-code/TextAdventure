@@ -41,6 +41,8 @@ public class Player extends Character {
 
         int damageInflicted = enemy.takeDamage(generateDamageRoll());
 
+        // TODO: instead of "you attack x and deal 1 damage; x has 0/5 health \n you have defeated x", remove 0/5 health and put in a single line.
+        // TODO: "you have defeated x, gaining y experience" instead of two separate sentences on two separate lines. its choppy.
         output(Strings.COMBAT_PLAYER_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
     }
 

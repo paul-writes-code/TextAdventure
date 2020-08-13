@@ -5,6 +5,8 @@ import com.example.TextAdventure.UserInterface.Command.CommandType;
 
 import java.util.Scanner;
 
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class Input {
 
     private static final String TOKEN_SPLIT = " ";
@@ -18,6 +20,12 @@ public class Input {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static Command lastCommand = null;
+
+    public static String getPlayerName() {
+        output("Enter your character's name: ");
+
+        return scanner.nextLine().trim();
+    }
 
     public static Command nextCommand(String prompt) {
         if (prompt != null && !prompt.equals(""))

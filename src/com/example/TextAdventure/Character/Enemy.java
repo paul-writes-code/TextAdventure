@@ -10,8 +10,11 @@ public class Enemy extends Character {
         BANDIT,
         LIZARD,
         DARKELF,
-        UNDEAD
+        UNDEAD,
+        NECROMANCER
     }
+
+    private static boolean necromancerCreated = false;
 
     private int experienceGiven;
     private double healthPotionDropChance;
@@ -38,18 +41,29 @@ public class Enemy extends Character {
         Output.output(Strings.COMBAT_ENEMY_ATTACK_PLAYER, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
     }
 
+    public static Enemy createEnemy(EnemyType enemyType) {
+        return createEnemy(enemyType, 0);
+    }
+
     public static Enemy createEnemy(EnemyType enemyType, int enemyNumber) {
         switch (enemyType) {
             case SKELETON:
-                return new Enemy("skeleton", 5, 2, 10, 0.15, enemyNumber);
+                return new Enemy(Strings.SKELETON_NAME, 5, 2, 25, 0.15, enemyNumber);
             case BANDIT:
-                return new Enemy("bandit", 12, 5, 20, 0.20, enemyNumber);
+                return new Enemy(Strings.BANDIT_NAME, 12, 5, 20, 0.20, enemyNumber);
             case LIZARD:
-                return new Enemy("lizard", 20, 9, 30, 0.25, enemyNumber);
+                return new Enemy(Strings.LIZARD_NAME, 20, 9, 30, 0.25, enemyNumber);
             case DARKELF:
-                return new Enemy("dark elf", 28, 13, 40, .30, enemyNumber);
+                return new Enemy(Strings.DARK_ELF_NAME, 28, 13, 40, .30, enemyNumber);
             case UNDEAD:
-                return new Enemy("undead", 38, 18, 50, 0.35, enemyNumber);
+                return new Enemy(Strings.UNDEAD_NAME, 38, 18, 50, 0.35, enemyNumber);
+            case NECROMANCER:
+                if (!necromancerCreated) {
+                    necromancerCreated = true;
+                    return new Enemy(Strings.NECROMANCER_NAME, 120, 25, 0, 0, 0);
+                }
+
+                break;
         }
 
         return null;
