@@ -4,8 +4,8 @@ public class EnemyInfo {
 
     // skeleton
     public static final String SKELETON_NAME = "skeleton";
-    public static final int SKELETON_HITPOINTS = 5;
-    public static final int SKELETON_DAMAGE = 2;
+    public static final int SKELETON_HITPOINTS = 12;
+    public static final int SKELETON_DAMAGE = 4;
     public static final int SKELETON_EXPERIENCE = 15;
     public static final double SKELETON_HEALTH_POTION_DROP_CHANCE = 0.15;
 

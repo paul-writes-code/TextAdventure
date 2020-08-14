@@ -7,8 +7,8 @@ import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class Player extends Character {
 
-    public static final int PLAYER_BASE_HEALTH = 10;
-    public static final int PLAYER_BASE_DAMAGE = 2;
+    public static final int PLAYER_BASE_HEALTH = 15;
+    public static final int PLAYER_BASE_DAMAGE = 8;
 
     protected int experience;
     protected int level;
@@ -69,11 +69,11 @@ public class Player extends Character {
         experience += xp;
         levelUp();
     }
-    private void levelUp() {
+    private void levelUp() { // TODO: find a better way
         while (Utility.getLevelFromExperience(experience) - level > 0) {
             level++;
-            hitpoints += level % 2 == 0 ? 2 : 3;
-            damage += level == 5 ? 2 : 1;
+            hitpoints += 3; //level % 2 == 0 ? 2 : 3;
+            damage += (level - 1) % 4 == 0 ? 2 : 1;
             fillHealth();
         }
     }

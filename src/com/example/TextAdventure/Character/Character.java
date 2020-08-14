@@ -20,9 +20,7 @@ public abstract class Character {
     public int getDamage() { return damage; }
 
     public int generateDamageRoll() {
-        double randFactor = (Math.random() + 1) * 2/3;
-
-        return (int)(damage * randFactor);
+        return (int)(Math.random() * (damage + 1));
     }
 
     // Cannot take more damage than remaining health.
