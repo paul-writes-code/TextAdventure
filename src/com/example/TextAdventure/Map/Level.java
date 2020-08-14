@@ -54,17 +54,19 @@ public class Level {
 
             String roomId = roomInfo[0];
             String[] adjacentRoomsString = roomInfo[1].split(","); // Split adjacency information.
+            int numEnemies = 0;
 
             // roomId is either "xy" or "axy".
             int x =  Character.getNumericValue(roomId.charAt(roomId.length() - 2));
             int y =  Character.getNumericValue(roomId.charAt(roomId.length() - 1));
 
-            int numEnemies = (int)(Math.random() * 3);
+            if (roomInfo.length > 2)
+                numEnemies = Integer.parseInt(roomInfo[2]);
 
             if (numEnemies > 1)
                 for (int j = 1; j <= numEnemies; j++)
                     enemies.add(Enemy.createEnemy(enemyType, j));
-            else
+            else if (numEnemies == 1)
                 enemies.add(Enemy.createEnemy(enemyType, 0));
 
             Room room = new Room(areaName, levelNumber, x, y, adjacentRoomsString, enemies);
