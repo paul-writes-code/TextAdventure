@@ -1,5 +1,6 @@
 package com.example.TextAdventure.Character;
 
+import com.example.TextAdventure.Common.EnemyInfo;
 import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.UserInterface.Output;
 
@@ -48,19 +49,19 @@ public class Enemy extends Character {
     public static Enemy createEnemy(EnemyType enemyType, int enemyNumber) {
         switch (enemyType) {
             case SKELETON:
-                return new Enemy(Strings.SKELETON_NAME, 5, 2, 25, 0.15, enemyNumber);
+                return new Enemy(EnemyInfo.SKELETON_NAME, EnemyInfo.SKELETON_HITPOINTS, EnemyInfo.SKELETON_DAMAGE, EnemyInfo.SKELETON_EXPERIENCE, EnemyInfo.SKELETON_HEALTH_POTION_DROP_CHANCE, enemyNumber);
             case BANDIT:
-                return new Enemy(Strings.BANDIT_NAME, 12, 5, 20, 0.20, enemyNumber);
+                return new Enemy(EnemyInfo.BANDIT_NAME, EnemyInfo.BANDIT_HITPOINTS, EnemyInfo.BANDIT_DAMAGE, EnemyInfo.BANDIT_EXPERIENCE, EnemyInfo.BANDIT_HEALTH_POTION_DROP_CHANCE, enemyNumber);
             case LIZARD:
-                return new Enemy(Strings.LIZARD_NAME, 20, 9, 30, 0.25, enemyNumber);
+                return new Enemy(EnemyInfo.LIZARD_NAME, EnemyInfo.LIZARD_HITPOINTS, EnemyInfo.LIZARD_DAMAGE, EnemyInfo.LIZARD_EXPERIENCE, EnemyInfo.LIZARD_HEALTH_POTION_DROP_CHANCE, enemyNumber);
             case DARKELF:
-                return new Enemy(Strings.DARK_ELF_NAME, 28, 13, 40, .30, enemyNumber);
+                return new Enemy(EnemyInfo.DARK_ELF_NAME, EnemyInfo.DARK_ELF_HITPOINTS, EnemyInfo.DARK_ELF_DAMAGE, EnemyInfo.DARK_ELF_EXPERIENCE, EnemyInfo.DARK_ELF_HEALTH_POTION_DROP_CHANCE, enemyNumber);
             case UNDEAD:
-                return new Enemy(Strings.UNDEAD_NAME, 38, 18, 50, 0.35, enemyNumber);
+                return new Enemy(EnemyInfo.UNDEAD_NAME, EnemyInfo.UNDEAD_HITPOINTS, EnemyInfo.UNDEAD_DAMAGE, EnemyInfo.UNDEAD_EXPERIENCE, EnemyInfo.UNDEAD_HEALTH_POTION_DROP_CHANCE, enemyNumber);
             case NECROMANCER:
                 if (!necromancerCreated) {
                     necromancerCreated = true;
-                    return new Enemy(Strings.NECROMANCER_NAME, 120, 25, 0, 0, 0);
+                    return new Enemy(EnemyInfo.NECROMANCER_NAME, EnemyInfo.NECROMANCER_HITPOINTS, EnemyInfo.NECROMANCER_DAMAGE, EnemyInfo.NECROMANCER_EXPERIENCE, EnemyInfo.NECROMANCER_HEALTH_POTION_DROP_CHANCE, enemyNumber);
                 }
 
                 break;

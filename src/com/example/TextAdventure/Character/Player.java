@@ -58,6 +58,7 @@ public class Player extends Character {
             output(Strings.CHARACTER_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForLevel(getLevel() + 1));
 
         output(Strings.CHARACTER_DISPLAY_HEALTH_POTIONS, getNumHealthPotions());
+        output("");
     }
 
     // EXPERIENCE MANAGEMENT

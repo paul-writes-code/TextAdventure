@@ -1,7 +1,9 @@
 package com.example.TextAdventure;
 
 import com.example.TextAdventure.Character.*;
+import com.example.TextAdventure.Common.EnemyInfo;
 import com.example.TextAdventure.Common.Strings;
+import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
@@ -63,29 +65,29 @@ public abstract class World {
     }
 
     public static void reloadDisplay() {
-        output(Strings.DISPLAY_HEALTH, player.getHealth(), player.getHitpoints());
         output(Strings.DISPLAY_LEVEL, playerRoom.getAreaName(), playerRoom.getLevelNumber());
         output(Strings.DISPLAY_COMMANDS);
+        output(Strings.COMMAND_CHARACTER_DISPLAY);
         output(Strings.COMMAND_HEAL_DISPLAY, player.getNumHealthPotions());
         playerRoom.viewRoom();
         output("");
     }
 
-    public static void movePlayer(String displayName) {
+    public static boolean movePlayer(String displayName) {
         Room.AdjacentRoom adjacentRoom = playerRoom.getAdjacentRoom(displayName);
 
         if (adjacentRoom == null) {
             output(Strings.WORLD_UNKNOWN_LOCATION, displayName);
-            return;
+            return false;
         }
 
         playerRoom.leave();
         playerRoom = adjacentRoom.getRoom();
 
-      //  reloadDisplay();
+        return true;
     }
 
-    public static void attackEnemy(String enemyName) {
+    public static boolean attackEnemy(String enemyName) {
         Enemy enemy = playerRoom.getEnemy(enemyName);
 
         // Enemy not found
@@ -94,7 +96,8 @@ public abstract class World {
                 output(Strings.COMBAT_ATTACK_ENEMY);
             else
                 output(Strings.UNKNOWN_ENTITY, enemyName);
-            return;
+
+            return false;
         }
 
         player.attackEnemy(enemy);
@@ -107,7 +110,7 @@ public abstract class World {
 
             if (experienceGained > 0)
                 output(Strings.COMBAT_PLAYER_VICTORY_XP, enemy.getDisplayName(), experienceGained);
-            else if (!enemy.getDisplayName().equals(Strings.NECROMANCER_NAME))
+            else if (!enemy.getDisplayName().equals(EnemyInfo.NECROMANCER_NAME))
                 output(Strings.COMBAT_PLAYER_VICTORY_NO_XP, enemy.getDisplayName());
             else
                 output(Strings.COMBAT_PLAYER_VICTORY_NECROMANCER);
@@ -124,60 +127,67 @@ public abstract class World {
                 player.addHealthPotions(1);
             }
 
-            // Remove the enemy from the game if it has no loot
+            // Remove defeated enemy from the game
             playerRoom.removeEnemy(enemy);
 
             output("");
-          //  reloadDisplay();
         }
+
+        return true;
     }
 
-    public static void consumeHealthPotion() {
-        if (player.consumeHealthPotion())
+    public static boolean consumeHealthPotion() {
+        if (player.consumeHealthPotion()) {
             output(Strings.COMBAT_PLAYER_HEALTH_POTION, player.getHealth(), player.getHitpoints(), player.getNumHealthPotions());
-        else
+            return true;
+        }
+        else {
             output(Strings.COMBAT_INSUFFICIENT_HEALTH_POTIONS);
+            return false;
+        }
     }
 
     public static void viewCharacter() {
         player.viewCharacter();
     }
 
-    public static boolean executeCommand(Command command) {
+    public static void executeCommand(Command command) {
         if (command == null)
-            return false;
+            return;
+
+        boolean validCommand = true;
 
         output("");
 
         switch (command.getCommandType()) {
             case GO:
-                movePlayer(command.getArgument());
+                validCommand = movePlayer(command.getArgument());
                 break;
             case EXAMINE:
                 reloadDisplay();
                 break;
             case ATTACK:
-                attackEnemy(command.getArgument());
+                validCommand = attackEnemy(command.getArgument());
                 break;
             case HEAL:
-                consumeHealthPotion();
+                validCommand = consumeHealthPotion();
                 break;
             case CHARACTER:
                 viewCharacter();
                 break;
-            default:
-                return false;
         }
 
-        postCommand();
-        return true;
+        if (validCommand)
+            postCommand();
     }
 
     // called after each valid command
     private static void postCommand() {
 
         playerInCombat = playerRoom.attackCycle(player);
-        output("");
+
+        if (!playerInCombat)
+            output("");
 
         if (!player.isAlive()) {
             output(Strings.COMBAT_PLAYER_DEFEATED);

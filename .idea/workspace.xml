@@ -2,18 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ff142ec3-a976-4107-a277-720b9610cda4" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Common/EnemyInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy$EnemyType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy$EnemyType.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Enemy.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Character/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Common/Strings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Common/Strings.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Room.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/Room.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/WorldMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Map/WorldMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Input$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Input.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Input.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Character/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Common/Strings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Common/Strings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/WorldMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Map/WorldMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Input.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Input.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" afterDir="false" />
     </list>
@@ -112,22 +115,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591962766060" />
-    <state width="1877" height="287" key="GridCell.Tab.0.bottom" timestamp="1597351410180">
+    <state width="1877" height="410" key="GridCell.Tab.0.bottom" timestamp="1597366816523">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="287" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597351410180" />
-    <state width="1877" height="287" key="GridCell.Tab.0.center" timestamp="1597351410180">
+    <state width="1877" height="410" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1597366816523" />
+    <state width="1877" height="410" key="GridCell.Tab.0.center" timestamp="1597366816523">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="287" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597351410180" />
-    <state width="1877" height="287" key="GridCell.Tab.0.left" timestamp="1597351410180">
+    <state width="1877" height="410" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1597366816523" />
+    <state width="1877" height="410" key="GridCell.Tab.0.left" timestamp="1597366816523">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="287" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597351410180" />
-    <state width="1877" height="287" key="GridCell.Tab.0.right" timestamp="1597351410180">
+    <state width="1877" height="410" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1597366816523" />
+    <state width="1877" height="410" key="GridCell.Tab.0.right" timestamp="1597366816523">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="287" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597351410180" />
+    <state width="1877" height="410" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1597366816523" />
     <state width="1877" height="290" key="GridCell.Tab.1.bottom" timestamp="1597347881896">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

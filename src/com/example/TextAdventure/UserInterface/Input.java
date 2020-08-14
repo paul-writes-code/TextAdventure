@@ -9,9 +9,7 @@ import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class Input {
 
-    private static final String TOKEN_SPLIT = " ";
-    private static final String COMMAND_BLANK = "";
-
+    private static final String COMMAND_BLANK = ""; // execute most recently entered command
     public static final String COMMAND_GO = "go"; // move to an adjacent location
     public static final String COMMAND_EXAMINE = "examine"; // examine the current location
     public static final String COMMAND_ATTACK = "attack"; // attack a character
@@ -27,19 +25,26 @@ public class Input {
         return scanner.nextLine().trim();
     }
 
-    public static Command nextCommand(String prompt) {
-        if (prompt != null && !prompt.equals(""))
-            Output.output(prompt);
+    public static Command nextCommand() {
 
-        // Remove excess white space
-        String[] input = scanner.nextLine().trim().replaceAll(" +", " ").split(TOKEN_SPLIT);
+        // Remove excess white space from input
+        String input = scanner.nextLine().trim().replaceAll(" +", " ");
 
-        // First token is always the command
-        String command = input[0];
+        String command = "";
+        String argument = "";
+
+        if (input.contains(Strings.COMMAND_SPLIT_TOKEN)) {
+            int breakPosition = input.indexOf(Strings.COMMAND_SPLIT_TOKEN);
+            command = input.substring(0, breakPosition);
+            argument = input.substring(breakPosition + 1);
+        }
+        else {
+            command = input;
+        }
 
         // Zero-argument commands
         switch (command) {
-            case COMMAND_BLANK: // Entering nothing will execute the most recently executed command
+            case COMMAND_BLANK:
                 return lastCommand;
             case COMMAND_EXAMINE:
                 lastCommand = new Command(CommandType.EXAMINE);
@@ -53,12 +58,7 @@ public class Input {
         }
 
         // One-argument commands
-        if (input.length > 1) {
-            String argument = input[1];
-
-            for (int i = 2; i < input.length; i++)
-                argument += " " + input[i];
-
+        if (!argument.equals("")) {
             switch (command) {
                 case COMMAND_GO:
                     lastCommand = new Command(CommandType.GO, argument);
@@ -83,53 +83,5 @@ public class Input {
                     return null;
             }
         }
-    }
-    public static Command nextCommand() {
-        return nextCommand(null);
-    }
-
-    public static Command forceCommand(CommandType requiredCommandType, String requiredCommandArgument, boolean argumentRequired) {
-        Command ret = null;
-        String commandString = "";
-        String actionString = "";
-
-        if (requiredCommandType == null || (argumentRequired && requiredCommandArgument == null))
-            return null;
-
-        switch (requiredCommandType) {
-            case GO:
-                commandString = COMMAND_GO;
-                actionString = String.format(Strings.INPUT_ACTION_GO, requiredCommandArgument);
-                break;
-            case EXAMINE:
-                commandString = COMMAND_EXAMINE;
-                actionString = Strings.INPUT_ACTION_EXAMINE;
-                break;
-            case ATTACK:
-                commandString = COMMAND_ATTACK;
-                actionString = String.format(Strings.INPUT_ACTION_ATTACK, requiredCommandArgument);
-                break;
-            case HEAL:
-                commandString = COMMAND_HEAL;
-                actionString = Strings.INPUT_ACTION_HEAL;
-                break;
-            case CHARACTER:
-                commandString = COMMAND_CHARACTER;
-                actionString = Strings.INPUT_ACTION_CHARACTER;
-                break;
-            default:
-                return null;
-        }
-
-        if (argumentRequired)
-            commandString += TOKEN_SPLIT + requiredCommandArgument;
-
-        while (ret == null || !ret.getCommandType().equals(requiredCommandType) || (!ret.getArgument().equals(requiredCommandArgument) && argumentRequired))
-            ret = Input.nextCommand(String.format(Strings.INPUT_ACTION_PROMPT, commandString, actionString));
-
-        return ret;
-    }
-    public static Command forceCommand(CommandType requiredCommandType) {
-        return forceCommand(requiredCommandType, null, false);
     }
 }
