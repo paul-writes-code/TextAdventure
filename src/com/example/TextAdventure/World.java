@@ -3,7 +3,6 @@ package com.example.TextAdventure;
 import com.example.TextAdventure.Character.*;
 import com.example.TextAdventure.Common.EnemyInfo;
 import com.example.TextAdventure.Common.Strings;
-import com.example.TextAdventure.Common.Utility;
 import com.example.TextAdventure.Map.*;
 import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
@@ -58,8 +57,6 @@ public abstract class World {
 
         playerRoom = spawnRoom;
         player.fillHealth();
-
-        // TODO: respawn enemies on defeat?
 
       //  reloadDisplay();
     }

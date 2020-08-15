@@ -35,7 +35,6 @@ public class Strings {
     public static final String CHARACTER_DISPLAY_HEALTH = "health: %d/%d";
     public static final String CHARACTER_DISPLAY_DAMAGE = "damage: %d";
     public static final String CHARACTER_DISPLAY_EXPERIENCE = "experience: %d/%d";
-    public static final String CHARACTER_DISPLAY_EXPERIENCE_MAX_LEVEL =  "experience: %d";
     public static final String CHARACTER_DISPLAY_HEALTH_POTIONS = "health potions: %d";
 
     // Invalid Input
@@ -45,6 +44,4 @@ public class Strings {
     public static final String COMBAT_ATTACK_ENEMY = "Enter 'attack enemy' to select an enemy to attack.";
     public static final String INPUT_COMMAND_ARGUMENT_LOCATION = "Enter '%s direction' to travel there.";
     public static final String COMBAT_INSUFFICIENT_HEALTH_POTIONS = "You do not have any health potions.";
-
-    // Input / Actions
 }
