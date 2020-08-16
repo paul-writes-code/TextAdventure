@@ -45,6 +45,7 @@ public abstract class World {
         spawnRoom = WorldMap.getSpawnRoom();
         player = new Player(playerName);
 
+        // TODO
         output("\nYou are " + player.getDisplayName() + ", level " + player.getLevel() + " undead warrior. Travel to the undead temple and defeat the necromancer.\n");
 
         initialized = true;
@@ -62,6 +63,7 @@ public abstract class World {
     }
 
     public static void reloadDisplay() {
+        output(Strings.DISPLAY_HEALTH, player.getHitpoints(), player.getHitpoints());
         output(Strings.DISPLAY_LEVEL, playerRoom.getAreaName(), playerRoom.getLevelNumber());
         output(Strings.DISPLAY_COMMANDS);
         output(Strings.COMMAND_CHARACTER_DISPLAY);

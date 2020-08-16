@@ -29,18 +29,17 @@ public class Strings {
 
     // Display Room
     public static final String DISPLAY_HEALTH = "health: %d/%d";
-    public static final String DISPLAY_LEVEL = "level: %s level %d";
+    public static final String DISPLAY_LEVEL = "room: %s level %d";
     public static final String DISPLAY_COMMANDS = "commands: ";
     public static final String COMMAND_CHARACTER_DISPLAY = INDENTATION + Input.COMMAND_CHARACTER + ": view character details";
     public static final String COMMAND_HEAL_DISPLAY = INDENTATION + Input.COMMAND_HEAL + ": drink a health potion (%d)";
-    public static final String LOCATION_DISPLAY_OBJECT_GO = INDENTATION + Input.COMMAND_GO + " %s";
+    public static final String LOCATION_DISPLAY_OBJECT_GO = INDENTATION + Input.COMMAND_GO + " %s: go to this room";
     public static final String LOCATION_DISPLAY_OBJECT_ATTACK = INDENTATION + Input.COMMAND_ATTACK + " %s: %d/%d health";
 
     // Display Character
-    public static final String CHARACTER_DISPLAY_HEALTH = "health: %d/%d";
-    public static final String CHARACTER_DISPLAY_DAMAGE = "damage: %d";
-    public static final String CHARACTER_DISPLAY_EXPERIENCE = "experience: %d/%d";
-    public static final String CHARACTER_DISPLAY_HEALTH_POTIONS = "health potions: %d";
+    public static final String CHARACTER_DISPLAY_DAMAGE = INDENTATION + "damage: %d";
+    public static final String CHARACTER_DISPLAY_HITPOINTS = INDENTATION + "hitpoints: %d";
+    public static final String CHARACTER_DISPLAY_EXPERIENCE = INDENTATION + "experience: %d/%d";
 
     // Invalid Input
     public static final String INPUT_COMMAND_UNKNOWN = "Unknown command: '%s'.";

@@ -48,10 +48,9 @@ public class Player extends Character {
     // DISPLAY FUNCTIONS
     public void viewCharacter() {
         output(getDisplayName() + ", level " + getLevel() + " undead warrior");
-        output(Strings.CHARACTER_DISPLAY_HEALTH, getHealth(), getHitpoints());
         output(Strings.CHARACTER_DISPLAY_DAMAGE, getDamage());
+        output(Strings.CHARACTER_DISPLAY_HITPOINTS, getHitpoints());
         output(Strings.CHARACTER_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForNextLevel(level));
-        output(Strings.CHARACTER_DISPLAY_HEALTH_POTIONS, getNumHealthPotions());
         output("");
     }
 
