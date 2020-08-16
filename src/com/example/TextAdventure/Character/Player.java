@@ -2,7 +2,7 @@ package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Common.Strings;
 
-import static com.example.TextAdventure.UserInterface.Output.output;
+import static com.example.TextAdventure.UserInterface.Output.addOutputToBuffer;
 
 public class Player extends Character {
 
@@ -44,17 +44,14 @@ public class Player extends Character {
 
         int damageInflicted = enemy.takeDamage(generateDamageRoll());
 
-        if (enemy.isAlive())
-            output(Strings.COMMAND_ATTACK_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
-        else
-            output(Strings.COMMAND_ATTACK_ATTACK_ENEMY_DEFEAT, enemy.getDisplayName(), damageInflicted);
+        addOutputToBuffer(Strings.COMMAND_ATTACK_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted);
     }
 
     public void viewCharacter() {
-        output(Strings.CHARACTER_UI_DISPLAY_CHARACTER, getDisplayName(), getLevel());
-        output(Strings.CHARACTER_UI_DISPLAY_DAMAGE, getDamage());
-        output(Strings.CHARACTER_UI_DISPLAY_HITPOINTS, getHitpoints());
-        output(Strings.CHARACTER_UI_DISPLAY_EXPERIENCE, getExperience(), getExperienceForNextLevel(level));
+        addOutputToBuffer(Strings.CHARACTER_UI_DISPLAY_CHARACTER, getDisplayName(), getLevel());
+        addOutputToBuffer(Strings.CHARACTER_UI_DISPLAY_DAMAGE, getDamage());
+        addOutputToBuffer(Strings.CHARACTER_UI_DISPLAY_HITPOINTS, getHitpoints());
+        addOutputToBuffer(Strings.CHARACTER_UI_DISPLAY_EXPERIENCE, getExperience(), getExperienceForNextLevel(level));
     }
 
     // Experience Management

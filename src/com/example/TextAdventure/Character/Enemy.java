@@ -3,7 +3,7 @@ package com.example.TextAdventure.Character;
 import com.example.TextAdventure.Common.EnemyInfo;
 import com.example.TextAdventure.Common.Strings;
 
-import static com.example.TextAdventure.UserInterface.Output.output;
+import static com.example.TextAdventure.UserInterface.Output.addOutputToBuffer;
 
 public class Enemy extends Character {
 
@@ -41,13 +41,7 @@ public class Enemy extends Character {
 
         int damageInflicted = player.takeDamage(generateDamageRoll());
 
-        if (player.isAlive())
-            output(Strings.COMMAND_ATTACK_ENEMY_RETALIATES, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
-        else {
-            output(Strings.COMMAND_ATTACK_ENEMY_RETALIATES_DEFEAT, getDisplayName(), damageInflicted);
-            output(Strings.COMBAT_PLAYER_DEFEATED);
-            output("");
-        }
+        addOutputToBuffer(Strings.COMMAND_ATTACK_ENEMY_RETALIATES, getDisplayName(), damageInflicted);
     }
 
     public static Enemy createEnemy(EnemyType enemyType) {

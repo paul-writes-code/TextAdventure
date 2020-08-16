@@ -6,21 +6,15 @@ import com.example.TextAdventure.World;
 
 import java.util.Scanner;
 
-import static com.example.TextAdventure.UserInterface.Output.output;
+import static com.example.TextAdventure.UserInterface.Output.*;
 
 public class Input {
-
-    private static final String COMMAND_BLANK = ""; // execute most recently entered command
-    public static final String COMMAND_GO = "go"; // move to an adjacent location
-    public static final String COMMAND_EXAMINE = "examine"; // examine the current location
-    public static final String COMMAND_ATTACK = "attack"; // attack a character
-    public static final String COMMAND_HEAL = "heal"; // drink a health potion
-    public static final String COMMAND_CHARACTER = "character"; // display character info
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static String getPlayerName() {
-        output(Strings.CHARACTER_NAME_PROMPT);
+        addOutputToBuffer(Strings.CHARACTER_NAME_PROMPT);
+        displayOutputBuffer();
         return scanner.nextLine().trim();
     }
 
@@ -29,9 +23,12 @@ public class Input {
 
         // If the last attacked enemy is alive, player can press enter to attack it again
         if (!lastEnemyAttackedDisplayName.equals(""))
-            output(Strings.COMMAND_PROMPT_LAST_COMMAND, COMMAND_ATTACK + " " + lastEnemyAttackedDisplayName);
+            addOutputToBuffer(Strings.COMMAND_PROMPT_LAST_COMMAND, Strings.COMMAND_ATTACK + " " + lastEnemyAttackedDisplayName);
         else
-            output(Strings.COMMAND_PROMPT);
+            addOutputToBuffer(Strings.COMMAND_PROMPT);
+
+        reloadMainUI();
+        displayOutputBuffer();
 
         // Remove excess white space from input
         String input = scanner.nextLine().trim().replaceAll(" +", " ");
@@ -51,41 +48,39 @@ public class Input {
         switch (command) {
 
             // Can enter blank command to repeat last attack command, if the enemy exists
-            case COMMAND_BLANK:
+            case Strings.COMMAND_BLANK:
                 if (!lastEnemyAttackedDisplayName.equals(""))
                     return new Command(CommandType.ATTACK, lastEnemyAttackedDisplayName);
                 else
                     return null;
-            case COMMAND_EXAMINE:
-                return new Command(CommandType.EXAMINE);
-            case COMMAND_HEAL:
+            case Strings.COMMAND_HEAL:
                 return new Command(CommandType.HEAL);
-            case COMMAND_CHARACTER:
+            case Strings.COMMAND_CHARACTER:
                 return new Command(CommandType.CHARACTER);
         }
 
         // One-argument commands
         if (!argument.equals("")) {
             switch (command) {
-                case COMMAND_GO:
+                case Strings.COMMAND_GO:
                     return new Command(CommandType.GO, argument);
-                case COMMAND_ATTACK:
+                case Strings.COMMAND_ATTACK:
                     return new Command(CommandType.ATTACK, argument);
             }
         }
         else {
             switch (command) {
-                case COMMAND_GO:
-                    output(Strings.COMMAND_GO_USAGE);
+                case Strings.COMMAND_GO:
+                    addOutputToBuffer(Strings.COMMAND_GO_USAGE);
                     return null;
-                case COMMAND_ATTACK:
-                    output(Strings.COMMAND_ATTACK_USAGE);
+                case Strings.COMMAND_ATTACK:
+                    addOutputToBuffer(Strings.COMMAND_ATTACK_USAGE);
                     return null;
             }
         }
 
         // Invalid input
-        Output.output(Strings.COMMAND_INVALID, command);
+        Output.addOutputToBuffer(Strings.COMMAND_INVALID, command);
         return null;
     }
 }

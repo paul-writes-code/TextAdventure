@@ -10,8 +10,8 @@ public class Level {
     private int levelNumber;
 
     private ArrayList<Room> rooms;
-    private Room startRoom; // the beginning of this room, used to chain levels together
-    private Room endRoom; // the end of this room, used to chain levels together
+    private Room startRoom; // the beginning of this level, used to chain levels together
+    private Room endRoom; // the end of this level, used to chain levels together
     private ArrayList<Room> areaExitRooms; // these are exits to other areas outside of the chain of levels; set by Area
 
     private Level(String areaName, int levelNumber, ArrayList<Room> rooms, Room startRoom, Room endRoom, ArrayList<Room> areaExitRooms) {

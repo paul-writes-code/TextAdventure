@@ -2,11 +2,8 @@ package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Character.Player;
-import com.example.TextAdventure.Common.Strings;
 
 import java.util.ArrayList;
-
-import static com.example.TextAdventure.UserInterface.Output.output;
 
 public class Room {
 
@@ -32,6 +29,7 @@ public class Room {
         }
 
         public Room getRoom() { return room; }
+        public String getDisplayName() { return displayName; }
         public MovementType getMovementType() { return movementType; }
 
         private void initMovementInfo(Room originalRoom) {
@@ -99,6 +97,9 @@ public class Room {
     public String getAreaName() { return areaName; }
     public int getLevelNumber() { return levelNumber; }
 
+    public ArrayList<AdjacentRoom> getAdjacentRooms() { return adjacentRooms; }
+    public ArrayList<Enemy> getEnemies() { return enemies; }
+
     public AdjacentRoom getAdjacentRoom(String displayName) {
         for (AdjacentRoom room : adjacentRooms)
             if (room.displayName.equals(displayName))
@@ -129,19 +130,6 @@ public class Room {
                 && ((Room) object).levelNumber == levelNumber
                 && ((Room) object).x == x
                 && ((Room) object).y == y;
-    }
-
-    public void viewRoom() {
-        // Display local map
-        for (AdjacentRoom adjacentRoom : adjacentRooms)
-            if (adjacentRoom.movementType == MovementType.ROOM)
-                output(Strings.MAIN_UI_DISPLAY_COMMAND_GO_ROOM, adjacentRoom.displayName, adjacentRoom.displayName);
-            else
-                output(Strings.MAIN_UI_DISPLAY_COMMAND_GO_LEVEL, adjacentRoom.displayName, adjacentRoom.displayName);
-
-        // Display local enemies
-        for (Enemy enemy : enemies)
-            output(Strings.MAIN_UI_DISPLAY_COMMAND_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
     }
 
     public void addEnemy(Enemy enemy) {
