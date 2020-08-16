@@ -20,6 +20,7 @@ public class WorldMap {
     }
 
     // Generates the Crypt area
+    // TODO: add some explanation of what the level strings contain
     private static Area generateCrypt() {
 
         ArrayList<String> levelStrings = new ArrayList<>();

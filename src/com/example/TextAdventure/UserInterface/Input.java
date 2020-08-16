@@ -67,6 +67,7 @@ public class Input {
                     lastCommand = new Command(CommandType.ATTACK, argument);
                     return lastCommand;
                 default:
+                    Output.output(Strings.INPUT_COMMAND_UNKNOWN, command);
                     return null;
             }
         }

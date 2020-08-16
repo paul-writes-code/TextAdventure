@@ -81,6 +81,18 @@ public abstract class World {
         playerRoom.leave();
         playerRoom = adjacentRoom.getRoom();
 
+        switch (adjacentRoom.getMovementType()) {
+            case ROOM:
+                output(Strings.GO_MOVE_ROOM, displayName);
+                break;
+            case LEVEL:
+                output(Strings.GO_MOVE_LEVEL, playerRoom.getAreaName(), playerRoom.getLevelNumber());
+                break;
+            case AREA:
+                output(Strings.GO_MOVE_AREA, playerRoom.getAreaName());
+                break;
+        }
+
         return true;
     }
 
@@ -183,8 +195,8 @@ public abstract class World {
 
         playerInCombat = playerRoom.attackCycle(player);
 
-        if (!playerInCombat)
-            output("");
+      //  if (!playerInCombat)
+      //      output("");
 
         if (!player.isAlive()) {
             output(Strings.COMBAT_PLAYER_DEFEATED);

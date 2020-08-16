@@ -11,6 +11,11 @@ public class Strings {
     public static final String WORLD_WELCOME = "Welcome to %s.";
     public static final String INPUT_COMMAND = "Enter command: ";
 
+    // Movement
+    public static final String GO_MOVE_ROOM = "You exit the room, heading %s.\n";
+    public static final String GO_MOVE_LEVEL = "You enter %s level %d.\n";
+    public static final String GO_MOVE_AREA = "You enter %s.\n";
+
     // Combat
     public static final String COMBAT_PLAYER_ATTACK_ENEMY = "You attack %s, dealing %d damage. %s has %d/%d health.";
     public static final String COMBAT_ENEMY_ATTACK_PLAYER = "%s attacks you, dealing %d damage. You have %d/%d health.";
@@ -42,6 +47,6 @@ public class Strings {
     public static final String WORLD_UNKNOWN_LOCATION = "Unknown location: %s.";
     public static final String UNKNOWN_ENTITY = "Unknown entity: %s.";
     public static final String COMBAT_ATTACK_ENEMY = "Enter 'attack enemy' to select an enemy to attack.";
-    public static final String INPUT_COMMAND_ARGUMENT_LOCATION = "Enter '%s direction' to travel there.";
+    public static final String INPUT_COMMAND_ARGUMENT_LOCATION = "Enter 'go direction' to enter that room.";
     public static final String COMBAT_INSUFFICIENT_HEALTH_POTIONS = "You do not have any health potions.";
 }
