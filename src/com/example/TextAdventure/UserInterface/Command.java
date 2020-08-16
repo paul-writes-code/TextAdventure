@@ -1,5 +1,9 @@
 package com.example.TextAdventure.UserInterface;
 
+import com.example.TextAdventure.World;
+
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class Command {
 
     public enum CommandType {
@@ -11,7 +15,6 @@ public class Command {
     }
 
     private CommandType commandType;
-    private String commandString;
     private String argument;
 
     public Command(CommandType commandType) {
@@ -25,27 +28,38 @@ public class Command {
     private void initCommand(CommandType commandType, String argument) {
         this.commandType = commandType;
         this.argument = argument;
-
-        switch (commandType) {
-            case GO:
-                commandString = Input.COMMAND_GO;
-                break;
-            case EXAMINE:
-                commandString = Input.COMMAND_EXAMINE;
-                break;
-            case ATTACK:
-                commandString = Input.COMMAND_ATTACK;
-                break;
-            case HEAL:
-                commandString = Input.COMMAND_HEAL;
-                break;
-            case CHARACTER:
-                commandString = Input.COMMAND_CHARACTER;
-                break;
-        }
     }
 
     public CommandType getCommandType() { return commandType; }
     public String getArgument() { return argument; }
-    public String getCommandString() { return commandString; }
+
+    public static boolean executeCommand(Command command) {
+        if (command != null) {
+            boolean validCommand = true;
+
+            output("");
+
+            switch (command.getCommandType()) {
+                case GO:
+                    validCommand = World.movePlayer(command.getArgument());
+                    break;
+                case EXAMINE:
+                    World.examineRoom();
+                    break;
+                case ATTACK:
+                    validCommand = World.attackEnemy(command.getArgument());
+                    break;
+                case HEAL:
+                    validCommand = World.consumeHealthPotion();
+                    break;
+                case CHARACTER:
+                    World.viewCharacter();
+                    break;
+            }
+
+            return validCommand;
+        }
+
+        return false;
+    }
 }

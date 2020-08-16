@@ -4,6 +4,18 @@ import com.example.TextAdventure.Character.Enemy;
 
 import java.util.ArrayList;
 
+// Note about map implementation:
+// In each area generation function, the map is stored in Strings which contain information about each room in a level, in the following order:
+//      Some rooms begin with a marker:
+//          [ - start room of a level,
+//          ] - end room of a level,
+//          # - area exit room of a level
+//          x - spawn room of the game
+//      The next two digits represent the (x, y) coordinates of the room within the floor, followed by a semi-colon
+//      Then there is a list of two-digit numbers, separated by commas. Each two-digit number represents the (x, y) coordinates of an adjacent room.
+//      If a room has enemies, then next is a semi-colon followed by the number of enemies in the room.
+//      Each room is separated from the next with an apostrophe.
+
 public class WorldMap {
     private static boolean mapInitialized = false;
 
@@ -20,9 +32,9 @@ public class WorldMap {
     }
 
     // Generates the Crypt area
-    // TODO: add some explanation of what the level strings contain
     private static Area generateCrypt() {
 
+        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
         levelStrings.add(
@@ -55,6 +67,7 @@ public class WorldMap {
     // Generates the Dark Forest area
     private static Area generateDarkForest() {
 
+        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
         levelStrings.add(
@@ -84,6 +97,7 @@ public class WorldMap {
     // Generates the Mountain area
     private static Area generateMountain() {
 
+        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
         levelStrings.add(
@@ -118,6 +132,7 @@ public class WorldMap {
     // Generates the Enchanted Swamp area
     private static Area generateEnchantedSwamp() {
 
+        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
         levelStrings.add(
@@ -156,6 +171,7 @@ public class WorldMap {
     // Generates the Undead Temple area
     private static Area generateUndeadTemple() {
 
+        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
         levelStrings.add(
@@ -205,12 +221,12 @@ public class WorldMap {
     // Generates the Bandit Hideout area
     private static Area generateBanditHideout() {
 
+        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
         levelStrings.add(
                 "[20;21;1'" +
-                "21;20,31,22;1'" +
-                "31;21'" +
+                "21;20,22;1'" +
                 "22;12,21'" +
                 "12;22,13;1'" +
                 "13;03,23,12'" +
@@ -227,6 +243,7 @@ public class WorldMap {
 
         ArrayList<String> levelStrings = new ArrayList<>();
 
+        // See note at top of file for explanation
         levelStrings.add(
                 "[02;12;1'" +
                 "12;02,11,13;2'" +
@@ -244,6 +261,7 @@ public class WorldMap {
     private static Area generateDarkElfCave() {
         ArrayList<String> levelStrings = new ArrayList<>();
 
+        // See note at top of file for explanation
         levelStrings.add(
                 "[12;11,22'" +
                 "11;12;2'" +
@@ -297,6 +315,8 @@ public class WorldMap {
         areas.add(darkElfCave);
 
         undeadTemple.getEndRoom().addEnemy(Enemy.createEnemy(Enemy.EnemyType.NECROMANCER));
+
+        setSpawnRoom(crypt.getStartRoom());
 
         mapInitialized = true;
     }

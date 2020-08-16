@@ -5,8 +5,8 @@ import com.example.TextAdventure.Character.Enemy;
 import java.util.ArrayList;
 
 public class Area {
-    private String areaName;
 
+    private String areaName;
     private ArrayList<Level> levels;
     private Room startRoom;
     private Room endRoom;
@@ -48,7 +48,7 @@ public class Area {
 
         levels.add(previousLevel);
 
-        // Generates each level and chains them together sequentially, from endRoom to startRoom
+        // Generates each level and chains them together sequentially, from endRoom of previousLevel to startRoom of nextLevel
         for (int i = 1; i < levelStrings.size(); i++) {
             nextLevel = Level.generateLevel(areaName, i + 1, levelStrings.get(i), enemyType);
 

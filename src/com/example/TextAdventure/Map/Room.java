@@ -33,7 +33,6 @@ public class Room {
 
         public Room getRoom() { return room; }
         public MovementType getMovementType() { return movementType; }
-        public String getDisplayName() { return displayName; }
 
         private void initMovementInfo(Room originalRoom) {
             if (!room.areaName.equals(originalRoom.areaName)) { // two rooms in different areas
@@ -78,7 +77,7 @@ public class Room {
         adjacentRooms = new ArrayList<>();
         this.enemies = enemies;
 
-        // These are the adjacent rooms within the same level
+        // The adjacent rooms within the same level
         for (int i = 0; i < adjacentRoomStrings.length; i++) {
 
             // adjacentRoomStrings[i] is "xy"
@@ -99,8 +98,6 @@ public class Room {
 
     public String getAreaName() { return areaName; }
     public int getLevelNumber() { return levelNumber; }
-    public int getX() { return x; }
-    public int getY() { return y; }
 
     public AdjacentRoom getAdjacentRoom(String displayName) {
         for (AdjacentRoom room : adjacentRooms)
@@ -110,7 +107,7 @@ public class Room {
         return null;
     }
 
-    // Second pass replaces temporary Room objects with pointers to real rooms, once all the rooms have been created.
+    // Second pass replaces temporary Room objects with pointers to real rooms, after all the rooms have been created.
     public void finalizeAdjacentRooms(Level level) {
         for (AdjacentRoom adjacentRoom : adjacentRooms)
             for (Room room : level.getRooms())
@@ -135,14 +132,17 @@ public class Room {
     }
 
     public void viewRoom() {
+        // Display local map
+        for (AdjacentRoom adjacentRoom : adjacentRooms)
+            if (adjacentRoom.movementType == MovementType.ROOM)
+                output(Strings.MAIN_UI_DISPLAY_COMMAND_GO_ROOM, adjacentRoom.displayName, adjacentRoom.displayName);
+            else
+                output(Strings.MAIN_UI_DISPLAY_COMMAND_GO_LEVEL, adjacentRoom.displayName, adjacentRoom.displayName);
+
         // Display local enemies
         for (Enemy enemy : enemies)
             output(Strings.MAIN_UI_DISPLAY_COMMAND_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
-
-        // Display local map
-        for (AdjacentRoom adjacentRoom : adjacentRooms)
-            output(Strings.MAIN_UI_DISPLAY_COMMAND_GO, adjacentRoom.displayName);
-}
+    }
 
     public void addEnemy(Enemy enemy) {
         if (enemy != null)

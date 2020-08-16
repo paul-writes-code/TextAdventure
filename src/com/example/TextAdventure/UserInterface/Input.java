@@ -50,7 +50,7 @@ public class Input {
         // Zero-argument commands
         switch (command) {
 
-            // can enter blank command to repeat last attack command, if the enemy is alive
+            // Can enter blank command to repeat last attack command, if the enemy exists
             case COMMAND_BLANK:
                 if (!lastEnemyAttackedDisplayName.equals(""))
                     return new Command(CommandType.ATTACK, lastEnemyAttackedDisplayName);

@@ -2,7 +2,6 @@ package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Common.EnemyInfo;
 import com.example.TextAdventure.Common.Strings;
-import com.example.TextAdventure.UserInterface.Output;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
 
@@ -32,6 +31,7 @@ public class Enemy extends Character {
 
     public int getExperienceGiven() { return experienceGiven; }
     public double getHealthPotionDropChance() { return healthPotionDropChance; }
+
     public boolean isAggressive() { return aggressive; }
     public void setAggressive(boolean aggressive) { this.aggressive = aggressive; }
 
@@ -71,6 +71,7 @@ public class Enemy extends Character {
                     necromancerCreated = true;
                     return new Enemy(EnemyInfo.NECROMANCER_NAME, EnemyInfo.NECROMANCER_HITPOINTS, EnemyInfo.NECROMANCER_DAMAGE, EnemyInfo.NECROMANCER_EXPERIENCE, EnemyInfo.NECROMANCER_HEALTH_POTION_DROP_CHANCE, enemyNumber);
                 }
+
                 break;
         }
 

@@ -8,6 +8,7 @@ import com.example.TextAdventure.UserInterface.Command;
 import com.example.TextAdventure.UserInterface.Input;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
+import static com.example.TextAdventure.UserInterface.Output.reloadDisplay;
 
 public abstract class World {
 
@@ -22,7 +23,12 @@ public abstract class World {
     private static boolean playerInCombat = false;
     private static String lastEnemyAttackedDisplayName = "";
 
+    public static Player getPlayer() { return player; }
+    public static Room getPlayerRoom() { return playerRoom; }
+
     public static String getLastEnemyAttackedDisplayName() { return lastEnemyAttackedDisplayName; }
+
+    // Setup Game
 
     public static void enterWorld() {
         output(Strings.WELCOME_MESSAGE);
@@ -31,50 +37,56 @@ public abstract class World {
         World.spawnPlayer();
         reloadDisplay();
 
-        // TODO: "quit" command?
-        while (gameRunning)
-            executeCommand(Input.nextCommand());
+        while (gameRunning) {
+            if (Command.executeCommand(Input.nextCommand()))
+                World.postCommand();
+
+            if (!playerInCombat)
+                reloadDisplay();
+
+        }
     }
 
     private static void initGame() {
         if (gameInitialized)
             return;
 
-        spawnRoom = WorldMap.getSpawnRoom();
-        player = new Player(Input.getPlayerName());
+        output(Strings.INTRO_MESSAGE);
 
-        output(Strings.INTRO_MESSAGE, player.getDisplayName(), player.getLevel());
+        spawnRoom = WorldMap.getSpawnRoom();
+        player = new Player("t"); //Input.getPlayerName());
+
+        output(Strings.CHARACTER_MESSAGE, player.getDisplayName(), player.getLevel());
 
         gameInitialized = true;
     }
 
-    // Player Functions
     public static void spawnPlayer() {
-        if (playerRoom != null)
+        if (playerRoom != null) {
             playerRoom.leave();
+        }
 
         playerRoom = spawnRoom;
         player.fillHealth();
         player.addHealthPotions(5);
+        lastEnemyAttackedDisplayName = "";
     }
 
-    public static void reloadDisplay() {
+    // Player Functions
 
-        if (playerRoom.getLevelNumber() == 0)
-            output(playerRoom.getAreaName());
-        else
-            output(playerRoom.getAreaName() + " level " + playerRoom.getLevelNumber());
-
-        output(Strings.MAIN_UI_DISPLAY_HEALTH, player.getHitpoints(), player.getHitpoints());
-        output(Strings.MAIN_UI_DISPLAY_COMMAND_LIST);
-        output(Strings.MAIN_UI_DISPLAY_COMMAND_CHARACTER);
-        output(Strings.MAIN_UI_DISPLAY_COMMAND_HEAL, player.getNumHealthPotions());
-        output(Strings.MAIN_UI_DISPLAY_ROOM);
-
-        playerRoom.viewRoom();
-        output("");
+    // Reloads the UI if you wish to see it during combat
+    // Otherwise it is displayed automatically every command
+    public static void examineRoom() {
+        if (playerInCombat)
+            reloadDisplay();
     }
 
+    // Displays the player's character information
+    public static void viewCharacter() {
+        player.viewCharacter();
+    }
+
+    // The player moves from playerRoom to the room denoted by displayName
     public static boolean movePlayer(String displayName) {
         Room.AdjacentRoom adjacentRoom = playerRoom.getAdjacentRoom(displayName);
 
@@ -103,6 +115,7 @@ public abstract class World {
         return true;
     }
 
+    // The player attacks the enemy denoted by enemyName
     public static boolean attackEnemy(String enemyName) {
         Enemy enemy = playerRoom.getEnemy(enemyName);
 
@@ -158,6 +171,7 @@ public abstract class World {
         return true;
     }
 
+    // The player consumes a health potion, replenishing their health
     public static boolean consumeHealthPotion() {
         if (player.consumeHealthPotion()) {
             output(Strings.COMMAND_HEAL_DRINK_HEALTH_POTION + (playerInCombat ? "" : "\n"), player.getHealth(), player.getHitpoints(), player.getNumHealthPotions());
@@ -169,44 +183,6 @@ public abstract class World {
         }
     }
 
-    public static void viewCharacter() {
-        player.viewCharacter();
-    }
-
-    // TODO: move to UI package
-    public static void executeCommand(Command command) {
-        if (command != null) {
-            boolean validCommand = true;
-
-            output("");
-
-            switch (command.getCommandType()) {
-                case GO:
-                    validCommand = movePlayer(command.getArgument());
-                    break;
-                case EXAMINE:
-                    if (playerInCombat)
-                        reloadDisplay();
-                    break;
-                case ATTACK:
-                    validCommand = attackEnemy(command.getArgument());
-                    break;
-                case HEAL:
-                    validCommand = consumeHealthPotion();
-                    break;
-                case CHARACTER:
-                    viewCharacter();
-                    break;
-            }
-
-            if (validCommand)
-                postCommand();
-        }
-
-        if (!playerInCombat)
-            reloadDisplay();
-    }
-
     // Called after each valid command
     private static void postCommand() {
         playerInCombat = playerRoom.attackCycle(player);
@@ -216,5 +192,7 @@ public abstract class World {
 
         if (!player.isAlive())
             spawnPlayer();
+
+        // here is where you output the output strings from the command execution.
     }
 }

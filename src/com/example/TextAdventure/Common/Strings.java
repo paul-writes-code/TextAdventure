@@ -11,7 +11,15 @@ public class Strings {
     public static final String GAME_NAME = "Undead Temple";
     public static final String WELCOME_MESSAGE = "\nWelcome to " + GAME_NAME + ".";
     public static final String CHARACTER_NAME_PROMPT = "Enter your character's name: ";
-    public static final String INTRO_MESSAGE = "\nYou are %s, level %d undead warrior.\nTravel to the depths of the undead temple, and defeat the necromancer.\n";
+    public static final String CHARACTER_MESSAGE = "\nYou are %s, level %d undead warrior.\n";
+ //   public static final String INTRO_MESSAGE = "\nYou are %s, level %d undead warrior.\nTravel to the depths of the undead temple, and defeat the necromancer.\n";
+
+    public static final String INTRO_MESSAGE =
+        "\nAfter a heavy night of celebrating, you wake up in a tomb at the bottom of a crypt." +
+        "\nThe necromancer is creating an undead army, and has turned you into an undead." +
+        "\nAdventure out of the crypt, through the dark forest, over the mountain, and across the enchanted swamp." +
+        "\nThere, you will find the undead temple. Descend its depths and defeat the necromancer to turn back." +
+        "\nThe necromancer is a powerful being, and you will need to prepare well on your journey.\n";
 
     // Interface
     public static final String COMMAND_PROMPT = "Enter command: ";
@@ -22,10 +30,11 @@ public class Strings {
     public static final String MAIN_UI_DISPLAY_HEALTH = "health: %d/%d";
     public static final String MAIN_UI_DISPLAY_ROOM = "room: ";
     public static final String MAIN_UI_DISPLAY_COMMAND_LIST = "commands: ";
-    public static final String MAIN_UI_DISPLAY_COMMAND_CHARACTER = INDENTATION + Input.COMMAND_CHARACTER + ": view character details";
-    public static final String MAIN_UI_DISPLAY_COMMAND_HEAL = INDENTATION + Input.COMMAND_HEAL + ": drink a health potion (%d)";
-    public static final String MAIN_UI_DISPLAY_COMMAND_GO = INDENTATION + Input.COMMAND_GO + " %s: go to this room";
-    public static final String MAIN_UI_DISPLAY_COMMAND_ATTACK = INDENTATION + Input.COMMAND_ATTACK + " %s: %d/%d health";
+    public static final String MAIN_UI_DISPLAY_COMMAND_CHARACTER = INDENTATION + Input.COMMAND_CHARACTER + " (view character details)";
+    public static final String MAIN_UI_DISPLAY_COMMAND_HEAL = INDENTATION + Input.COMMAND_HEAL + " (drink a health potion; %d remaining)";
+    public static final String MAIN_UI_DISPLAY_COMMAND_GO_ROOM = INDENTATION + Input.COMMAND_GO + " %s (move one room %s)"; //go to this room";
+    public static final String MAIN_UI_DISPLAY_COMMAND_GO_LEVEL = INDENTATION + Input.COMMAND_GO + " %s (enter %s)"; //go to this room";
+    public static final String MAIN_UI_DISPLAY_COMMAND_ATTACK = INDENTATION + Input.COMMAND_ATTACK + " %s (%d/%d health)";
 
     // Character UI
     public static final String CHARACTER_UI_DISPLAY_CHARACTER = "%s, level %d undead warrior";
@@ -49,7 +58,7 @@ public class Strings {
     public static final String COMMAND_ATTACK_ATTACK_ENEMY_DEFEAT = "You attack %s, dealing %d damage.";
     public static final String COMMAND_ATTACK_ENEMY_RETALIATES = "%s attacks you, dealing %d damage. You have %d/%d health.";
     public static final String COMMAND_ATTACK_ENEMY_RETALIATES_DEFEAT = "%s attacks you, dealing %d damage.";
-    public static final String COMMAND_ATTACK_USAGE = "Enter 'attack enemy' to attack that enemy.\n";
+    public static final String COMMAND_ATTACK_USAGE = "\nEnter 'attack enemy' to attack that enemy.\n";
     public static final String COMMAND_ATTACK_INVALID_INPUT = "There is no '%s' to attack.\n";
 
     // Combat Results

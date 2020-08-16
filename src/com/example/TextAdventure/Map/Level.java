@@ -60,6 +60,7 @@ public class Level {
             int x =  Character.getNumericValue(roomId.charAt(roomId.length() - 2));
             int y =  Character.getNumericValue(roomId.charAt(roomId.length() - 1));
 
+            // roomInfo[2] contains number of enemies, if any
             if (roomInfo.length > 2)
                 numEnemies = Integer.parseInt(roomInfo[2]);
 
@@ -72,7 +73,7 @@ public class Level {
             Room room = new Room(areaName, levelNumber, x, y, adjacentRoomsString, enemies);
             rooms.add(room);
 
-            // Search for markers
+            // Look for markers
             switch (roomId.charAt(0)) {
                 case '[': // startRoom
                     startRoom = room;

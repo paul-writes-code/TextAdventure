@@ -1,7 +1,6 @@
 package com.example.TextAdventure.Character;
 
 import com.example.TextAdventure.Common.Strings;
-import com.example.TextAdventure.Common.Utility;
 
 import static com.example.TextAdventure.UserInterface.Output.output;
 
@@ -9,6 +8,9 @@ public class Player extends Character {
 
     public static final int PLAYER_BASE_HEALTH = 15;
     public static final int PLAYER_BASE_DAMAGE = 6;
+
+    private static final int EXPERIENCE_BASE = 250;
+    private static final double EXPERIENCE_EXPONENT = 1.5;
 
     protected int experience;
     protected int level;
@@ -48,43 +50,51 @@ public class Player extends Character {
             output(Strings.COMMAND_ATTACK_ATTACK_ENEMY_DEFEAT, enemy.getDisplayName(), damageInflicted);
     }
 
-    // DISPLAY FUNCTIONS
     public void viewCharacter() {
         output(Strings.CHARACTER_UI_DISPLAY_CHARACTER, getDisplayName(), getLevel());
         output(Strings.CHARACTER_UI_DISPLAY_DAMAGE, getDamage());
         output(Strings.CHARACTER_UI_DISPLAY_HITPOINTS, getHitpoints());
-        output(Strings.CHARACTER_UI_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForNextLevel(level));
+        output(Strings.CHARACTER_UI_DISPLAY_EXPERIENCE, getExperience(), getExperienceForNextLevel(level));
     }
 
-    // EXPERIENCE MANAGEMENT
+    // Experience Management
     public void gainXp(int xp) {
         if (xp <= 0)
             return;
 
-        int experienceForNextLevel = Utility.getExperienceForNextLevel(level);
+        int experienceForNextLevel = getExperienceForNextLevel(level);
         experience += xp;
 
         while (experience >= experienceForNextLevel) {
             experience -= experienceForNextLevel;
             levelUp();
-            experienceForNextLevel = Utility.getExperienceForNextLevel(level);
+            experienceForNextLevel = getExperienceForNextLevel(level);
         }
     }
 
     private void levelUp() {
         level++;
-        damage += 2;
         hitpoints += 5;
 
         switch(level) {
-            case 5: // add 3 damage instead of 2
-                damage++;
+            case 2:
+            case 3:
+            case 4:
+                damage += 2;
                 break;
-            case 6: // add 5 damage instead of 2
+            case 5:
                 damage += 3;
+                break;
+            case 6:
+                damage += 5;
                 break;
         }
 
         fillHealth();
+    }
+
+    // Computes how much experience is needed to reach the next level
+    public static int getExperienceForNextLevel(int currentLevel) {
+        return (int)(EXPERIENCE_BASE * Math.pow(EXPERIENCE_EXPONENT, currentLevel - 1));
     }
 }
