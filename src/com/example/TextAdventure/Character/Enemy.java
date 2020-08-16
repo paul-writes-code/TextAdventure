@@ -4,6 +4,8 @@ import com.example.TextAdventure.Common.EnemyInfo;
 import com.example.TextAdventure.Common.Strings;
 import com.example.TextAdventure.UserInterface.Output;
 
+import static com.example.TextAdventure.UserInterface.Output.output;
+
 public class Enemy extends Character {
 
     public enum EnemyType {
@@ -39,7 +41,13 @@ public class Enemy extends Character {
 
         int damageInflicted = player.takeDamage(generateDamageRoll());
 
-        Output.output(Strings.COMBAT_ENEMY_ATTACK_PLAYER, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
+        if (player.isAlive())
+            output(Strings.COMMAND_ATTACK_ENEMY_RETALIATES, getDisplayName(), damageInflicted, player.getHealth(), player.getHitpoints());
+        else {
+            output(Strings.COMMAND_ATTACK_ENEMY_RETALIATES_DEFEAT, getDisplayName(), damageInflicted);
+            output(Strings.COMBAT_PLAYER_DEFEATED);
+            output("");
+        }
     }
 
     public static Enemy createEnemy(EnemyType enemyType) {
@@ -63,7 +71,6 @@ public class Enemy extends Character {
                     necromancerCreated = true;
                     return new Enemy(EnemyInfo.NECROMANCER_NAME, EnemyInfo.NECROMANCER_HITPOINTS, EnemyInfo.NECROMANCER_DAMAGE, EnemyInfo.NECROMANCER_EXPERIENCE, EnemyInfo.NECROMANCER_HEALTH_POTION_DROP_CHANCE, enemyNumber);
                 }
-
                 break;
         }
 

@@ -5,7 +5,7 @@ import com.example.TextAdventure.Character.Enemy;
 import java.util.ArrayList;
 
 public class WorldMap {
-    private static boolean locationsInitialized = false;
+    private static boolean mapInitialized = false;
 
     private static ArrayList<Area> areas;
 
@@ -259,7 +259,7 @@ public class WorldMap {
     }
 
     private static void initMap() {
-        if (locationsInitialized)
+        if (mapInitialized)
             return;
 
         areas = new ArrayList<>();
@@ -298,6 +298,6 @@ public class WorldMap {
 
         undeadTemple.getEndRoom().addEnemy(Enemy.createEnemy(Enemy.EnemyType.NECROMANCER));
 
-        locationsInitialized = true;
+        mapInitialized = true;
     }
 }

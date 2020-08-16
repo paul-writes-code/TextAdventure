@@ -42,16 +42,18 @@ public class Player extends Character {
 
         int damageInflicted = enemy.takeDamage(generateDamageRoll());
 
-        output(Strings.COMBAT_PLAYER_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
+        if (enemy.isAlive())
+            output(Strings.COMMAND_ATTACK_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
+        else
+            output(Strings.COMMAND_ATTACK_ATTACK_ENEMY_DEFEAT, enemy.getDisplayName(), damageInflicted);
     }
 
     // DISPLAY FUNCTIONS
     public void viewCharacter() {
-        output(getDisplayName() + ", level " + getLevel() + " undead warrior");
-        output(Strings.CHARACTER_DISPLAY_DAMAGE, getDamage());
-        output(Strings.CHARACTER_DISPLAY_HITPOINTS, getHitpoints());
-        output(Strings.CHARACTER_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForNextLevel(level));
-        output("");
+        output(Strings.CHARACTER_UI_DISPLAY_CHARACTER, getDisplayName(), getLevel());
+        output(Strings.CHARACTER_UI_DISPLAY_DAMAGE, getDamage());
+        output(Strings.CHARACTER_UI_DISPLAY_HITPOINTS, getHitpoints());
+        output(Strings.CHARACTER_UI_DISPLAY_EXPERIENCE, getExperience(), Utility.getExperienceForNextLevel(level));
     }
 
     // EXPERIENCE MANAGEMENT

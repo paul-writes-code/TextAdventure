@@ -67,20 +67,20 @@ public class Input {
                     lastCommand = new Command(CommandType.ATTACK, argument);
                     return lastCommand;
                 default:
-                    Output.output(Strings.INPUT_COMMAND_UNKNOWN, command);
+                    Output.output(Strings.COMMAND_INVALID, command);
                     return null;
             }
         }
         else {
             switch (command) {
                 case COMMAND_GO:
-                    Output.output(Strings.INPUT_COMMAND_ARGUMENT_LOCATION);
+                    Output.output(Strings.COMMAND_GO_USAGE);
                     return null;
                 case COMMAND_ATTACK:
                     lastCommand = new Command(CommandType.ATTACK);
                     return lastCommand;
                 default:
-                    Output.output(Strings.INPUT_COMMAND_UNKNOWN, command);
+                    Output.output(Strings.COMMAND_INVALID, command);
                     return null;
             }
         }
