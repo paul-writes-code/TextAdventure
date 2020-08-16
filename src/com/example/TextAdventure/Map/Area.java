@@ -40,7 +40,7 @@ public class Area {
         ArrayList<Level> levels = new ArrayList<>();
         ArrayList<Room> areaExitRooms = new ArrayList<>();
 
-        Level previousLevel = Level.generateLevel(areaName, 1, levelStrings.get(0), enemyType);
+        Level previousLevel = Level.generateLevel(areaName, levelStrings.size() == 1 ? 0 : 1, levelStrings.get(0), enemyType);
         Level nextLevel;
 
         for (Room room : previousLevel.getAreaExitRooms())

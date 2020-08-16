@@ -16,7 +16,7 @@ public class Player extends Character {
 
     public Player(String name) {
         super(name, PLAYER_BASE_HEALTH, PLAYER_BASE_HEALTH, PLAYER_BASE_DAMAGE);
-        numHealthPotions = 5;
+        numHealthPotions = 0;
         experience = 0;
         level = 1;
     }

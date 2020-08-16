@@ -18,7 +18,11 @@ public abstract class World {
 
     private static boolean gameInitialized = false;
     private static boolean gameRunning = true;
+
     private static boolean playerInCombat = false;
+    private static String lastEnemyAttackedDisplayName = "";
+
+    public static String getLastEnemyAttackedDisplayName() { return lastEnemyAttackedDisplayName; }
 
     public static void enterWorld() {
         output(Strings.WELCOME_MESSAGE);
@@ -28,10 +32,8 @@ public abstract class World {
         reloadDisplay();
 
         // TODO: "quit" command?
-        while (gameRunning) {
-            output(Strings.COMMAND_PROMPT);
+        while (gameRunning)
             executeCommand(Input.nextCommand());
-        }
     }
 
     private static void initGame() {
@@ -53,14 +55,22 @@ public abstract class World {
 
         playerRoom = spawnRoom;
         player.fillHealth();
+        player.addHealthPotions(5);
     }
 
     public static void reloadDisplay() {
+
+        if (playerRoom.getLevelNumber() == 0)
+            output(playerRoom.getAreaName());
+        else
+            output(playerRoom.getAreaName() + " level " + playerRoom.getLevelNumber());
+
         output(Strings.MAIN_UI_DISPLAY_HEALTH, player.getHitpoints(), player.getHitpoints());
-        output(Strings.MAIN_UI_DISPLAY_ROOM, playerRoom.getAreaName(), playerRoom.getLevelNumber());
         output(Strings.MAIN_UI_DISPLAY_COMMAND_LIST);
         output(Strings.MAIN_UI_DISPLAY_COMMAND_CHARACTER);
         output(Strings.MAIN_UI_DISPLAY_COMMAND_HEAL, player.getNumHealthPotions());
+        output(Strings.MAIN_UI_DISPLAY_ROOM);
+
         playerRoom.viewRoom();
         output("");
     }
@@ -88,6 +98,8 @@ public abstract class World {
                 break;
         }
 
+        // Can no longer attack this enemy from another room
+        lastEnemyAttackedDisplayName = "";
         return true;
     }
 
@@ -138,18 +150,21 @@ public abstract class World {
 
             // Remove defeated enemy from the game
             playerRoom.removeEnemy(enemy);
+            lastEnemyAttackedDisplayName = "";
         }
+        else
+            lastEnemyAttackedDisplayName = enemy.getDisplayName();
 
         return true;
     }
 
     public static boolean consumeHealthPotion() {
         if (player.consumeHealthPotion()) {
-            output(Strings.COMMAND_HEAL_DRINK_HEALTH_POTION, player.getHealth(), player.getHitpoints(), player.getNumHealthPotions());
+            output(Strings.COMMAND_HEAL_DRINK_HEALTH_POTION + (playerInCombat ? "" : "\n"), player.getHealth(), player.getHitpoints(), player.getNumHealthPotions());
             return true;
         }
         else {
-            output(Strings.COMMAND_HEAL_INSUFFICIENT_HEALTH_POTIONS);
+            output(Strings.COMMAND_HEAL_INSUFFICIENT_HEALTH_POTIONS + (playerInCombat ? "" : "\n"));
             return false;
         }
     }
@@ -172,21 +187,15 @@ public abstract class World {
                 case EXAMINE:
                     if (playerInCombat)
                         reloadDisplay();
-
                     break;
                 case ATTACK:
                     validCommand = attackEnemy(command.getArgument());
                     break;
                 case HEAL:
                     validCommand = consumeHealthPotion();
-
-                    if (!playerInCombat)
-                        output("");
-
                     break;
                 case CHARACTER:
                     viewCharacter();
-
                     break;
             }
 
@@ -205,8 +214,7 @@ public abstract class World {
         if (playerInCombat)
             output("");
 
-        if (!player.isAlive()) {
+        if (!player.isAlive())
             spawnPlayer();
-        }
     }
 }

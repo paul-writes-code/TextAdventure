@@ -135,14 +135,14 @@ public class Room {
     }
 
     public void viewRoom() {
-        // Display local map
-        for (AdjacentRoom adjacentRoom : adjacentRooms)
-            output(Strings.MAIN_UI_DISPLAY_COMMAND_GO, adjacentRoom.displayName);
-
         // Display local enemies
         for (Enemy enemy : enemies)
             output(Strings.MAIN_UI_DISPLAY_COMMAND_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
-    }
+
+        // Display local map
+        for (AdjacentRoom adjacentRoom : adjacentRooms)
+            output(Strings.MAIN_UI_DISPLAY_COMMAND_GO, adjacentRoom.displayName);
+}
 
     public void addEnemy(Enemy enemy) {
         if (enemy != null)
