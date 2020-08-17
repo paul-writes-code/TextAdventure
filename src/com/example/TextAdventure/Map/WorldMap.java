@@ -1,279 +1,107 @@
 package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
+import com.example.TextAdventure.Common.MapInfo;
+import com.example.TextAdventure.Common.Strings;
 
 import java.util.ArrayList;
-
-// Note about map implementation:
-// In each area generation function, the map is stored in Strings which contain information about each room in a level, in the following order:
-//      Some rooms begin with a marker:
-//          [ - start room of a level,
-//          ] - end room of a level,
-//          # - area exit room of a level
-//          x - spawn room of the game
-//      The next two digits represent the (x, y) coordinates of the room within the floor, followed by a semi-colon
-//      Then there is a list of two-digit numbers, separated by commas. Each two-digit number represents the (x, y) coordinates of an adjacent room.
-//      If a room has enemies, then next is a semi-colon followed by the number of enemies in the room.
-//      Each room is separated from the next with an apostrophe.
 
 public class WorldMap {
     private static boolean mapInitialized = false;
 
     private static ArrayList<Area> areas;
-
     private static Room spawnRoom = null;
 
     public static Room getSpawnRoom() {
         initMap();
         return spawnRoom;
     }
+
     public static void setSpawnRoom(Room room) {
         spawnRoom = room;
     }
 
     // Generates the Crypt area
     private static Area generateCrypt() {
-
-        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings.add(
-                "[03;02'" +
-                        "02;01,03;1'" +
-                        "01;00,02;2'" +
-                        "00;10,01;1'" +
-                        "10;00,11;1'" +
-                        "]11;10;2");
+        levelStrings.add(MapInfo.CRYPT_LEVEL_1_STRING);
+        levelStrings.add(MapInfo.CRYPT_LEVEL_2_STRING);
+        levelStrings.add(MapInfo.CRYPT_LEVEL_3_STRING);
 
-        levelStrings.add(
-                "[11;10;1'" +
-                        "10;11,20;2'" +
-                        "20;10,21'" +
-                        "21;20,22;1'" +
-                        "22;21,23;2'" +
-                        "]23;22;1");
-
-        levelStrings.add(
-                "[23;22,13;2'" +
-                        "22;23,12;2'" +
-                        "13;23,12;1'" +
-                        "12;13,22,11;1'" +
-                        "11;12,21;1'" +
-                        "x21;11");
-
-        return Area.generateArea("crypt", levelStrings, Enemy.EnemyType.SKELETON);
+        return Area.generateArea(Strings.NAME_CRYPT, levelStrings, Enemy.EnemyType.SKELETON);
     }
 
     // Generates the Dark Forest area
     private static Area generateDarkForest() {
-
-        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings.add(
-                "#11;12'"+
-                "12;11,13'" +
-                "13;12,23;1'" +
-                "23;13,22'" +
-                "22;23,32;1'" +
-                "]32;22;1");
+        levelStrings.add(MapInfo.DARK_FOREST_LEVEL_1_STRING);
+        levelStrings.add(MapInfo.DARK_FOREST_LEVEL_2_STRING);
+        levelStrings.add(MapInfo.DARK_FOREST_LEVEL_3_STRING);
 
-        levelStrings.add(
-                "[01;02'" +
-                "02;01,12;1'" +
-                "12;02,22'" +
-                "22;12,21,32;1'" +
-                "#21;22'" +
-                "]32;22;1");
-
-        levelStrings.add(
-                "[03;13;1'" +
-                "13;03,23;1'" +
-                "]23;13");
-
-        return Area.generateArea("dark forest", levelStrings, Enemy.EnemyType.BANDIT);
+        return Area.generateArea(Strings.NAME_DARK_FOREST, levelStrings, Enemy.EnemyType.BANDIT);
     }
 
     // Generates the Mountain area
     private static Area generateMountain() {
-
-        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings.add(
-                "[32;22'" +
-                "22;32,21'" +
-                "21;22,20;1'" +
-                "20;21,30;1'" +
-                "]30;20");
+        levelStrings.add(MapInfo.MOUNTAIN_LEVEL_1_STRING);
+        levelStrings.add(MapInfo.MOUNTAIN_LEVEL_2_STRING);
+        levelStrings.add(MapInfo.MOUNTAIN_LEVEL_3_STRING);
 
-        levelStrings.add(
-                "[00;10'" +
-                "10;00,11;1'" +
-                "11;10,12'" +
-                "12;11,22'" +
-                "22;12,21,32'" +
-                "21;20,22;1'" +
-                "#20;21;1'" +
-                "]32;22");
-
-        levelStrings.add(
-                "[00;01'" +
-                "01;00,11'" +
-                "11;01,21;1'" +
-                "21;11,22'" +
-                "22;21,12;1'" +
-                "12;22,13'" +
-                "]13;12");
-
-        return Area.generateArea("mountain", levelStrings, Enemy.EnemyType.LIZARD);
+        return Area.generateArea(Strings.NAME_MOUNTAIN, levelStrings, Enemy.EnemyType.LIZARD);
     }
 
     // Generates the Enchanted Swamp area
     private static Area generateEnchantedSwamp() {
-
-        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings.add(
-                "[21;11'" +
-                "11;01,21,12;1'" +
-                "01;11,02'" +
-                "02;01;1'" +
-                "12;11,22;1'" +
-                "22;12,32'" +
-                "32;22,31;1'" +
-                "]31;32");
+        levelStrings.add(MapInfo.ENCHANTED_SWAMP_LEVEL_1_STRING);
+        levelStrings.add(MapInfo.ENCHANTED_SWAMP_LEVEL_2_STRING);
+        levelStrings.add(MapInfo.ENCHANTED_SWAMP_LEVEL_3_STRING);
 
-        levelStrings.add(
-                "[02;12'" +
-                "12;02,22,11;1'" +
-                "#22;12'" +
-                "11;12,10;1'" +
-                "10;11,20'" +
-                "20;10,30;2'" +
-                "]30;20");
-
-        levelStrings.add(
-                "[01;02'" +
-                "02;01,12;1'" +
-                "12;02,22;1'" +
-                "22;12,21'" +
-                "21;22,20,31;2'" +
-                "20;21,10'" +
-                "10;20;1'" +
-                "31;21,30'" +
-                "]30;31");
-
-        return Area.generateArea("enchanted swamp", levelStrings, Enemy.EnemyType.DARKELF);
+        return Area.generateArea(Strings.NAME_ENCHANTED_SWAMP, levelStrings, Enemy.EnemyType.DARKELF);
     }
 
     // Generates the Undead Temple area
     private static Area generateUndeadTemple() {
-
-        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings.add(
-                "[11;12'" +
-                "12;11,02,13;1'" +
-                "02;12,03'" +
-                "03;02;2'" +
-                "13;12,23;1'" +
-                "23;13,33;1'" +
-                "33;23,32'" +
-                "]32;33;1");
+        levelStrings.add(MapInfo.UNDEAD_TEMPLE_LEVEL_1_STRING);
+        levelStrings.add(MapInfo.UNDEAD_TEMPLE_LEVEL_2_STRING);
+        levelStrings.add(MapInfo.UNDEAD_TEMPLE_LEVEL_3_STRING);
+        levelStrings.add(MapInfo.UNDEAD_TEMPLE_LEVEL_4_STRING);
 
-        levelStrings.add(
-                "[32;33;1'" +
-                "33;32,23'" +
-                "23;33,22;1'" +
-                "22;23,21;2'" +
-                "21;11,31,22'" +
-                "31;21,30;1'" +
-                "30;31,20'" +
-                "20;30;2'" +
-                "11;21,10'" +
-                "]10;11;1");
-
-        levelStrings.add(
-                "[10;00,11,20'" +
-                "00;01,10'" +
-                "01;00;1'" +
-                "11;10,12;2'" +
-                "12;11,22;1'" +
-                "22;12,21;1'" +
-                "20;10,30;1'" +
-                "30;20,31;1'" +
-                "31;30,21;2'" +
-                "]21;22,31");
-
-        levelStrings.add(
-                "[21;11'" +
-                "11;01,21;1'" +
-                "01;11,02;1'" +
-                "02;01,03'" +
-                "]03;02");
-
-        return Area.generateArea("undead temple", levelStrings, Enemy.EnemyType.UNDEAD);
+        return Area.generateArea(Strings.NAME_UNDEAD_TEMPLE, levelStrings, Enemy.EnemyType.UNDEAD);
     }
 
     // Generates the Bandit Hideout area
     private static Area generateBanditHideout() {
-
-        // See note at top of file for explanation
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        levelStrings.add(
-                "[20;21;1'" +
-                "21;20,22;1'" +
-                "22;12,21'" +
-                "12;22,13;1'" +
-                "13;03,23,12'" +
-                "]23;13;1'" +
-                "03;13,02;2'" +
-                "02;03,01;1'" +
-                "01;02;1");
+        levelStrings.add(MapInfo.BANDIT_HIDEOUT_STRING);
 
-        return Area.generateArea("bandit hideout", levelStrings, Enemy.EnemyType.BANDIT);
+        return Area.generateArea(Strings.NAME_BANDIT_HIDEOUT, levelStrings, Enemy.EnemyType.BANDIT);
     }
 
     // Generates the Lizard Cave area
     private static Area generateLizardCave() {
-
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        // See note at top of file for explanation
-        levelStrings.add(
-                "[02;12;1'" +
-                "12;02,11,13;2'" +
-                "11;12,21'" +
-                "13;12,23;1'" +
-                "23;13;2'" +
-                "21;11,20;1'" +
-                "20;21,30'" +
-                "]30;20;2");
+        levelStrings.add(MapInfo.LIZARD_CAVE_STRING);
 
-        return Area.generateArea("lizard cave", levelStrings, Enemy.EnemyType.LIZARD);
+        return Area.generateArea(Strings.NAME_LIZARD_CAVE, levelStrings, Enemy.EnemyType.LIZARD);
     }
 
     // Generates the Dark Elf Cave area
     private static Area generateDarkElfCave() {
         ArrayList<String> levelStrings = new ArrayList<>();
 
-        // See note at top of file for explanation
-        levelStrings.add(
-                "[12;11,22'" +
-                "11;12;2'" +
-                "22;12,23,32;1'" +
-                "23;22,33;1'" +
-                "33;23;1'" +
-                "32;22,31'" +
-                "31;32,30;1'" +
-                "30;31,20'" +
-                "]20;30;2");
+        levelStrings.add(MapInfo.DARK_ELF_CAVE_STRING);
 
-        return Area.generateArea("dark elf cave", levelStrings, Enemy.EnemyType.DARKELF);
+        return Area.generateArea(Strings.NAME_DARK_ELF_CAVE, levelStrings, Enemy.EnemyType.DARKELF);
     }
 
     private static void initMap() {
@@ -295,12 +123,12 @@ public class WorldMap {
         Area.connectAreas(mountain, enchantedSwamp);
         Area.connectAreas(enchantedSwamp, undeadTemple);
 
-        // Generate the side objectives
+        // Generate the side areas
         Area banditHideout = generateBanditHideout();
         Area lizardCave = generateLizardCave();
         Area darkElfCave = generateDarkElfCave();
 
-        // Connect the side objectives
+        // Connect the side areas
         Area.connectAreaToExitRoom(darkForest.getAreaExitRooms().get(1), banditHideout);
         Area.connectAreaToExitRoom(mountain.getAreaExitRooms().get(0), lizardCave);
         Area.connectAreaToExitRoom(enchantedSwamp.getAreaExitRooms().get(0), darkElfCave);
@@ -314,9 +142,8 @@ public class WorldMap {
         areas.add(lizardCave);
         areas.add(darkElfCave);
 
+        // Add the final boss to the last room of the undead temple
         undeadTemple.getEndRoom().addEnemy(Enemy.createEnemy(Enemy.EnemyType.NECROMANCER));
-
-        setSpawnRoom(crypt.getStartRoom());
 
         mapInitialized = true;
     }

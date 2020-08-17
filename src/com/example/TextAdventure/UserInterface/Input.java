@@ -51,8 +51,10 @@ public class Input {
             case Strings.COMMAND_BLANK:
                 if (!lastEnemyAttackedDisplayName.equals(""))
                     return new Command(CommandType.ATTACK, lastEnemyAttackedDisplayName);
-                else
+                else {
+                    addOutputToBuffer(Strings.COMMAND_BLANK_USAGE);
                     return null;
+                }
             case Strings.COMMAND_HEAL:
                 return new Command(CommandType.HEAL);
             case Strings.COMMAND_CHARACTER:

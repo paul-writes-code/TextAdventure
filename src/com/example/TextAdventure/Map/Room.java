@@ -12,10 +12,11 @@ public class Room {
 
     public enum MovementType {
         ROOM, // the player moves between rooms within the same level
-        LEVEL, // the player moves between levels
+        LEVEL, // the player moves from one level to another
         AREA // the player moves from one area to another
     }
 
+    // This class stores a Room object's adjacent rooms along with adjacency information.
     public static class AdjacentRoom {
         private Room room;
         private String displayName; // The name of the room the player sees.
@@ -124,9 +125,9 @@ public class Room {
     public void sortAdjacentRooms() {
 
         // Sort the order the adjacent rooms will be displayed in the main UI
+        // New levels and areas will be displayed first, followed by north, east, west, and south directions, if they exist.
         Collections.sort(adjacentRooms, new Comparator<>() {
 
-            // New levels and areas will be displayed first, followed by north, east, west, south directions, if they exist.
             private int getValue(AdjacentRoom adjacentRoom) {
                 switch (adjacentRoom.displayName) {
                     case Strings.COMMAND_GO_NORTH:
@@ -183,11 +184,14 @@ public class Room {
             enemies.remove(enemy);
     }
 
+    // Enemy aggression is reset when the player exits the room
     public void leave() {
         for (Enemy enemy : enemies)
             enemy.setAggressive(false);
     }
 
+    // Run after the player enters a valid command
+    // Causes all aggressive enemies to attack the player
     public boolean attackCycle(Player player) {
         boolean attacked = false;
 

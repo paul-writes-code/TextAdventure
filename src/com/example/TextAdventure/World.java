@@ -21,17 +21,14 @@ public abstract class World {
 
     private static boolean playerInCombat = false;
     private static String lastEnemyAttackedDisplayName = "";
-
     private static boolean validCommand = false;
 
     public static Player getPlayer() { return player; }
     public static Room getPlayerRoom() { return playerRoom; }
-
     public static String getLastEnemyAttackedDisplayName() { return lastEnemyAttackedDisplayName; }
 
     // Run the game world
     public static void runGame() {
-
         initGame();
         World.spawnPlayer();
 
@@ -57,7 +54,8 @@ public abstract class World {
         gameInitialized = true;
     }
 
-    public static void spawnPlayer() {
+    // Moves the player to the spawn room
+    private static void spawnPlayer() {
         if (playerRoom != null)
             playerRoom.leave();
 
@@ -127,8 +125,8 @@ public abstract class World {
         player.attackEnemy(enemy);
         enemy.setAggressive(true);
 
+        // When an enemy is defeated
         if (!enemy.isAlive()) {
-
             int oldLevel = player.getLevel();
             int experienceGained = enemy.getExperienceGiven();
 
@@ -186,6 +184,7 @@ public abstract class World {
 
         addOutputToBuffer("");
 
+        // When player is defeated
         if (!player.isAlive()) {
             addOutputToBuffer(Strings.COMBAT_PLAYER_DEFEATED);
             addOutputToBuffer("");

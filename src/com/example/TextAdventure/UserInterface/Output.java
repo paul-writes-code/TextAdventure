@@ -49,14 +49,14 @@ public class Output {
         displayText(Strings.MAIN_UI_DISPLAY_COMMAND_CHARACTER);
         displayText(Strings.MAIN_UI_DISPLAY_COMMAND_HEAL, player.getNumHealthPotions());
 
+        for (Enemy enemy : playerRoom.getEnemies())
+            displayText(Strings.MAIN_UI_DISPLAY_COMMAND_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
+
         for (Room.AdjacentRoom adjacentRoom : playerRoom.getAdjacentRooms())
             if (adjacentRoom.getMovementType() == Room.MovementType.ROOM)
                 displayText(Strings.MAIN_UI_DISPLAY_COMMAND_GO_ROOM, adjacentRoom.getDisplayName(), adjacentRoom.getDisplayName());
             else
                 displayText(Strings.MAIN_UI_DISPLAY_COMMAND_GO_LEVEL, adjacentRoom.getDisplayName(), adjacentRoom.getDisplayName());
-
-        for (Enemy enemy : playerRoom.getEnemies())
-            displayText(Strings.MAIN_UI_DISPLAY_COMMAND_ATTACK, enemy.getDisplayName(), enemy.getHealth(), enemy.getHitpoints());
 
         displayText("");
     }

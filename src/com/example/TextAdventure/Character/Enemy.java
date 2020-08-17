@@ -39,9 +39,7 @@ public class Enemy extends Character {
         if (player == null)
             return;
 
-        int damageInflicted = player.takeDamage(generateDamageRoll());
-
-        addOutputToBuffer(Strings.COMMAND_ATTACK_ENEMY_RETALIATES, getDisplayName(), damageInflicted);
+        addOutputToBuffer(Strings.COMMAND_ATTACK_ENEMY_RETALIATES, getDisplayName(), player.takeDamage(generateDamageRoll()));
     }
 
     public static Enemy createEnemy(EnemyType enemyType) {

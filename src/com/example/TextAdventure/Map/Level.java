@@ -6,18 +6,12 @@ import java.util.ArrayList;
 
 public class Level {
 
-    private String areaName;
-    private int levelNumber;
-
     private ArrayList<Room> rooms;
     private Room startRoom; // the beginning of this level, used to chain levels together
     private Room endRoom; // the end of this level, used to chain levels together
-    private ArrayList<Room> areaExitRooms; // these are exits to other areas outside of the chain of levels; set by Area
+    private ArrayList<Room> areaExitRooms; // these are exits to other areas outside of the chain of levels, set by Area
 
-    private Level(String areaName, int levelNumber, ArrayList<Room> rooms, Room startRoom, Room endRoom, ArrayList<Room> areaExitRooms) {
-        this.areaName = areaName;
-        this.levelNumber = levelNumber;
-
+    private Level(ArrayList<Room> rooms, Room startRoom, Room endRoom, ArrayList<Room> areaExitRooms) {
         this.rooms = rooms;
         this.startRoom = startRoom;
         this.endRoom = endRoom;
@@ -64,12 +58,14 @@ public class Level {
             if (roomInfo.length > 2)
                 numEnemies = Integer.parseInt(roomInfo[2]);
 
+            // Rooms with multiple enemies will number them
             if (numEnemies > 1)
                 for (int j = 1; j <= numEnemies; j++)
                     enemies.add(Enemy.createEnemy(enemyType, j));
             else if (numEnemies == 1)
                 enemies.add(Enemy.createEnemy(enemyType, 0));
 
+            // Create the room and add it to the list of rooms
             Room room = new Room(areaName, levelNumber, x, y, adjacentRoomsString, enemies);
             rooms.add(room);
 
@@ -90,7 +86,8 @@ public class Level {
             }
         }
 
-        Level level = new Level(areaName, levelNumber, rooms, startRoom, endRoom, exitRooms);
+        // Create the level
+        Level level = new Level(rooms, startRoom, endRoom, exitRooms);
 
         // Once every room has been created, they can be connected
         for (Room room : rooms)

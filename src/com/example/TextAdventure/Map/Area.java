@@ -6,15 +6,11 @@ import java.util.ArrayList;
 
 public class Area {
 
-    private String areaName;
-    private ArrayList<Level> levels;
     private Room startRoom;
     private Room endRoom;
     private ArrayList<Room> areaExitRooms;
 
-    private Area(String areaName, ArrayList<Level> levels, ArrayList<Room> areaExitRooms) {
-        this.areaName = areaName;
-        this.levels = levels;
+    private Area(ArrayList<Level> levels, ArrayList<Room> areaExitRooms) {
         startRoom = levels.get(0).getStartRoom();
         endRoom = levels.get(levels.size() - 1).getEndRoom();
         this.areaExitRooms = areaExitRooms;
@@ -40,6 +36,7 @@ public class Area {
         ArrayList<Level> levels = new ArrayList<>();
         ArrayList<Room> areaExitRooms = new ArrayList<>();
 
+        // Generate the first, and possibly only, level of the area
         Level previousLevel = Level.generateLevel(areaName, levelStrings.size() == 1 ? 0 : 1, levelStrings.get(0), enemyType);
         Level nextLevel;
 
@@ -61,6 +58,6 @@ public class Area {
             previousLevel = nextLevel;
         }
 
-        return new Area(areaName, levels, areaExitRooms);
+        return new Area(levels, areaExitRooms);
     }
 }

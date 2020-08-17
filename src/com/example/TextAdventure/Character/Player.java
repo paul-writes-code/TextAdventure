@@ -42,11 +42,10 @@ public class Player extends Character {
         if (enemy == null)
             return;
 
-        int damageInflicted = enemy.takeDamage(generateDamageRoll());
-
-        addOutputToBuffer(Strings.COMMAND_ATTACK_ATTACK_ENEMY, enemy.getDisplayName(), damageInflicted);
+        addOutputToBuffer(Strings.COMMAND_ATTACK_ATTACK_ENEMY, enemy.getDisplayName(), enemy.takeDamage(generateDamageRoll()));
     }
 
+    // Display character information
     public void viewCharacter() {
         addOutputToBuffer(Strings.CHARACTER_UI_DISPLAY_CHARACTER, getDisplayName(), getLevel());
         addOutputToBuffer(Strings.CHARACTER_UI_DISPLAY_DAMAGE, getDamage());
@@ -55,6 +54,7 @@ public class Player extends Character {
     }
 
     // Experience Management
+    // When the player levels up, the experience depletes rather than accumulating over multiple levels
     public void gainXp(int xp) {
         if (xp <= 0)
             return;
@@ -91,6 +91,8 @@ public class Player extends Character {
     }
 
     // Computes how much experience is needed to reach the next level
+    // Player starts at level 1 with 0 experience
+    // Level x requires (120 * (1.5)^(x - 1)) experience to reach from the previous level
     public static int getExperienceForNextLevel(int currentLevel) {
         return (int)(EXPERIENCE_BASE * Math.pow(EXPERIENCE_EXPONENT, currentLevel - 1));
     }
