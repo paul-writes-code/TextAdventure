@@ -3,14 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ff142ec3-a976-4107-a277-720b9610cda4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/currentMap.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Common/Strings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/Common/Strings.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/UserInterface/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TextAdventure/com/example/TextAdventure/World.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/Common/Strings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/Common/Strings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/UserInterface/Command.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/example/TextAdventure/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,15 +153,6 @@
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1592959065915" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/com/example/TextAdventure/World.java</url>
-          <line>183</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="locationNeighbourIdStrings" />
