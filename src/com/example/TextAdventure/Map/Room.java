@@ -2,8 +2,11 @@ package com.example.TextAdventure.Map;
 
 import com.example.TextAdventure.Character.Enemy;
 import com.example.TextAdventure.Character.Player;
+import com.example.TextAdventure.Common.Strings;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Room {
 
@@ -45,13 +48,13 @@ public class Room {
                 movementType = MovementType.ROOM;
 
                 if (originalRoom.x < room.x)
-                    displayName = "east";
+                    displayName = Strings.COMMAND_GO_EAST;
                 else if (originalRoom.x > room.x)
-                    displayName = "west";
+                    displayName = Strings.COMMAND_GO_WEST;
                 else if (originalRoom.y < room.y)
-                    displayName = "north";
+                    displayName = Strings.COMMAND_GO_NORTH;
                 else
-                    displayName = "south";
+                    displayName = Strings.COMMAND_GO_SOUTH;
             }
         }
     }
@@ -114,10 +117,40 @@ public class Room {
             for (Room room : level.getRooms())
                 if (adjacentRoom.room.equals(room))
                     adjacentRoom.room = room;
+
+        sortAdjacentRooms();
+    }
+
+    public void sortAdjacentRooms() {
+
+        // Sort the order the adjacent rooms will be displayed in the main UI
+        Collections.sort(adjacentRooms, new Comparator<>() {
+
+            // New levels and areas will be displayed first, followed by north, east, west, south directions, if they exist.
+            private int getValue(AdjacentRoom adjacentRoom) {
+                switch (adjacentRoom.displayName) {
+                    case Strings.COMMAND_GO_NORTH:
+                        return 1;
+                    case Strings.COMMAND_GO_EAST:
+                        return 2;
+                    case Strings.COMMAND_GO_SOUTH:
+                        return 4;
+                    case Strings.COMMAND_GO_WEST:
+                        return 3;
+                }
+
+                return 5;
+            }
+
+            @Override
+            public int compare(AdjacentRoom adjacentRoom1, AdjacentRoom adjacentRoom2) {
+                return Integer.compare(getValue(adjacentRoom1), getValue(adjacentRoom2));
+            }
+        });
     }
 
     public void connectToRoom(Room room) {
-        adjacentRooms.add(new AdjacentRoom(room, this));
+        adjacentRooms.add(0, new AdjacentRoom(room, this));
     }
 
     @Override

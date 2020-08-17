@@ -48,6 +48,10 @@ public class Strings {
     public static final String COMMAND_HEAL_INSUFFICIENT_HEALTH_POTIONS = "You do not have any health potions.";
 
     // Go Command
+    public static final String COMMAND_GO_NORTH = "north";
+    public static final String COMMAND_GO_EAST = "east";
+    public static final String COMMAND_GO_SOUTH = "south";
+    public static final String COMMAND_GO_WEST = "west";
     public static final String COMMAND_GO_MOVE_ROOM = "You enter the room to the %s.";
     public static final String COMMAND_GO_MOVE_LEVEL = "You enter %s level %d.";
     public static final String COMMAND_GO_MOVE_AREA = "You enter %s.";
