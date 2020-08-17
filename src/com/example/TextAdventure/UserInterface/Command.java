@@ -47,5 +47,7 @@ public class Command {
                     break;
             }
         }
+        else
+            World.invalidCommand();
     }
 }

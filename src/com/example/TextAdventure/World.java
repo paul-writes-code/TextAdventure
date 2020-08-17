@@ -22,6 +22,8 @@ public abstract class World {
     private static boolean playerInCombat = false;
     private static String lastEnemyAttackedDisplayName = "";
 
+    private static boolean validCommand = false;
+
     public static Player getPlayer() { return player; }
     public static Room getPlayerRoom() { return playerRoom; }
 
@@ -73,6 +75,8 @@ public abstract class World {
 
         if (playerInCombat)
             addOutputToBuffer("");
+
+        validCommand = true;
     }
 
     // The player moves from playerRoom to the room denoted by displayName
@@ -81,6 +85,7 @@ public abstract class World {
 
         if (adjacentRoom == null) {
             addOutputToBuffer(Strings.COMMAND_GO_INVALID_INPUT, displayName);
+            validCommand = false;
             return;
         }
 
@@ -101,6 +106,7 @@ public abstract class World {
 
         // Can no longer attack this enemy from another room
         lastEnemyAttackedDisplayName = "";
+        validCommand = true;
     }
 
     // The player attacks the enemy denoted by enemyName
@@ -114,6 +120,7 @@ public abstract class World {
             else
                 addOutputToBuffer(Strings.COMMAND_ATTACK_INVALID_INPUT, enemyName);
 
+            validCommand = false;
             return;
         }
 
@@ -152,19 +159,31 @@ public abstract class World {
         }
         else
             lastEnemyAttackedDisplayName = enemy.getDisplayName();
+
+        validCommand = true;
     }
 
     // The player consumes a health potion, replenishing their health
     public static void consumeHealthPotion() {
-        if (player.consumeHealthPotion())
+        if (player.consumeHealthPotion()) {
             addOutputToBuffer(Strings.COMMAND_HEAL_DRINK_HEALTH_POTION);
-        else
+            validCommand = true;
+        }
+        else {
             addOutputToBuffer(Strings.COMMAND_HEAL_INSUFFICIENT_HEALTH_POTIONS);
+            validCommand = false;
+        }
+    }
+
+    public static void invalidCommand() {
+        validCommand = false;
     }
 
     // Called after every command
     private static void postCommand() {
-        playerInCombat = playerRoom.attackCycle(player);
+        if (validCommand)
+            playerInCombat = playerRoom.attackCycle(player);
+
         addOutputToBuffer("");
 
         if (!player.isAlive()) {

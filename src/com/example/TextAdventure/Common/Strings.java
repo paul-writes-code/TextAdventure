@@ -12,8 +12,8 @@ public class Strings {
         "\nAfter a heavy night of celebrating, you wake up in a tomb at the bottom of a crypt." +
         "\nThe necromancer is creating an undead army, and has turned you into an undead." +
         "\nAdventure out of the crypt, through the dark forest, over the mountain, and across the enchanted swamp." +
-        "\nThere you will find the undead temple, descend its depths, and defeat the necromancer to turn back." +
-        "\nThe necromancer is a powerful being, and you will need to prepare well on your journey.\n";
+        "\nThere, you will find the undead temple, descend its depths, and defeat the necromancer to turn back." +
+        "\nThe necromancer is a very powerful being, so prepare well on your journey.\n";
 
     // Interface
     public static final String COMMAND_PROMPT = "Enter command: ";
